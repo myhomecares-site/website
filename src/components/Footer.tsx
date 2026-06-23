@@ -1,7 +1,15 @@
 import Link from "next/link";
-import { services, regions, site } from "@/lib/site";
+import { services, regions, site, associations, media } from "@/lib/site";
 import { Logo } from "./Logo";
 import { Icon } from "./icons";
+
+const socialLinks = [
+  { name: "facebook", href: site.social.facebook, label: "Facebook" },
+  { name: "instagram", href: site.social.instagram, label: "Instagram" },
+  { name: "linkedin", href: site.social.linkedin, label: "LinkedIn" },
+  { name: "google", href: site.social.google, label: "Google" },
+  { name: "x", href: site.social.x, label: "X (Twitter)" },
+];
 
 export function Footer() {
   return (
@@ -16,6 +24,21 @@ export function Footer() {
               {site.signature}
             </p>
             <p className="mt-3 text-sm font-medium text-white/90">— {site.signatureBy}</p>
+
+            <div className="mt-6 flex flex-wrap gap-2.5">
+              {socialLinks.map((s) => (
+                <a
+                  key={s.name}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.label}
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-accent text-white transition hover:bg-accent-dark hover:scale-105"
+                >
+                  <Icon name={s.name} className="h-4 w-4" />
+                </a>
+              ))}
+            </div>
           </div>
 
           <div>
@@ -72,6 +95,22 @@ export function Footer() {
             <div className="mt-5 rounded-xl border border-white/10 bg-white/5 p-3 text-xs leading-relaxed text-white/60">
               <p className="font-semibold text-white/80">{site.staffing.name}</p>
               <p>{site.staffing.phone} · {site.staffing.email}</p>
+            </div>
+
+            <p className="mt-6 text-xs font-semibold uppercase tracking-wider text-white/50">
+              Proud Member &amp; Licensed By
+            </p>
+            <div className="mt-3 flex flex-wrap items-center gap-3">
+              {associations.map((a) => (
+                <div
+                  key={a.name}
+                  title={a.name}
+                  className="flex h-16 w-[7.5rem] items-center justify-center rounded-lg bg-white p-2.5"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={media(a.image)} alt={a.name} className="max-h-full max-w-full object-contain" />
+                </div>
+              ))}
             </div>
           </div>
         </div>

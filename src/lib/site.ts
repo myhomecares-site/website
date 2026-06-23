@@ -19,9 +19,11 @@ export const site = {
     "Through tender hearts and unwavering dedication, we light the path of compassion, ensuring every step of the way feels like home.",
   signatureBy: "David Mziray, Managing Director",
   social: {
-    facebook: "https://www.facebook.com/",
-    instagram: "https://www.instagram.com/",
+    facebook: "https://www.facebook.com/My-Home-Cares-119680482758704/",
+    instagram: "https://www.instagram.com/myhomecares",
     linkedin: "https://www.linkedin.com/company/my-home-cares",
+    x: "https://twitter.com/MyHomeCares",
+    google: "https://www.google.com/search?q=My+Home+Cares+Maryland",
   },
   staffing: {
     name: "CareLink Staffing",
@@ -180,6 +182,18 @@ export const mediaAssets = {
   logoWordmark: "/wp-content/uploads/2024/01/MHC-Logo-e1750868871441.png",
   logoSymbol: "/wp-content/uploads/2024/01/MCHsymbol-removebg.png",
 };
+
+// Accreditations / association badges shown in the footer.
+export const associations = [
+  {
+    name: "Maryland Department of Health",
+    image: "/wp-content/uploads/2024/01/MDHealth.png",
+  },
+  {
+    name: "Maryland-National Capital Homecare Association (MNCHA)",
+    image: "/wp-content/uploads/2024/01/IMG_0497.jpeg",
+  },
+];
 
 export const homeCareSubservices = [
   "skilled-nursing",
