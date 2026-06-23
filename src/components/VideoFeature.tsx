@@ -7,33 +7,32 @@ import { Icon } from "./icons";
 
 export function VideoFeature() {
   const ref = useRef<HTMLVideoElement>(null);
-  const [playing, setPlaying] = useState(false);
+  const [muted, setMuted] = useState(true);
   const [failed, setFailed] = useState(false);
 
-  function toggle() {
+  function toggleMute() {
     const v = ref.current;
     if (!v) return;
-    if (v.paused) {
-      v.play();
-      setPlaying(true);
-    } else {
-      v.pause();
-      setPlaying(false);
-    }
+    v.muted = !v.muted;
+    setMuted(v.muted);
+    if (!v.muted && v.paused) v.play();
   }
 
   if (failed) return null;
 
   return (
-    <section className="py-16 sm:py-24">
-      <Container>
-        <div className="grid items-center gap-10 lg:grid-cols-2">
+    <section className="relative overflow-hidden py-16 sm:py-24">
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{ background: "radial-gradient(900px 420px at 80% 30%, rgba(0,158,230,0.08), transparent 60%), radial-gradient(700px 400px at 10% 80%, rgba(0,199,0,0.07), transparent 60%)" }}
+        aria-hidden
+      />
+      <Container className="relative">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           <div>
             <p className="eyebrow mb-3">See How We Care</p>
-            <h2 className="text-3xl font-bold sm:text-4xl">
-              Compassionate care, in action
-            </h2>
-            <p className="mt-4 text-lg leading-relaxed text-muted">
+            <h2 className="text-3xl font-bold sm:text-4xl">Compassionate care, in action</h2>
+            <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
               Watch how My Home Cares brings skilled, heartfelt support into the homes of Maryland
               families — helping your loved ones live with comfort, dignity, and independence.
             </p>
@@ -53,32 +52,44 @@ export function VideoFeature() {
             </ul>
           </div>
 
-          <div className="relative overflow-hidden rounded-3xl border border-border bg-ink card-shadow">
-            <video
-              ref={ref}
-              className="aspect-video w-full bg-ink"
-              playsInline
-              controls={playing}
-              preload="metadata"
-              onError={() => setFailed(true)}
-              onPlay={() => setPlaying(true)}
-              onPause={() => setPlaying(false)}
-            >
-              <source src={media(mediaAssets.video)} type="video/mp4" />
-            </video>
-            {!playing && (
-              <button
-                onClick={toggle}
-                aria-label="Play video"
-                className="absolute inset-0 flex items-center justify-center bg-ink/30 transition hover:bg-ink/20"
+          <div className="relative">
+            {/* soft brand glow behind the video for a blended look */}
+            <div
+              className="absolute -inset-4 -z-10 rounded-[2rem] opacity-70 blur-2xl"
+              style={{ background: "linear-gradient(135deg, rgba(0,158,230,0.25), rgba(0,199,0,0.22))" }}
+              aria-hidden
+            />
+            <div className="group relative overflow-hidden rounded-3xl ring-1 ring-black/5 shadow-xl">
+              <video
+                ref={ref}
+                className="aspect-video w-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                onError={() => setFailed(true)}
               >
-                <span className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-white/95 text-primary shadow-lg transition group-hover:scale-105">
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="ml-1 h-9 w-9">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </span>
+                <source src={media(mediaAssets.video)} type="video/mp4" />
+              </video>
+              {/* gentle gradient blend at the edges */}
+              <div
+                className="pointer-events-none absolute inset-0"
+                style={{ background: "linear-gradient(to top, rgba(17,23,30,0.18), transparent 35%)" }}
+                aria-hidden
+              />
+              <button
+                onClick={toggleMute}
+                aria-label={muted ? "Unmute video" : "Mute video"}
+                className="absolute bottom-3 right-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-ink shadow-md backdrop-blur transition hover:bg-white"
+              >
+                {muted ? (
+                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5Z" /><path d="m23 9-6 6" /><path d="m17 9 6 6" /></svg>
+                ) : (
+                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5Z" /><path d="M15.5 8.5a5 5 0 0 1 0 7" /><path d="M19 5a9 9 0 0 1 0 14" /></svg>
+                )}
               </button>
-            )}
+            </div>
           </div>
         </div>
       </Container>

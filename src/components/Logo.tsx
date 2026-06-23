@@ -1,28 +1,40 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { site, media, mediaAssets } from "@/lib/site";
 
+const SOURCES = ["/brand/mhc-wordmark.png", media(mediaAssets.logoWordmark)];
+
 // Renders the real brand wordmark (public/brand/mhc-wordmark.png) when present,
-// and a clean styled fallback if the image file hasn't been added yet.
+// and a clean styled fallback if the image fails to load.
 export function Logo({ light = false }: { light?: boolean }) {
-  const [imgOk, setImgOk] = useState(true);
-  const [src, setSrc] = useState("/brand/mhc-wordmark.png");
-  const liveSrc = media(mediaAssets.logoWordmark);
+  const [idx, setIdx] = useState(0);
+  const [failed, setFailed] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  function next() {
+    if (idx < SOURCES.length - 1) setIdx((i) => i + 1);
+    else setFailed(true);
+  }
+
+  // Catch images that errored before React hydrated (avoids a stuck broken icon).
+  useEffect(() => {
+    const img = imgRef.current;
+    if (img && img.complete && img.naturalWidth === 0) next();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idx]);
 
   return (
     <Link href="/" className="inline-flex items-center gap-2.5" aria-label={site.name}>
-      {imgOk ? (
+      {!failed ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={src}
+          ref={imgRef}
+          src={SOURCES[idx]}
           alt={`${site.name} logo`}
           className="h-11 w-auto"
-          onError={() => {
-            if (src !== liveSrc) setSrc(liveSrc);
-            else setImgOk(false);
-          }}
+          onError={next}
         />
       ) : (
         <span className="inline-flex items-center gap-2.5">
