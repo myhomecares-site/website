@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { site, media, mediaAssets } from "@/lib/site";
+import { site } from "@/lib/site";
+import { LOGO_WORDMARK_DATA } from "@/lib/logoData";
 
-const SOURCES = ["/brand/mhc-wordmark.png", media(mediaAssets.logoWordmark)];
+// The wordmark is embedded directly (data URI), so it can never 404 / fail to load.
+const SOURCES = [LOGO_WORDMARK_DATA, "/brand/mhc-wordmark.png"];
 
 // Renders the real brand wordmark (public/brand/mhc-wordmark.png) when present,
 // and a clean styled fallback if the image fails to load.
