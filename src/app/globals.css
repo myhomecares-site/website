@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand colors — from the My Home Cares logo (sky-blue + green) */
+  --color-primary: #1488bf;        /* accessible sky-blue for buttons/links */
+  --color-primary-dark: #0f6e9c;
+  --color-primary-light: #29abe2;  /* exact logo sky-blue */
+  --color-primary-50: #e9f6fc;
+  --color-primary-100: #cbecf9;
+
+  --color-accent: #2fa14a;         /* accessible green */
+  --color-accent-dark: #25813b;
+  --color-accent-light: #39b54a;   /* exact logo green */
+  --color-accent-50: #ebf8ee;
+  --color-accent-100: #d3f0d9;
+
+  --color-ink: #1d2a39;
+  --color-ink-soft: #36465a;
+  --color-muted: #5a626e;
+  --color-muted-light: #8b91a0;
+
+  --color-surface: #f3f9fb;
+  --color-surface-2: #e9f3f6;
+  --color-border: #e4ebee;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-jakarta), var(--font-inter), sans-serif;
+
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #112337;
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+}
+
+/* Utility helpers */
+.container-page {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-accent-dark);
+}
+
+.prose-care p {
+  color: var(--color-muted);
+  line-height: 1.8;
+}
+
+.hero-gradient {
+  background:
+    radial-gradient(1200px 500px at 85% -10%, rgba(41, 171, 226, 0.16), transparent 60%),
+    radial-gradient(900px 500px at 0% 110%, rgba(57, 181, 74, 0.12), transparent 55%),
+    linear-gradient(180deg, #f3f9fb 0%, #ffffff 100%);
+}
+
+.card-shadow {
+  box-shadow: 0 1px 2px rgba(29, 42, 57, 0.04), 0 12px 32px -12px rgba(29, 42, 57, 0.12);
+}
+
+.animate-rise {
+  animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
