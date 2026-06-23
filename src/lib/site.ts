@@ -152,10 +152,10 @@ export const services = [
 export type Service = (typeof services)[number];
 
 // ---- Media / imagery -------------------------------------------------------
-// MEDIA_BASE points at where images live. While the old WordPress site is up we
-// pull from it directly. After mirroring `wp-content/uploads` into /public,
-// set MEDIA_BASE = "" and everything serves locally (and survives domain cutover).
-export const MEDIA_BASE = "https://www.myhomecares.com";
+// MEDIA_BASE points at where images live. The key assets are now mirrored into
+// /public/wp-content/uploads, so we serve everything locally (survives domain
+// cutover). Set back to "https://www.myhomecares.com" to pull from the live site.
+export const MEDIA_BASE = "";
 
 export function media(path: string) {
   if (!path) return path;
