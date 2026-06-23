@@ -5,6 +5,7 @@ import { Button, Container } from "./ui";
 import { Icon } from "./icons";
 import { LeadForm } from "./LeadForm";
 import { SiteImage } from "./SiteImage";
+import { LeafWatermark, Blobs, DotGrid } from "./Decor";
 
 export function ServiceCard({
   title,
@@ -22,7 +23,7 @@ export function ServiceCard({
   return (
     <Link
       href={href}
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-white transition-all duration-200 hover:-translate-y-1 hover:border-primary/30 card-shadow"
+      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white transition-all duration-200 hover:-translate-y-1 hover:border-primary/30 card-shadow"
     >
       {image && (
         <span className="relative block h-40 w-full">
@@ -76,6 +77,7 @@ export function CTASection({
       <Container>
         <div className="relative overflow-hidden rounded-3xl bg-primary px-6 py-12 sm:px-12 sm:py-16">
           <div className="absolute inset-0 opacity-30" style={{ background: "radial-gradient(600px 300px at 90% 0%, rgba(255,255,255,0.25), transparent 60%)" }} />
+          <LeafWatermark className="-right-6 -top-8 h-48 w-48 text-white" />
           <div className="relative grid items-center gap-8 lg:grid-cols-[1.2fr_1fr]">
             <div>
               <h2 className="text-3xl font-bold text-white sm:text-4xl">{title}</h2>
@@ -120,12 +122,14 @@ export function PageHero({
   children?: ReactNode;
 }) {
   return (
-    <section className="hero-gradient border-b border-border">
-      <Container className="py-16 sm:py-20">
+    <section className="hero-gradient relative overflow-hidden border-b border-border">
+      <Blobs />
+      <DotGrid className="right-4 top-8 h-32 w-32 opacity-60" />
+      <Container className="relative py-14 sm:py-18">
         <div className="max-w-3xl animate-rise">
           {eyebrow && <p className="eyebrow mb-3">{eyebrow}</p>}
-          <h1 className="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">{title}</h1>
-          {subtitle && <p className="mt-5 text-lg leading-relaxed text-muted">{subtitle}</p>}
+          <h1 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl lg:text-5xl">{title}</h1>
+          {subtitle && <p className="mt-5 text-base leading-relaxed text-muted sm:text-lg">{subtitle}</p>}
           {children && <div className="mt-8 flex flex-wrap gap-4">{children}</div>}
         </div>
       </Container>

@@ -4,27 +4,35 @@ import { Container, Section, SectionHeading, Button } from "@/components/ui";
 import { ServiceCard, CTASection, Stat } from "@/components/blocks";
 import { VideoFeature } from "@/components/VideoFeature";
 import { LeadForm } from "@/components/LeadForm";
+import { Reveal } from "@/components/Reveal";
+import { Blobs, DotGrid } from "@/components/Decor";
 import { Icon } from "@/components/icons";
 
 export default function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="hero-gradient border-b border-border">
-        <Container className="grid items-center gap-12 py-16 sm:py-24 lg:grid-cols-[1.1fr_0.9fr]">
+      <section className="hero-gradient relative overflow-hidden border-b border-border">
+        <Blobs />
+        <DotGrid className="right-0 top-10 h-40 w-40 opacity-70" />
+        <Container className="relative grid items-center gap-10 py-14 sm:py-20 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
           <div className="animate-rise">
-            <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white px-4 py-1.5 text-xs font-semibold text-primary">
-              <Icon name="mapPin" className="h-3.5 w-3.5" /> Serving all of Maryland
+            <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white px-4 py-1.5 text-xs font-semibold text-primary shadow-sm">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+              </span>
+              Serving all of Maryland
             </span>
-            <h1 className="mt-5 text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
+            <h1 className="mt-5 text-3xl font-extrabold leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl">
               Compassionate <span className="text-primary">home care</span> for the people you love
             </h1>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
               Explore Maryland&apos;s finest in-home care services with My Home Cares. From skilled
               nursing to everyday personal care, we deliver quality care that transforms lives —
               right at home.
             </p>
-            <div className="mt-8 flex flex-wrap gap-4">
+            <div className="mt-7 flex flex-wrap gap-3.5">
               <Button href="/contact" withArrow>
                 Schedule a Free Consultation
               </Button>
@@ -32,7 +40,7 @@ export default function Home() {
                 Explore Our Services
               </Button>
             </div>
-            <div className="mt-10 grid max-w-md grid-cols-3 gap-6 border-t border-border pt-8">
+            <div className="mt-9 grid max-w-md grid-cols-3 gap-6 border-t border-border pt-7">
               <Stat value="Since 2018" label="Caring for Maryland" />
               <Stat value="24+" label="Counties served" />
               <Stat value="7" label="Care services" />
@@ -40,7 +48,10 @@ export default function Home() {
           </div>
 
           <div className="lg:pl-6">
-            <div className="rounded-3xl border border-border bg-white p-6 card-shadow sm:p-7">
+            <div className="relative rounded-3xl border border-border bg-white/95 p-6 shadow-xl backdrop-blur-sm sm:p-7">
+              <div className="absolute -right-3 -top-3 inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-white shadow-md">
+                <Icon name="check" className="h-3.5 w-3.5" strokeWidth={2.5} /> Free
+              </div>
               <h2 className="text-xl font-bold">Find Your Care</h2>
               <p className="mt-1 text-sm text-muted">
                 Tell us about the needs of your loved one and we&apos;ll be in touch.
@@ -54,23 +65,26 @@ export default function Home() {
       </section>
 
       {/* Comprehensive Care Services */}
-      <Section>
-        <SectionHeading
-          center
-          eyebrow="Comprehensive Care Services"
-          title="Personalized home care solutions across Maryland"
-          intro="A full range of services designed to meet your unique needs with compassion and professionalism."
-        />
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {services.map((s) => (
-            <ServiceCard
-              key={s.slug}
-              title={s.title}
-              description={s.short}
-              href={`/${s.slug}`}
-              icon={s.icon}
-              image={serviceImages[s.slug]}
-            />
+      <Section reveal={false}>
+        <Reveal>
+          <SectionHeading
+            center
+            eyebrow="Comprehensive Care Services"
+            title="Personalized home care solutions across Maryland"
+            intro="A full range of services designed to meet your unique needs with compassion and professionalism."
+          />
+        </Reveal>
+        <div className="mt-11 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {services.map((s, i) => (
+            <Reveal key={s.slug} className="h-full" delay={(i % 4) * 90}>
+              <ServiceCard
+                title={s.title}
+                description={s.short}
+                href={`/${s.slug}`}
+                icon={s.icon}
+                image={serviceImages[s.slug]}
+              />
+            </Reveal>
           ))}
         </div>
         <div className="mt-10 text-center">

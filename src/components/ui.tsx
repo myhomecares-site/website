@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Icon } from "./icons";
+import { Reveal } from "./Reveal";
 
 export function Container({ children, className = "" }: { children: ReactNode; className?: string }) {
   return <div className={`container-page ${className}`}>{children}</div>;
@@ -11,15 +12,17 @@ export function Section({
   className = "",
   muted = false,
   id,
+  reveal = true,
 }: {
   children: ReactNode;
   className?: string;
   muted?: boolean;
   id?: string;
+  reveal?: boolean;
 }) {
   return (
-    <section id={id} className={`py-16 sm:py-24 ${muted ? "bg-surface" : ""} ${className}`}>
-      <Container>{children}</Container>
+    <section id={id} className={`py-14 sm:py-20 ${muted ? "bg-surface" : ""} ${className}`}>
+      <Container>{reveal ? <Reveal>{children}</Reveal> : children}</Container>
     </section>
   );
 }
