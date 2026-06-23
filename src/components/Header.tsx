@@ -55,7 +55,7 @@ export function Header() {
           </a>
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-primary-dark hover:shadow-md"
+            className="inline-flex items-center justify-center rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-accent-dark hover:shadow-md"
           >
             Schedule a Consultation
           </Link>
@@ -109,7 +109,7 @@ export function Header() {
               <Link
                 href="/contact"
                 onClick={() => setOpen(false)}
-                className="mx-3 rounded-full bg-primary px-5 py-3 text-center font-semibold text-white"
+                className="mx-3 rounded-full bg-accent px-5 py-3 text-center font-semibold text-white"
               >
                 Schedule a Consultation
               </Link>

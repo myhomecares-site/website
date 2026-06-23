@@ -1,30 +1,30 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand colors — from the My Home Cares logo (sky-blue + green) */
-  --color-primary: #1488bf;        /* accessible sky-blue for buttons/links */
-  --color-primary-dark: #0f6e9c;
-  --color-primary-light: #29abe2;  /* exact logo sky-blue */
-  --color-primary-50: #e9f6fc;
-  --color-primary-100: #cbecf9;
+  /* Brand colors — matched to the live myhomecares.com (blue accent + green CTAs) */
+  --color-primary: #009ee6;        /* brand blue — links, accents, sections */
+  --color-primary-dark: #007fbb;
+  --color-primary-light: #33b6ec;
+  --color-primary-50: #e6f6fd;
+  --color-primary-100: #bfe8fa;
 
-  --color-accent: #2fa14a;         /* accessible green */
-  --color-accent-dark: #25813b;
-  --color-accent-light: #39b54a;   /* exact logo green */
-  --color-accent-50: #ebf8ee;
-  --color-accent-100: #d3f0d9;
+  --color-accent: #00c700;         /* brand green — primary buttons / CTAs */
+  --color-accent-dark: #00a300;
+  --color-accent-light: #2ada2a;
+  --color-accent-50: #e8fae8;
+  --color-accent-100: #c4f2c4;
 
-  --color-ink: #1d2a39;
-  --color-ink-soft: #36465a;
-  --color-muted: #5a626e;
-  --color-muted-light: #8b91a0;
+  --color-ink: #1d1d1f;
+  --color-ink-soft: #33373d;
+  --color-muted: #5b6168;
+  --color-muted-light: #8a9099;
 
-  --color-surface: #f3f9fb;
-  --color-surface-2: #e9f3f6;
-  --color-border: #e4ebee;
+  --color-surface: #f7f7f7;
+  --color-surface-2: #eef0f2;
+  --color-border: #e6e8ea;
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-jakarta), var(--font-inter), sans-serif;
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-quicksand), var(--font-poppins), sans-serif;
 
   --radius-xl: 1rem;
   --radius-2xl: 1.5rem;
@@ -69,8 +69,8 @@ h1, h2, h3, h4 {
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--color-accent-dark);
+  font-weight: 700;
+  color: var(--color-primary);
 }
 
 .prose-care p {
@@ -80,9 +80,9 @@ h1, h2, h3, h4 {
 
 .hero-gradient {
   background:
-    radial-gradient(1200px 500px at 85% -10%, rgba(41, 171, 226, 0.16), transparent 60%),
-    radial-gradient(900px 500px at 0% 110%, rgba(57, 181, 74, 0.12), transparent 55%),
-    linear-gradient(180deg, #f3f9fb 0%, #ffffff 100%);
+    radial-gradient(1200px 500px at 85% -10%, rgba(0, 158, 230, 0.16), transparent 60%),
+    radial-gradient(900px 500px at 0% 110%, rgba(0, 199, 0, 0.12), transparent 55%),
+    linear-gradient(180deg, #f4fbff 0%, #ffffff 100%);
 }
 
 .card-shadow {

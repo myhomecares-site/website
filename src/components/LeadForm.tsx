@@ -88,7 +88,7 @@ export function LeadForm({ compact = false, source = "contact", withTime = false
       <button
         type="submit"
         disabled={status === "loading"}
-        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-primary-dark disabled:opacity-60"
+        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-accent-dark disabled:opacity-60"
       >
         {status === "loading" ? "Sending…" : "Request a Free Consultation"}
         {status !== "loading" && <Icon name="arrow" className="h-4 w-4" />}

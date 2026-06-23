@@ -73,7 +73,7 @@ export function JobApplicationForm() {
       <button
         type="submit"
         disabled={status === "loading"}
-        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-primary-dark disabled:opacity-60"
+        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition hover:bg-accent-dark disabled:opacity-60"
       >
         {status === "loading" ? "Submitting…" : "Submit Application"}
         {status !== "loading" && <Icon name="arrow" className="h-4 w-4" />}

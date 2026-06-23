@@ -35,7 +35,7 @@ type ButtonProps = {
 export function Button({ href, children, variant = "primary", className = "", withArrow }: ButtonProps) {
   const styles: Record<string, string> = {
     primary:
-      "bg-primary text-white hover:bg-primary-dark shadow-sm hover:shadow-md",
+      "bg-accent text-white hover:bg-accent-dark shadow-sm hover:shadow-md",
     outline:
       "border border-primary/30 text-primary hover:border-primary hover:bg-primary-50",
     white: "bg-white text-primary hover:bg-primary-50 shadow-sm",
