@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { services, site } from "@/lib/site";
+import { services, serviceImages, site } from "@/lib/site";
 import { Section, SectionHeading, Button } from "@/components/ui";
 import { ServiceCard, PageHero, CTASection } from "@/components/blocks";
 import { Icon } from "@/components/icons";
@@ -32,7 +32,7 @@ export default function HomeCarePage() {
         />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((s) => (
-            <ServiceCard key={s.slug} title={s.title} description={s.short} href={`/${s.slug}`} icon={s.icon} />
+            <ServiceCard key={s.slug} title={s.title} description={s.short} href={`/${s.slug}`} icon={s.icon} image={serviceImages[s.slug]} />
           ))}
         </div>
       </Section>

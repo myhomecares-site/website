@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { site } from "@/lib/site";
+import { site, mediaAssets } from "@/lib/site";
 import { Section, SectionHeading, Button } from "@/components/ui";
 import { PageHero, CTASection } from "@/components/blocks";
+import { SiteImage } from "@/components/SiteImage";
 import { Icon } from "@/components/icons";
 
 export const metadata: Metadata = {
@@ -37,8 +38,13 @@ export default function AboutPage() {
       </PageHero>
 
       <Section>
-        <div className="grid gap-12 lg:grid-cols-2">
+        <div className="grid items-start gap-12 lg:grid-cols-2">
           <div>
+            <SiteImage
+              path={mediaAssets.aboutImage}
+              alt="A caring My Home Cares nurse helping an elderly client"
+              className="mb-8 aspect-[4/3] w-full rounded-2xl card-shadow"
+            />
             <p className="eyebrow mb-3">Our Story</p>
             <h2 className="text-3xl font-bold">Personalized care that transforms lives</h2>
             <p className="mt-4 leading-relaxed text-muted">

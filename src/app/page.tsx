@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { services, site } from "@/lib/site";
+import { services, serviceImages, site } from "@/lib/site";
 import { Container, Section, SectionHeading, Button } from "@/components/ui";
 import { ServiceCard, CTASection, Stat } from "@/components/blocks";
+import { VideoFeature } from "@/components/VideoFeature";
 import { LeadForm } from "@/components/LeadForm";
 import { Icon } from "@/components/icons";
 
@@ -68,6 +69,7 @@ export default function Home() {
               description={s.short}
               href={`/${s.slug}`}
               icon={s.icon}
+              image={serviceImages[s.slug]}
             />
           ))}
         </div>
@@ -77,6 +79,9 @@ export default function Home() {
           </Button>
         </div>
       </Section>
+
+      {/* Video */}
+      <VideoFeature />
 
       {/* About teaser */}
       <Section muted>

@@ -151,6 +151,36 @@ export const services = [
 
 export type Service = (typeof services)[number];
 
+// ---- Media / imagery -------------------------------------------------------
+// MEDIA_BASE points at where images live. While the old WordPress site is up we
+// pull from it directly. After mirroring `wp-content/uploads` into /public,
+// set MEDIA_BASE = "" and everything serves locally (and survives domain cutover).
+export const MEDIA_BASE = "https://www.myhomecares.com";
+
+export function media(path: string) {
+  if (!path) return path;
+  if (path.startsWith("http")) return path;
+  return MEDIA_BASE + path;
+}
+
+export const serviceImages: Record<string, string> = {
+  "skilled-nursing": "/wp-content/uploads/2024/01/skilled-nursing-maryland.webp",
+  "personal-care": "/wp-content/uploads/2024/01/personal-care.png",
+  "companion-care": "/wp-content/uploads/2024/01/companion-care-maryland-1.webp",
+  "respite-care": "/wp-content/uploads/2024/01/Respite-care-md.webp",
+  "homemaking": "/wp-content/uploads/2024/01/Homemaking-1.webp",
+  "meal-planning-and-preparation": "/wp-content/uploads/2024/01/meal-preparation-maryland.webp",
+};
+
+export const mediaAssets = {
+  heroImage: "/wp-content/uploads/2024/02/home-care-services.webp",
+  aboutImage: "/wp-content/uploads/2024/01/caring-nurse-helping-elderly.png",
+  homeCareImage: "/wp-content/uploads/2024/02/skilled-nursing-services.webp",
+  video: "/wp-content/uploads/2024/01/file.mp4",
+  logoWordmark: "/wp-content/uploads/2024/01/MHC-Logo-e1750868871441.png",
+  logoSymbol: "/wp-content/uploads/2024/01/MCHsymbol-removebg.png",
+};
+
 export const homeCareSubservices = [
   "skilled-nursing",
   "companion-care",

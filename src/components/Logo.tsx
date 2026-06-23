@@ -2,22 +2,27 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { site } from "@/lib/site";
+import { site, media, mediaAssets } from "@/lib/site";
 
 // Renders the real brand wordmark (public/brand/mhc-wordmark.png) when present,
 // and a clean styled fallback if the image file hasn't been added yet.
 export function Logo({ light = false }: { light?: boolean }) {
   const [imgOk, setImgOk] = useState(true);
+  const [src, setSrc] = useState("/brand/mhc-wordmark.png");
+  const liveSrc = media(mediaAssets.logoWordmark);
 
   return (
     <Link href="/" className="inline-flex items-center gap-2.5" aria-label={site.name}>
       {imgOk ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src="/brand/mhc-wordmark.png"
+          src={src}
           alt={`${site.name} logo`}
           className="h-11 w-auto"
-          onError={() => setImgOk(false)}
+          onError={() => {
+            if (src !== liveSrc) setSrc(liveSrc);
+            else setImgOk(false);
+          }}
         />
       ) : (
         <span className="inline-flex items-center gap-2.5">

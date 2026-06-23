@@ -4,31 +4,46 @@ import { site } from "@/lib/site";
 import { Button, Container } from "./ui";
 import { Icon } from "./icons";
 import { LeadForm } from "./LeadForm";
+import { SiteImage } from "./SiteImage";
 
 export function ServiceCard({
   title,
   description,
   href,
   icon,
+  image,
 }: {
   title: string;
   description: string;
   href: string;
   icon: string;
+  image?: string;
 }) {
   return (
     <Link
       href={href}
-      className="group relative flex flex-col rounded-2xl border border-border bg-white p-6 transition-all duration-200 hover:-translate-y-1 hover:border-primary/30 card-shadow"
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-white transition-all duration-200 hover:-translate-y-1 hover:border-primary/30 card-shadow"
     >
-      <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary-50 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
-        <Icon name={icon} className="h-6 w-6" />
-      </span>
-      <h3 className="mt-5 text-lg font-bold">{title}</h3>
-      <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{description}</p>
-      <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
-        Learn More
-        <Icon name="arrow" className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+      {image && (
+        <span className="relative block h-40 w-full">
+          <SiteImage path={image} alt={title} className="h-40 w-full" imgClassName="transition-transform duration-300 group-hover:scale-105" />
+          <span className="absolute left-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-white/95 text-primary shadow-sm">
+            <Icon name={icon} className="h-6 w-6" />
+          </span>
+        </span>
+      )}
+      <span className="flex flex-1 flex-col p-6">
+        {!image && (
+          <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary-50 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
+            <Icon name={icon} className="h-6 w-6" />
+          </span>
+        )}
+        <h3 className={`text-lg font-bold ${image ? "" : "mt-5"}`}>{title}</h3>
+        <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{description}</p>
+        <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
+          Learn More
+          <Icon name="arrow" className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+        </span>
       </span>
     </Link>
   );

@@ -1,9 +1,10 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { services, locations, careForms, site, type Service, type CareForm } from "@/lib/site";
+import { services, locations, careForms, serviceImages, site, type Service, type CareForm } from "@/lib/site";
 import { Container, Section, Button } from "@/components/ui";
 import { FeatureList, CTASection, ServiceCard } from "@/components/blocks";
+import { SiteImage } from "@/components/SiteImage";
 import { LeadForm } from "@/components/LeadForm";
 import { Icon } from "@/components/icons";
 
@@ -163,6 +164,13 @@ function ServiceTemplate({ service }: { service: Service }) {
       <Section>
         <div className="grid gap-12 lg:grid-cols-[1fr_320px]">
           <div className="max-w-2xl">
+            {serviceImages[service.slug] && (
+              <SiteImage
+                path={serviceImages[service.slug]}
+                alt={`${service.title} in Maryland`}
+                className="mb-8 aspect-[16/9] w-full rounded-2xl"
+              />
+            )}
             <h2 className="text-2xl font-bold sm:text-3xl">Specialized {service.title} Care</h2>
             <p className="mt-4 text-lg leading-relaxed text-muted">{service.intro}</p>
 
