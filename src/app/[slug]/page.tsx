@@ -42,7 +42,7 @@ export async function generateMetadata({
   if (loc) {
     return {
       title: `Quality Home Care Services in ${loc.name}`,
-      description: `Skilled nursing, personalized home care assistance, and therapeutic support for seniors across ${loc.name}, Maryland.`,
+      description: `Skilled nursing, personalized home care assistance, and personal care for seniors across ${loc.name}, Maryland.`,
     };
   }
   const form = careFormMap.get(slug);
@@ -232,10 +232,10 @@ function LocationTemplate({ name }: { name: string }) {
       icon: "heart-hand",
     },
     {
-      title: `Therapy Services in ${name}`,
-      description: `Regain abilities through physical, occupational and speech therapy across ${name}. Our therapists build customized treatment plans.`,
-      href: "/therapies",
-      icon: "activity",
+      title: `Personal Care in ${name}`,
+      description: `Respectful, dignified help with bathing, dressing, grooming, mobility and medication reminders for ${name} seniors at home.`,
+      href: "/personal-care",
+      icon: "shield-heart",
     },
   ];
 
@@ -256,7 +256,7 @@ function LocationTemplate({ name }: { name: string }) {
               Trusted In-Home Care Services in {name}, MD
             </h1>
             <p className="mt-5 text-lg leading-relaxed text-muted">
-              Access skilled nursing, personal care assistance and therapeutic support through My
+              Access skilled nursing, personal care assistance and everyday support through My
               Home Cares. Our professional team delivers compassionate home health care tailored for
               your loved one in {name}.
             </p>
@@ -276,9 +276,8 @@ function LocationTemplate({ name }: { name: string }) {
             {name} families rely on My Home Cares for a full range of professional in-home health
             services delivered with expertise and care. Our skilled nurses provide wound management,
             IV therapies, catheter training and more. Caregivers promote independence by assisting
-            with grooming, bathing, meal preparation and daily tasks. Physical, occupational and
-            speech therapists enhance mobility, function and communication through personalized
-            treatment plans.
+            with grooming, bathing, meal preparation and daily tasks — bringing skilled nursing and
+            personal care tailored to each individual&apos;s needs, right at home.
           </p>
         </div>
         <div className="mt-10 grid gap-6 sm:grid-cols-3">
@@ -295,7 +294,7 @@ function LocationTemplate({ name }: { name: string }) {
             <h2 className="text-3xl font-bold">About My Home Cares in {name}</h2>
             <p className="mt-4 text-lg leading-relaxed text-muted">
               With years of experience serving {name}, My Home Cares is a trusted provider of skilled
-              nursing, personalized home care assistance and comprehensive therapeutic services. Our
+              nursing and personalized home care assistance. Our
               local team delivers professional home health care tailored to each client&apos;s unique
               needs — enabling independence and elevating quality of life, brought directly to your
               door.

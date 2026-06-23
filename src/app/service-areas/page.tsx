@@ -23,7 +23,7 @@ export default function ServiceAreasPage() {
       <Section>
         <SectionHeading
           title="Five regions, 24+ counties served"
-          intro="Select your region or county to explore home care, skilled nursing, and therapy services near you."
+          intro="Select your region or county to explore home care, skilled nursing, and personal care services near you."
         />
         <div className="mt-12 space-y-10">
           {regions.map((region) => (

@@ -6,7 +6,7 @@ export const site = {
   shortName: "MHC",
   tagline: "Maryland's finest home care services",
   description:
-    "Compassionate, personalized in-home care across Maryland — skilled nursing, personal care, companionship, therapies, and more.",
+    "Compassionate, personalized in-home care across Maryland — skilled nursing, personal care, companionship, and more.",
   url: "https://www.myhomecares.com",
   phone: "(410) 231-3076",
   phoneHref: "tel:+14102313076",
@@ -146,24 +146,6 @@ export const services = [
       "Clean-up and kitchen organization after meals",
     ],
     icon: "utensils",
-  },
-  {
-    slug: "therapies",
-    title: "Therapies",
-    short:
-      "Physical, occupational and speech-language therapy, plus specialized memory care for Alzheimer's and dementia.",
-    hero: "Specialized Therapy Services in Maryland",
-    subhead:
-      "Comprehensive therapy services that enhance movement, function and communication for a fuller, more independent life.",
-    intro:
-      "Our therapists create personalized treatment plans that help clients regain abilities and live more independently — at home, where they're most comfortable.",
-    features: [
-      "Physical Therapy — restore movement and mobility",
-      "Occupational Therapy — daily living skills and independence",
-      "Speech-Language Therapy — communication and swallowing",
-      "Memory Care — specialized support for Alzheimer's & dementia",
-    ],
-    icon: "activity",
   },
 ] as const;
 

@@ -34,7 +34,7 @@ export default function Home() {
             <div className="mt-10 grid max-w-md grid-cols-3 gap-6 border-t border-border pt-8">
               <Stat value="Since 2018" label="Caring for Maryland" />
               <Stat value="24+" label="Counties served" />
-              <Stat value="8" label="Care services" />
+              <Stat value="7" label="Care services" />
             </div>
           </div>
 
