@@ -100,11 +100,12 @@ export function ServiceCard({
   return (
     <Link
       href={href}
-      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white transition-all duration-200 hover:-translate-y-1 hover:border-primary/30 card-shadow"
+      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-primary/30 card-shadow"
     >
       {image && (
-        <span className="relative block h-40 w-full">
-          <SiteImage path={image} alt={title} className="h-40 w-full" imgClassName="transition-transform duration-300 group-hover:scale-105" />
+        <span className="relative block h-44 w-full">
+          <SiteImage path={image} alt={title} className="h-44 w-full" imgClassName="transition-transform duration-[650ms] ease-out group-hover:scale-[1.08]" />
+          <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/15 to-transparent" />
           <span className="absolute left-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-white/95 text-primary shadow-sm">
             <Icon name={icon} className="h-6 w-6" />
           </span>

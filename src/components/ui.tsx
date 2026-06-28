@@ -21,7 +21,7 @@ export function Section({
   reveal?: boolean;
 }) {
   return (
-    <section id={id} className={`py-14 sm:py-20 ${muted ? "bg-surface" : ""} ${className}`}>
+    <section id={id} className={`py-16 sm:py-24 ${muted ? "bg-surface" : ""} ${className}`}>
       <Container>{reveal ? <Reveal>{children}</Reveal> : children}</Container>
     </section>
   );
@@ -38,14 +38,14 @@ type ButtonProps = {
 export function Button({ href, children, variant = "primary", className = "", withArrow }: ButtonProps) {
   const styles: Record<string, string> = {
     primary:
-      "bg-accent text-white hover:bg-accent-dark shadow-sm hover:shadow-md",
+      "bg-accent text-white shadow-[0_6px_20px_-6px_rgba(0,199,0,0.55)] hover:bg-accent-dark hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-8px_rgba(0,199,0,0.6)]",
     outline:
-      "border border-primary/30 text-primary hover:border-primary hover:bg-primary-50",
-    white: "bg-white text-primary hover:bg-primary-50 shadow-sm",
+      "border border-primary/30 text-primary hover:border-primary hover:bg-primary-50 hover:-translate-y-0.5",
+    white: "bg-white text-primary shadow-sm hover:-translate-y-0.5 hover:shadow-md",
     ghost: "text-ink hover:text-primary",
   };
   const external = href.startsWith("http") || href.startsWith("tel:") || href.startsWith("mailto:");
-  const cls = `group inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-200 ${styles[variant]} ${className}`;
+  const cls = `group inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold transition-all duration-300 ease-out active:translate-y-0 active:scale-[0.98] ${styles[variant]} ${className}`;
   const inner = (
     <>
       {children}

@@ -57,12 +57,14 @@ export default function Home() {
           </div>
 
           <div className="relative lg:pl-6">
-            <div className="relative overflow-hidden rounded-[2rem] ring-1 ring-black/5 shadow-2xl">
+            <div className="group relative overflow-hidden rounded-[2rem] ring-1 ring-black/5 shadow-2xl">
               <SiteImage
                 path={mediaAssets.aboutImage}
                 alt="A compassionate My Home Cares caregiver supporting an elderly client at home"
                 className="aspect-[4/5] w-full sm:aspect-[5/4] lg:aspect-[4/5]"
+                imgClassName="transition-transform duration-[1200ms] ease-out group-hover:scale-105"
               />
+              <span className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-primary/15 via-transparent to-accent/10" />
             </div>
             {/* Floating trust card */}
             <div className="absolute -bottom-5 -left-3 max-w-[15rem] rounded-2xl border border-border bg-white/95 p-4 shadow-xl backdrop-blur-sm sm:-left-5">

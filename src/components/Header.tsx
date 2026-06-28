@@ -1,17 +1,35 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { mainNav, site } from "@/lib/site";
 import { Logo } from "./Logo";
 import { Icon } from "./icons";
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/70 bg-white/85 backdrop-blur-md">
-      <div className="container-page flex h-18 items-center justify-between gap-4 py-3">
+    <header
+      className={`sticky top-0 z-50 border-b transition-all duration-300 ${
+        scrolled
+          ? "border-border/70 bg-white/90 shadow-[0_4px_24px_-14px_rgba(20,28,38,0.25)] backdrop-blur-md"
+          : "border-transparent bg-white/70 backdrop-blur-md"
+      }`}
+    >
+      <div
+        className={`container-page flex items-center justify-between gap-4 transition-all duration-300 ${
+          scrolled ? "h-16" : "h-18"
+        }`}
+      >
         <Logo />
 
         <nav className="hidden items-center gap-1 lg:flex">
