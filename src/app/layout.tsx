@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { Poppins, Quicksand } from "next/font/google";
+import { Poppins, Quicksand, Montserrat } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { ScrollProgress } from "@/components/ScrollProgress";
+import { BackToTop } from "@/components/BackToTop";
 import { site } from "@/lib/site";
 
 const poppins = Poppins({
@@ -17,6 +19,14 @@ const quicksand = Quicksand({
   subsets: ["latin"],
   display: "swap",
   weight: ["500", "600", "700"],
+});
+
+// Geometric, condensed-feel font for the logo wordmark (matches the brand mark).
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -40,11 +50,13 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${poppins.variable} ${quicksand.variable} h-full antialiased`}>
+    <html lang="en" className={`${poppins.variable} ${quicksand.variable} ${montserrat.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-white">
+        <ScrollProgress />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <BackToTop />
       </body>
     </html>
   );

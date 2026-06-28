@@ -25,6 +25,7 @@
 
   --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-quicksand), var(--font-poppins), sans-serif;
+  --font-logo: var(--font-montserrat), ui-sans-serif, sans-serif;
 
   --radius-xl: 1rem;
   --radius-2xl: 1.5rem;
