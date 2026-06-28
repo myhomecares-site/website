@@ -1,12 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { jobs } from "@/lib/jobs";
 import { Icon } from "./icons";
 
 const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 const SHIFTS = ["Morning", "Afternoon", "Evening", "Overnight"];
 const TYPES = ["Full-time", "Part-time", "Per diem"];
+const CERTS = ["CNA", "GNA", "CMT", "CPR", "First Aid", "RN", "LPN", "None yet"];
+const HEARD = ["Indeed", "Facebook", "Referral from staff", "Google", "Community event", "Other"];
+
+const input =
+  "w-full rounded-xl border border-border bg-white px-4 py-2.5 text-sm text-ink outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15 placeholder:text-muted-light";
+const labelCls = "block text-xs font-semibold uppercase tracking-wide text-muted mb-1.5";
+const chip =
+  "inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-border bg-white px-3 py-1.5 text-xs font-medium text-ink-soft transition has-[:checked]:border-primary has-[:checked]:bg-primary-50 has-[:checked]:text-primary";
+
+function SectionTitle({ children }: { children: ReactNode }) {
+  return (
+    <h3 className="flex items-center gap-2 border-b border-border pb-2 text-sm font-bold text-ink">
+      <span className="inline-block h-4 w-1 rounded-full bg-accent" />
+      {children}
+    </h3>
+  );
+}
+
+function YesNo({ name, label, required = false }: { name: string; label: string; required?: boolean }) {
+  return (
+    <div>
+      <label className={labelCls}>{label}{required && " *"}</label>
+      <div className="flex gap-2">
+        {["Yes", "No"].map((v) => (
+          <label key={v} className={chip}>
+            <input type="radio" name={name} value={v} required={required} className="accent-primary" />
+            {v}
+          </label>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export function ApplicationForm({
   defaultPosition = "",
@@ -25,11 +58,8 @@ export function ApplicationForm({
     const form = e.currentTarget;
     const fd = new FormData(form);
 
-    // Keep the total upload under the platform limit.
     let totalBytes = 0;
-    for (const value of fd.values()) {
-      if (value instanceof File) totalBytes += value.size;
-    }
+    for (const value of fd.values()) if (value instanceof File) totalBytes += value.size;
     if (totalBytes > 4 * 1024 * 1024) {
       setStatus("error");
       setError("Your attachments are over 4 MB total. Please reduce the file size, or email large files to info@myhomecares.com.");
@@ -66,118 +96,186 @@ export function ApplicationForm({
     );
   }
 
-  const input =
-    "w-full rounded-xl border border-border bg-white px-4 py-2.5 text-sm text-ink outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15 placeholder:text-muted-light";
-  const label = "block text-xs font-semibold uppercase tracking-wide text-muted mb-1.5";
-
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
+    <form onSubmit={onSubmit} className="space-y-8">
       <input type="hidden" name="source" value={defaultPosition ? `careers:${defaultPosition}` : "careers"} />
 
-      <div className="grid gap-3 sm:grid-cols-2">
-        <div>
-          <label className={label}>Full name *</label>
-          <input name="name" required className={input} autoComplete="name" />
-        </div>
-        <div>
-          <label className={label}>Phone *</label>
-          <input name="phone" required className={input} autoComplete="tel" inputMode="tel" />
+      {/* Your information */}
+      <div className="space-y-4">
+        <SectionTitle>Your information</SectionTitle>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div>
+            <label className={labelCls}>Full name *</label>
+            <input name="name" required className={input} autoComplete="name" />
+          </div>
+          <div>
+            <label className={labelCls}>Phone *</label>
+            <input name="phone" required className={input} autoComplete="tel" inputMode="tel" />
+          </div>
+          <div>
+            <label className={labelCls}>Email *</label>
+            <input name="email" type="email" required className={input} autoComplete="email" />
+          </div>
+          <div className="grid grid-cols-[1fr_auto] gap-3">
+            <div>
+              <label className={labelCls}>City</label>
+              <input name="city" className={input} autoComplete="address-level2" />
+            </div>
+            <div>
+              <label className={labelCls}>ZIP</label>
+              <input name="zip" className={`${input} w-24`} inputMode="numeric" autoComplete="postal-code" />
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2">
-        <div>
-          <label className={label}>Email *</label>
-          <input name="email" type="email" required className={input} autoComplete="email" />
+      {/* Position & availability */}
+      <div className="space-y-4">
+        <SectionTitle>Position &amp; availability</SectionTitle>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div>
+            <label className={labelCls}>Position</label>
+            <select name="position" className={input} defaultValue={defaultPosition || ""}>
+              <option value="">Select a position…</option>
+              {jobs.map((j) => (
+                <option key={j.slug} value={j.title}>{j.title}</option>
+              ))}
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label className={labelCls}>Employment type</label>
+            <select name="employment_type" className={input} defaultValue="">
+              <option value="">Select…</option>
+              {TYPES.map((t) => <option key={t}>{t}</option>)}
+            </select>
+          </div>
+          <div>
+            <label className={labelCls}>Earliest start date</label>
+            <input name="start_date" type="date" className={input} />
+          </div>
+          <YesNo name="transportation" label="Reliable transportation?" />
         </div>
         <div>
-          <label className={label}>Position</label>
-          <select name="position" className={input} defaultValue={defaultPosition || ""}>
-            <option value="">Select a position…</option>
-            {jobs.map((j) => (
-              <option key={j.slug} value={j.title}>
-                {j.title}
-              </option>
+          <label className={labelCls}>Availability — days</label>
+          <div className="flex flex-wrap gap-2">
+            {DAYS.map((d) => (
+              <label key={d} className={chip}>
+                <input type="checkbox" name="days" value={d} className="accent-primary" />
+                {d.slice(0, 3)}
+              </label>
             ))}
-            <option value="Other">Other</option>
-          </select>
+          </div>
+        </div>
+        <div>
+          <label className={labelCls}>Availability — shifts</label>
+          <div className="flex flex-wrap gap-2">
+            {SHIFTS.map((s) => (
+              <label key={s} className={chip}>
+                <input type="checkbox" name="shifts" value={s} className="accent-primary" />
+                {s}
+              </label>
+            ))}
+          </div>
         </div>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2">
+      {/* Certifications & experience */}
+      <div className="space-y-4">
+        <SectionTitle>Certifications &amp; experience</SectionTitle>
         <div>
-          <label className={label}>Employment type</label>
-          <select name="employment_type" className={input} defaultValue="">
+          <label className={labelCls}>Certifications held</label>
+          <div className="flex flex-wrap gap-2">
+            {CERTS.map((c) => (
+              <label key={c} className={chip}>
+                <input type="checkbox" name="certs_held" value={c} className="accent-primary" />
+                {c}
+              </label>
+            ))}
+          </div>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div>
+            <label className={labelCls}>License / certification number</label>
+            <input name="license_number" className={input} placeholder="If applicable" />
+          </div>
+          <div>
+            <label className={labelCls}>Years of caregiving experience</label>
+            <input name="experience" className={input} placeholder="e.g., 3 years" />
+          </div>
+        </div>
+        <div>
+          <label className={labelCls}>Languages spoken</label>
+          <input name="languages" className={input} placeholder="e.g., English, Spanish" />
+        </div>
+      </div>
+
+      {/* Maryland RSA eligibility */}
+      <div className="space-y-4">
+        <SectionTitle>Maryland RSA eligibility</SectionTitle>
+        <p className="-mt-1 text-xs text-muted">
+          Required for Maryland Residential Service Agency caregivers. Your answers help us confirm
+          eligibility before hire.
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <YesNo name="over_18" label="Are you 18 or older?" required />
+          <YesNo name="work_authorized" label="Authorized to work in the U.S.?" required />
+          <YesNo name="background_check" label="Willing to complete a criminal background check?" required />
+          <YesNo name="tb_screening" label="Willing to provide a current TB screening / health clearance?" />
+        </div>
+      </div>
+
+      {/* Reference */}
+      <div className="space-y-4">
+        <SectionTitle>Professional reference</SectionTitle>
+        <div className="grid gap-3 sm:grid-cols-3">
+          <div>
+            <label className={labelCls}>Name</label>
+            <input name="reference_name" className={input} />
+          </div>
+          <div>
+            <label className={labelCls}>Relationship</label>
+            <input name="reference_relationship" className={input} placeholder="e.g., Former supervisor" />
+          </div>
+          <div>
+            <label className={labelCls}>Phone</label>
+            <input name="reference_phone" className={input} inputMode="tel" />
+          </div>
+        </div>
+      </div>
+
+      {/* Documents */}
+      <div className="space-y-4">
+        <SectionTitle>Documents</SectionTitle>
+        <div className="rounded-xl border border-dashed border-border bg-surface p-4">
+          <p className="text-xs text-muted">Resume and any certifications (PDF, Word, or image — up to 4 MB total).</p>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <div>
+              <label className={labelCls}>Resume</label>
+              <input type="file" name="resume" accept=".pdf,.doc,.docx" className="block w-full cursor-pointer text-xs text-muted file:mr-3 file:cursor-pointer file:rounded-full file:border-0 file:bg-primary-50 file:px-4 file:py-2 file:text-xs file:font-semibold file:text-primary hover:file:bg-primary-100" />
+            </div>
+            <div>
+              <label className={labelCls}>Certification files</label>
+              <input type="file" name="certifications" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" multiple className="block w-full cursor-pointer text-xs text-muted file:mr-3 file:cursor-pointer file:rounded-full file:border-0 file:bg-primary-50 file:px-4 file:py-2 file:text-xs file:font-semibold file:text-primary hover:file:bg-primary-100" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Additional */}
+      <div className="space-y-4">
+        <SectionTitle>A little more</SectionTitle>
+        <div>
+          <label className={labelCls}>How did you hear about us?</label>
+          <select name="heard_about" className={input} defaultValue="">
             <option value="">Select…</option>
-            {TYPES.map((t) => (
-              <option key={t}>{t}</option>
-            ))}
+            {HEARD.map((h) => <option key={h}>{h}</option>)}
           </select>
         </div>
         <div>
-          <label className={label}>Earliest start date</label>
-          <input name="start_date" type="date" className={input} />
+          <label className={labelCls}>Message / cover note</label>
+          <textarea name="message" rows={3} className={input} placeholder="Tell us what drives your passion for caregiving…" />
         </div>
-      </div>
-
-      <div>
-        <label className={label}>Availability — days</label>
-        <div className="flex flex-wrap gap-2">
-          {DAYS.map((d) => (
-            <label key={d} className="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-border bg-white px-3 py-1.5 text-xs font-medium text-ink-soft has-[:checked]:border-primary has-[:checked]:bg-primary-50 has-[:checked]:text-primary">
-              <input type="checkbox" name="days" value={d} className="accent-primary" />
-              {d.slice(0, 3)}
-            </label>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <label className={label}>Availability — shifts</label>
-        <div className="flex flex-wrap gap-2">
-          {SHIFTS.map((s) => (
-            <label key={s} className="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-border bg-white px-3 py-1.5 text-xs font-medium text-ink-soft has-[:checked]:border-primary has-[:checked]:bg-primary-50 has-[:checked]:text-primary">
-              <input type="checkbox" name="shifts" value={s} className="accent-primary" />
-              {s}
-            </label>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <label className={label}>Relevant experience</label>
-        <input name="experience" className={input} placeholder="e.g., 3 years as a CNA in home care" />
-      </div>
-
-      <div className="rounded-xl border border-dashed border-border bg-surface p-4">
-        <p className="text-sm font-semibold text-ink">Upload your documents</p>
-        <p className="mt-0.5 text-xs text-muted">Resume and any certifications (PDF, Word, or image — up to 4 MB total).</p>
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">
-          <div>
-            <label className={label}>Resume</label>
-            <input
-              type="file"
-              name="resume"
-              accept=".pdf,.doc,.docx"
-              className="block w-full cursor-pointer text-xs text-muted file:mr-3 file:cursor-pointer file:rounded-full file:border-0 file:bg-primary-50 file:px-4 file:py-2 file:text-xs file:font-semibold file:text-primary hover:file:bg-primary-100"
-            />
-          </div>
-          <div>
-            <label className={label}>Certifications</label>
-            <input
-              type="file"
-              name="certifications"
-              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-              multiple
-              className="block w-full cursor-pointer text-xs text-muted file:mr-3 file:cursor-pointer file:rounded-full file:border-0 file:bg-primary-50 file:px-4 file:py-2 file:text-xs file:font-semibold file:text-primary hover:file:bg-primary-100"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <label className={label}>Message / cover note</label>
-        <textarea name="message" rows={3} className={input} placeholder="Tell us what drives your passion for caregiving…" />
       </div>
 
       {/* Honeypot */}
@@ -185,17 +283,19 @@ export function ApplicationForm({
 
       {status === "error" && <p className="text-sm text-red-600">{error}</p>}
 
-      <button
-        type="submit"
-        disabled={status === "loading"}
-        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition hover:bg-accent-dark disabled:opacity-60"
-      >
-        {status === "loading" ? "Submitting…" : "Submit Application"}
-        {status !== "loading" && <Icon name="arrow" className="h-4 w-4" />}
-      </button>
-      <p className="text-center text-xs text-muted-light">
-        Your information is used only for hiring purposes and is never shared.
-      </p>
+      <div>
+        <button
+          type="submit"
+          disabled={status === "loading"}
+          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-accent-dark disabled:opacity-60"
+        >
+          {status === "loading" ? "Submitting…" : "Submit Application"}
+          {status !== "loading" && <Icon name="arrow" className="h-4 w-4" />}
+        </button>
+        <p className="mt-3 text-center text-xs text-muted-light">
+          Your information is used only for hiring purposes and is never shared.
+        </p>
+      </div>
     </form>
   );
 }
