@@ -95,7 +95,10 @@ async function notify(r: LeadRecord) {
   if (!apiKey) return; // notifications disabled until configured
 
   const to = (process.env.NOTIFY_TO || "info@myhomecares.com").split(",").map((s) => s.trim());
-  const from = process.env.NOTIFY_FROM || "My Home Cares Website <onboarding@resend.dev>";
+  // Sent from an already-verified Resend domain. These are internal alert emails
+  // (only staff see them), so the from-domain doesn't affect customers.
+  // Override with NOTIFY_FROM once myhomecares.com can be verified (needs DNS off Wix).
+  const from = process.env.NOTIFY_FROM || "My Home Cares Website <notifications@homelycare.io>";
   const isApplication = r.type === "application";
   const label = isApplication ? "New job application" : "New inquiry";
   const subject = `${label} from ${r.name} — myhomecares.com`;
