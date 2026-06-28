@@ -27,7 +27,7 @@ export function Header() {
     >
       <div
         className={`container-page flex items-center justify-between gap-4 transition-all duration-300 ${
-          scrolled ? "h-[4.25rem]" : "h-20"
+          scrolled ? "h-[4.75rem]" : "h-[5.5rem]"
         }`}
       >
         <Logo />
