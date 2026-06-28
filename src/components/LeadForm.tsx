@@ -22,7 +22,7 @@ export function LeadForm({ compact = false, source = "contact", withTime = false
     const data = Object.fromEntries(new FormData(form).entries());
 
     try {
-      const res = await fetch("/api/lead", {
+      const res = await fetch("/api/lead/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...data, source }),

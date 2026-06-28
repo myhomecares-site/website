@@ -25,7 +25,7 @@ export function JobApplicationForm() {
     const form = e.currentTarget;
     const data = Object.fromEntries(new FormData(form).entries());
     try {
-      const res = await fetch("/api/lead", {
+      const res = await fetch("/api/lead/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...data, source: "job-application", type: "application" }),
