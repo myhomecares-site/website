@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { services, serviceImages, site } from "@/lib/site";
+import { services, serviceImages, site, mediaAssets } from "@/lib/site";
 import { Container, Section, SectionHeading, Button } from "@/components/ui";
-import { ServiceCard, CTASection, Stat } from "@/components/blocks";
+import { ServiceCard, CTASection, Stat, TrustBand, HowItWorks, Stars } from "@/components/blocks";
 import { VideoFeature } from "@/components/VideoFeature";
 import { LeadForm } from "@/components/LeadForm";
+import { SiteImage } from "@/components/SiteImage";
 import { Reveal } from "@/components/Reveal";
-import { Blobs, DotGrid } from "@/components/Decor";
+import { Blobs } from "@/components/Decor";
 import { Icon } from "@/components/icons";
 
 export default function Home() {
@@ -14,8 +15,7 @@ export default function Home() {
       {/* Hero */}
       <section className="hero-gradient relative overflow-hidden border-b border-border">
         <Blobs />
-        <DotGrid className="right-0 top-10 h-40 w-40 opacity-70" />
-        <Container className="relative grid items-center gap-10 py-14 sm:py-20 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
+        <Container className="relative grid items-center gap-10 py-14 sm:py-20 lg:grid-cols-2 lg:gap-14">
           <div className="animate-rise">
             <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white px-4 py-1.5 text-xs font-semibold text-primary shadow-sm">
               <span className="relative flex h-2 w-2">
@@ -24,7 +24,7 @@ export default function Home() {
               </span>
               Serving all of Maryland
             </span>
-            <h1 className="mt-5 text-3xl font-extrabold leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl">
+            <h1 className="mt-5 text-3xl font-extrabold leading-[1.1] tracking-tight sm:text-4xl lg:text-[3.25rem]">
               Compassionate <span className="text-primary">home care</span> for the people you love
             </h1>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
@@ -36,33 +36,85 @@ export default function Home() {
               <Button href="/contact" withArrow>
                 Schedule a Free Consultation
               </Button>
-              <Button href="/home-care" variant="outline">
-                Explore Our Services
-              </Button>
+              <a
+                href={site.phoneHref}
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-primary/30 px-6 py-3 text-sm font-semibold text-primary transition hover:border-primary hover:bg-primary-50"
+              >
+                <Icon name="phone" className="h-4 w-4" /> {site.phone}
+              </a>
             </div>
-            <div className="mt-9 grid max-w-md grid-cols-3 gap-6 border-t border-border pt-7">
+            <div className="mt-6 flex items-center gap-3">
+              <Stars />
+              <span className="text-sm text-muted">
+                Trusted by Maryland families · <span className="font-semibold text-ink">Licensed &amp; insured</span>
+              </span>
+            </div>
+            <div className="mt-8 grid max-w-md grid-cols-3 gap-6 border-t border-border pt-7">
               <Stat value="Since 2018" label="Caring for Maryland" />
               <Stat value="24+" label="Counties served" />
               <Stat value="7" label="Care services" />
             </div>
           </div>
 
-          <div className="lg:pl-6">
-            <div className="relative rounded-3xl border border-border bg-white/95 p-6 shadow-xl backdrop-blur-sm sm:p-7">
-              <div className="absolute -right-3 -top-3 inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-white shadow-md">
-                <Icon name="check" className="h-3.5 w-3.5" strokeWidth={2.5} /> Free
+          <div className="relative lg:pl-6">
+            <div className="relative overflow-hidden rounded-[2rem] ring-1 ring-black/5 shadow-2xl">
+              <SiteImage
+                path={mediaAssets.aboutImage}
+                alt="A compassionate My Home Cares caregiver supporting an elderly client at home"
+                className="aspect-[4/5] w-full sm:aspect-[5/4] lg:aspect-[4/5]"
+              />
+            </div>
+            {/* Floating trust card */}
+            <div className="absolute -bottom-5 -left-3 max-w-[15rem] rounded-2xl border border-border bg-white/95 p-4 shadow-xl backdrop-blur-sm sm:-left-5">
+              <div className="flex items-center gap-2">
+                <Stars className="scale-90" />
               </div>
-              <h2 className="text-xl font-bold">Find Your Care</h2>
-              <p className="mt-1 text-sm text-muted">
-                Tell us about the needs of your loved one and we&apos;ll be in touch.
-              </p>
-              <div className="mt-5">
-                <LeadForm withTime source="home-hero" />
-              </div>
+              <p className="mt-1.5 text-sm font-semibold text-ink">Care families trust</p>
+              <p className="text-xs text-muted">Compassionate, professional caregivers across Maryland.</p>
+            </div>
+            {/* Floating licensed badge */}
+            <div className="absolute -right-2 top-5 inline-flex items-center gap-1.5 rounded-full bg-accent px-3.5 py-1.5 text-xs font-semibold text-white shadow-lg">
+              <Icon name="shield-heart" className="h-4 w-4" /> Licensed
             </div>
           </div>
         </Container>
       </section>
+
+      <TrustBand />
+
+      {/* Find Your Care — consultation */}
+      <Section>
+        <div className="grid items-center gap-10 overflow-hidden rounded-3xl border border-border bg-surface p-6 sm:p-10 lg:grid-cols-2">
+          <div>
+            <p className="eyebrow mb-3">Free, No-Obligation Consultation</p>
+            <h2 className="text-3xl font-bold sm:text-[2rem]">Find the right care for your loved one</h2>
+            <p className="mt-4 text-lg leading-relaxed text-muted">
+              Tell us a little about your family&apos;s needs and a member of our care team will reach
+              out promptly with a personalized plan.
+            </p>
+            <ul className="mt-6 space-y-3">
+              {[
+                "No cost and no obligation",
+                "A friendly, prompt response from our care team",
+                "A care plan tailored to your loved one",
+              ].map((t) => (
+                <li key={t} className="flex items-center gap-3 text-ink-soft">
+                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-accent-50 text-accent-dark">
+                    <Icon name="check" className="h-3.5 w-3.5" strokeWidth={2.5} />
+                  </span>
+                  {t}
+                </li>
+              ))}
+            </ul>
+            <a href={site.phoneHref} className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary">
+              <Icon name="phone" className="h-4 w-4" /> Prefer to call? {site.phone}
+            </a>
+          </div>
+          <div className="rounded-2xl border border-border bg-white p-6 shadow-xl sm:p-7">
+            <LeadForm withTime source="home-consult" />
+          </div>
+        </div>
+      </Section>
 
       {/* Comprehensive Care Services */}
       <Section reveal={false}>
@@ -93,6 +145,11 @@ export default function Home() {
           </Button>
         </div>
       </Section>
+
+      {/* How it works */}
+      <div className="bg-surface">
+        <HowItWorks />
+      </div>
 
       {/* Video */}
       <VideoFeature />
@@ -143,7 +200,7 @@ export default function Home() {
       {/* Careers teaser */}
       <Section>
         <div className="relative overflow-hidden rounded-3xl border border-border bg-ink px-6 py-12 sm:px-12 sm:py-16">
-          <div className="absolute inset-0 opacity-40" style={{ background: "radial-gradient(700px 320px at 100% 0%, rgba(82,126,255,0.35), transparent 60%)" }} />
+          <div className="absolute inset-0 opacity-40" style={{ background: "radial-gradient(700px 320px at 100% 0%, rgba(0,158,230,0.4), transparent 60%)" }} />
           <div className="relative max-w-2xl">
             <p className="text-sm font-semibold uppercase tracking-wider text-primary-light">
               Join our compassionate team
