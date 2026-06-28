@@ -3,7 +3,6 @@ import { site } from "@/lib/site";
 import { jobs } from "@/lib/jobs";
 import { Section, SectionHeading, Button } from "@/components/ui";
 import { PageHero, CTASection } from "@/components/blocks";
-import { ApplyButton } from "@/components/ApplyButton";
 import { Icon } from "@/components/icons";
 
 export const metadata: Metadata = {
@@ -27,7 +26,7 @@ export default function CareersPage() {
         title="A rewarding career in home care awaits"
         subtitle="My Home Cares is more than a workplace — it's a community where compassion, excellence, and dedication are at the heart of everything we do."
       >
-        <ApplyButton label="Apply Now" />
+        <Button href="/job-application" withArrow>Apply Now</Button>
         <Button href="#openings" variant="outline">View Job Postings</Button>
       </PageHero>
 
@@ -82,7 +81,7 @@ export default function CareersPage() {
                     </span>
                   </div>
                 </div>
-                <ApplyButton label={`Apply for ${job.title.split(" ")[0]}`} defaultPosition={job.title} className="shrink-0" />
+                <Button href={`/job-application?role=${job.slug}`} className="shrink-0">Apply Now</Button>
               </div>
 
               <p className="mt-5 leading-relaxed text-muted">{job.summary}</p>
@@ -118,7 +117,7 @@ export default function CareersPage() {
               </div>
 
               <div className="mt-6">
-                <ApplyButton label={`Apply for this role`} defaultPosition={job.title} />
+                <Button href={`/job-application?role=${job.slug}`} withArrow>Apply for this role</Button>
               </div>
             </div>
           ))}
