@@ -41,7 +41,7 @@ export function TrustBand() {
         </div>
         <div className="flex items-center gap-4">
           {associations.map((a) => (
-            <div key={a.name} title={a.name} className="flex h-12 w-24 items-center justify-center rounded-lg border border-border bg-white p-1.5">
+            <div key={a.name} title={a.name} className="flex h-16 w-32 items-center justify-center rounded-lg border border-border bg-white p-2">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={media(a.image)} alt={a.name} className="max-h-full max-w-full object-contain" />
             </div>

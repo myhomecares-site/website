@@ -105,7 +105,7 @@ export function Footer() {
                 <div
                   key={a.name}
                   title={a.name}
-                  className="flex h-16 w-[7.5rem] items-center justify-center rounded-lg bg-white p-2.5"
+                  className="flex h-24 w-44 items-center justify-center rounded-xl bg-white p-3.5"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={media(a.image)} alt={a.name} className="max-h-full max-w-full object-contain" />
