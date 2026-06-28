@@ -24,26 +24,20 @@ export function ApplicationForm({
     setError("");
     const form = e.currentTarget;
     const fd = new FormData(form);
-    const payload = {
-      name: fd.get("name"),
-      phone: fd.get("phone"),
-      email: fd.get("email"),
-      position: fd.get("position"),
-      employment_type: fd.get("employment_type"),
-      availability_days: fd.getAll("days"),
-      availability_shifts: fd.getAll("shifts"),
-      start_date: fd.get("start_date"),
-      experience: fd.get("experience"),
-      message: fd.get("message"),
-      source: fd.get("source") || "careers",
-      company: fd.get("company"), // honeypot
-    };
+
+    // Keep the total upload under the platform limit.
+    let totalBytes = 0;
+    for (const value of fd.values()) {
+      if (value instanceof File) totalBytes += value.size;
+    }
+    if (totalBytes > 4 * 1024 * 1024) {
+      setStatus("error");
+      setError("Your attachments are over 4 MB total. Please reduce the file size, or email large files to info@myhomecares.com.");
+      return;
+    }
+
     try {
-      const res = await fetch("/api/apply/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const res = await fetch("/api/apply/", { method: "POST", body: fd });
       if (!res.ok) throw new Error((await res.json().catch(() => ({})))?.error || "Something went wrong");
       setStatus("ok");
       form.reset();
@@ -153,6 +147,32 @@ export function ApplicationForm({
       <div>
         <label className={label}>Relevant experience</label>
         <input name="experience" className={input} placeholder="e.g., 3 years as a CNA in home care" />
+      </div>
+
+      <div className="rounded-xl border border-dashed border-border bg-surface p-4">
+        <p className="text-sm font-semibold text-ink">Upload your documents</p>
+        <p className="mt-0.5 text-xs text-muted">Resume and any certifications (PDF, Word, or image — up to 4 MB total).</p>
+        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          <div>
+            <label className={label}>Resume</label>
+            <input
+              type="file"
+              name="resume"
+              accept=".pdf,.doc,.docx"
+              className="block w-full cursor-pointer text-xs text-muted file:mr-3 file:cursor-pointer file:rounded-full file:border-0 file:bg-primary-50 file:px-4 file:py-2 file:text-xs file:font-semibold file:text-primary hover:file:bg-primary-100"
+            />
+          </div>
+          <div>
+            <label className={label}>Certifications</label>
+            <input
+              type="file"
+              name="certifications"
+              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+              multiple
+              className="block w-full cursor-pointer text-xs text-muted file:mr-3 file:cursor-pointer file:rounded-full file:border-0 file:bg-primary-50 file:px-4 file:py-2 file:text-xs file:font-semibold file:text-primary hover:file:bg-primary-100"
+            />
+          </div>
+        </div>
       </div>
 
       <div>
