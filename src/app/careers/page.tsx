@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { site } from "@/lib/site";
 import { Section, Button } from "@/components/ui";
 import { PageHero, CTASection } from "@/components/blocks";
 import { Icon } from "@/components/icons";
@@ -51,6 +52,26 @@ export default function CareersPage() {
                 <p className="mt-1.5 text-sm text-muted">{p.text}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </Section>
+
+      <Section muted>
+        <div className="grid items-center gap-8 rounded-3xl border border-border bg-white p-6 sm:p-10 lg:grid-cols-[1.5fr_1fr] card-shadow">
+          <div>
+            <p className="eyebrow mb-3">For Our Caregivers</p>
+            <h2 className="text-2xl font-bold sm:text-3xl">Complete your OHCQ-compliant training online</h2>
+            <p className="mt-4 leading-relaxed text-muted">
+              New and current caregivers complete our Maryland RSA training through short video
+              modules — designed by our Director of Nursing and finished with a certification check.
+              About 30 minutes, right from your phone.
+            </p>
+          </div>
+          <div className="flex flex-col items-start gap-3 lg:items-end">
+            <Button href="/training" withArrow>View Training Details</Button>
+            <a href={site.trainingUrl} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-primary hover:text-primary-dark">
+              Or start training now →
+            </a>
           </div>
         </div>
       </Section>

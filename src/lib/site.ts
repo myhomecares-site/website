@@ -8,6 +8,7 @@ export const site = {
   description:
     "Compassionate, personalized in-home care across Maryland — skilled nursing, personal care, companionship, and more.",
   url: "https://www.myhomecares.com",
+  trainingUrl: "https://myhomecares-training.vercel.app/",
   phone: "(410) 231-3076",
   phoneHref: "tel:+14102313076",
   email: "info@myhomecares.com",
@@ -347,6 +348,7 @@ export const mainNav: NavItem[] = [
     children: [
       { label: "Careers", href: "/careers" },
       { label: "CareLink Staffing", href: "/carelink-staffing" },
+      { label: "Caregiver Training", href: "/training" },
       { label: "Apply Now", href: "/job-application" },
     ],
   },
