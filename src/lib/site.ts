@@ -348,7 +348,6 @@ export const mainNav: NavItem[] = [
     children: [
       { label: "Careers", href: "/careers" },
       { label: "CareLink Staffing", href: "/carelink-staffing" },
-      { label: "Caregiver Training", href: "/training" },
       { label: "Apply Now", href: "/job-application" },
     ],
   },

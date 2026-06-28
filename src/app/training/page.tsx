@@ -6,8 +6,9 @@ import { Icon } from "@/components/icons";
 
 export const metadata: Metadata = {
   title: "Caregiver Training",
-  description:
-    "Maryland OHCQ-compliant RSA caregiver training for My Home Cares staff — short video modules covering the required competencies, with a certification check. Works on your phone.",
+  description: "Caregiver training portal for My Home Cares staff.",
+  // Unlisted: kept out of search engines, accessible only via direct link.
+  robots: { index: false, follow: false },
 };
 
 function StartButton({ className = "" }: { className?: string }) {
