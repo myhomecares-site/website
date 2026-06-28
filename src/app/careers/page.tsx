@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import { site } from "@/lib/site";
-import { Section, Button } from "@/components/ui";
+import { jobs } from "@/lib/jobs";
+import { Section, SectionHeading, Button } from "@/components/ui";
 import { PageHero, CTASection } from "@/components/blocks";
+import { ApplyButton } from "@/components/ApplyButton";
 import { Icon } from "@/components/icons";
 
 export const metadata: Metadata = {
   title: "Careers in Maryland",
   description:
-    "A rewarding career in home care awaits. Join My Home Cares — a community where compassion, excellence, and dedication are at the heart of everything we do.",
+    "A rewarding career in home care awaits. Join My Home Cares — apply online for caregiver, CNA/GNA, CMT, and nursing roles across Maryland.",
 };
 
 const perks = [
@@ -25,7 +27,8 @@ export default function CareersPage() {
         title="A rewarding career in home care awaits"
         subtitle="My Home Cares is more than a workplace — it's a community where compassion, excellence, and dedication are at the heart of everything we do."
       >
-        <Button href="/job-application" withArrow>Apply Now</Button>
+        <ApplyButton label="Apply Now" />
+        <Button href="#openings" variant="outline">View Job Postings</Button>
       </PageHero>
 
       <Section>
@@ -39,7 +42,7 @@ export default function CareersPage() {
               fulfillment — and the opportunity to make a real difference in your community.
             </p>
             <div className="mt-8">
-              <Button href="/job-application" withArrow>View Application</Button>
+              <Button href="#openings" withArrow>View Job Postings</Button>
             </div>
           </div>
           <div className="grid gap-5 sm:grid-cols-2">
@@ -56,7 +59,73 @@ export default function CareersPage() {
         </div>
       </Section>
 
-      <Section muted>
+      {/* Job postings */}
+      <Section id="openings" muted>
+        <SectionHeading
+          center
+          eyebrow="Open Positions"
+          title="Current job postings"
+          intro="Find your fit below and apply in minutes — tell us your availability and we'll be in touch."
+        />
+        <div className="mx-auto mt-12 max-w-4xl space-y-6">
+          {jobs.map((job) => (
+            <div key={job.slug} className="rounded-2xl border border-border bg-white p-6 sm:p-8 card-shadow">
+              <div className="flex flex-col gap-4 border-b border-border pb-5 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <h3 className="text-xl font-bold">{job.title}</h3>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-accent-50 px-3 py-1 text-xs font-semibold text-accent-dark">
+                      <Icon name="briefcase" className="h-3.5 w-3.5" /> {job.type}
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-50 px-3 py-1 text-xs font-semibold text-primary">
+                      <Icon name="clock" className="h-3.5 w-3.5" /> {job.schedule}
+                    </span>
+                  </div>
+                </div>
+                <ApplyButton label={`Apply for ${job.title.split(" ")[0]}`} defaultPosition={job.title} className="shrink-0" />
+              </div>
+
+              <p className="mt-5 leading-relaxed text-muted">{job.summary}</p>
+
+              <div className="mt-6 grid gap-6 sm:grid-cols-2">
+                <div>
+                  <h4 className="text-sm font-bold text-ink">Responsibilities</h4>
+                  <ul className="mt-3 space-y-2">
+                    {job.responsibilities.map((r) => (
+                      <li key={r} className="flex items-start gap-2.5 text-sm text-ink-soft">
+                        <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-accent-dark" strokeWidth={2.5} />
+                        {r}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-ink">What we&apos;re looking for</h4>
+                  <ul className="mt-3 space-y-2">
+                    {job.qualifications.map((q) => (
+                      <li key={q} className="flex items-start gap-2.5 text-sm text-ink-soft">
+                        <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-primary" strokeWidth={2.5} />
+                        {q}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div className="mt-6 rounded-xl bg-surface p-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-muted">What we offer</p>
+                <p className="mt-1.5 text-sm text-ink-soft">{job.benefits.join(" · ")}</p>
+              </div>
+
+              <div className="mt-6">
+                <ApplyButton label={`Apply for this role`} defaultPosition={job.title} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      <Section>
         <div className="grid items-center gap-8 rounded-3xl border border-border bg-white p-6 sm:p-10 lg:grid-cols-[1.5fr_1fr] card-shadow">
           <div>
             <p className="eyebrow mb-3">For Our Caregivers</p>

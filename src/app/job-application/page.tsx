@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui";
-import { JobApplicationForm } from "@/components/JobApplicationForm";
+import { ApplicationForm } from "@/components/ApplicationForm";
 
 export const metadata: Metadata = {
   title: "Job Application",
@@ -21,7 +21,7 @@ export default function JobApplicationPage() {
             </p>
           </div>
           <div className="mt-10 rounded-3xl border border-border bg-white p-6 sm:p-8 card-shadow">
-            <JobApplicationForm />
+            <ApplicationForm />
           </div>
         </div>
       </Container>
