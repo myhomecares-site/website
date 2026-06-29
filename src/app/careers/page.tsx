@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { site } from "@/lib/site";
 import { jobs } from "@/lib/jobs";
 import { Section, SectionHeading, Button } from "@/components/ui";
-import { PageHero, CTASection } from "@/components/blocks";
+import { PageHero } from "@/components/blocks";
 import { Icon } from "@/components/icons";
 
 export const metadata: Metadata = {
@@ -140,7 +140,20 @@ export default function CareersPage() {
         </div>
       </Section>
 
-      <CTASection title="Ready to start your journey?" text="Apply now and become part of a team that values compassion, excellence, and a commitment to quality care." />
+      <Section>
+        <div className="relative overflow-hidden rounded-3xl bg-primary px-6 py-14 text-center sm:px-12">
+          <div className="absolute inset-0 opacity-30" style={{ background: "radial-gradient(600px 300px at 90% 0%, rgba(255,255,255,0.25), transparent 60%)" }} />
+          <div className="relative mx-auto max-w-2xl">
+            <h2 className="text-3xl font-bold text-white sm:text-4xl">Ready to start your journey?</h2>
+            <p className="mx-auto mt-4 max-w-xl text-lg text-white/85">
+              Apply now and become part of a team that values compassion, excellence, and a commitment to quality care.
+            </p>
+            <div className="mt-8 flex justify-center">
+              <Button href="/job-application" variant="white" withArrow>Apply Now</Button>
+            </div>
+          </div>
+        </div>
+      </Section>
     </>
   );
 }

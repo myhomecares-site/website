@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 import { site, associations, media } from "@/lib/site";
 import { Button, Container } from "./ui";
 import { Icon } from "./icons";
-import { LeadForm } from "./LeadForm";
 import { SiteImage } from "./SiteImage";
 import { LeafWatermark, Blobs, DotGrid } from "./Decor";
 
@@ -144,8 +143,8 @@ export function FeatureList({ items }: { items: readonly string[] }) {
 }
 
 export function CTASection({
-  title = "Get in Touch with My Home Cares",
-  text = "Reach out for personalized care solutions. Contact us today to discuss your needs and learn how we can support you and your loved ones.",
+  title = "Ready to talk about care?",
+  text = "Schedule a free, no-obligation consultation and our care team will help you find the right support for your loved one.",
 }: {
   title?: string;
   text?: string;
@@ -153,24 +152,19 @@ export function CTASection({
   return (
     <section className="py-16 sm:py-20">
       <Container>
-        <div className="relative overflow-hidden rounded-3xl bg-primary px-6 py-12 sm:px-12 sm:py-16">
+        <div className="relative overflow-hidden rounded-3xl bg-primary px-6 py-14 text-center sm:px-12">
           <div className="absolute inset-0 opacity-30" style={{ background: "radial-gradient(600px 300px at 90% 0%, rgba(255,255,255,0.25), transparent 60%)" }} />
           <LeafWatermark className="-right-6 -top-8 h-48 w-48 text-white" />
-          <div className="relative grid items-center gap-8 lg:grid-cols-[1.2fr_1fr]">
-            <div>
-              <h2 className="text-3xl font-bold text-white sm:text-4xl">{title}</h2>
-              <p className="mt-4 max-w-lg text-lg text-white/85">{text}</p>
-              <div className="mt-8 flex flex-wrap gap-4">
-                <a href={site.phoneHref} className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-primary shadow-sm transition hover:bg-primary-50">
-                  <Icon name="phone" className="h-4 w-4" /> {site.phone}
-                </a>
-                <a href={site.emailHref} className="inline-flex items-center gap-2 rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10">
-                  <Icon name="mail" className="h-4 w-4" /> {site.email}
-                </a>
-              </div>
-            </div>
-            <div className="rounded-2xl bg-white p-5 card-shadow">
-              <LeadForm compact source="cta" />
+          <div className="relative mx-auto max-w-2xl">
+            <h2 className="text-3xl font-bold text-white sm:text-4xl">{title}</h2>
+            <p className="mx-auto mt-4 max-w-xl text-lg text-white/85">{text}</p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+              <Link href="/contact" className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-semibold text-primary shadow-sm transition hover:-translate-y-0.5 hover:bg-primary-50">
+                Schedule a Consultation <Icon name="arrow" className="h-4 w-4" />
+              </Link>
+              <a href={site.phoneHref} className="inline-flex items-center gap-2 rounded-full border border-white/40 px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-white/10">
+                <Icon name="phone" className="h-4 w-4" /> {site.phone}
+              </a>
             </div>
           </div>
         </div>

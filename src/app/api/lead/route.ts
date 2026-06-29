@@ -6,10 +6,15 @@ type LeadPayload = {
   email?: string;
   message?: string;
   best_time?: string;
-  position?: string;
   source?: string;
-  type?: string;
   company?: string; // honeypot
+  // RSA client-intake details
+  relationship?: string;
+  city?: string;
+  care_needed?: string[];
+  timeframe?: string;
+  schedule?: string;
+  payment?: string;
 };
 
 export async function POST(req: Request) {
@@ -20,16 +25,23 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  // Honeypot — silently accept bots without storing.
-  if (body.company) return NextResponse.json({ ok: true });
+  if (body.company) return NextResponse.json({ ok: true }); // honeypot
 
   const name = (body.name || "").trim();
   const phone = (body.phone || "").trim();
   const email = (body.email || "").trim();
-
   if (!name || (!phone && !email)) {
     return NextResponse.json({ error: "Please provide your name and a way to reach you." }, { status: 422 });
   }
+
+  const details = {
+    relationship: (body.relationship || "").trim(),
+    city: (body.city || "").trim(),
+    care_needed: Array.isArray(body.care_needed) ? body.care_needed : [],
+    timeframe: (body.timeframe || "").trim(),
+    schedule: (body.schedule || "").trim(),
+    payment: (body.payment || "").trim(),
+  };
 
   const record = {
     name,
@@ -37,9 +49,9 @@ export async function POST(req: Request) {
     email,
     message: (body.message || "").trim(),
     best_time: body.best_time || null,
-    position: body.position || null,
     source: body.source || "website",
-    type: body.type || "lead",
+    type: "lead",
+    details,
     created_at: new Date().toISOString(),
   };
 
@@ -68,11 +80,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Could not submit right now. Please call us." }, { status: 502 });
     }
   } else {
-    // Supabase not configured yet — log so nothing is lost during setup.
     console.log("[lead] (no datastore configured):", JSON.stringify(record));
   }
 
-  // Email notification straight to the business — no third party involved.
   await notify(record).catch((err) => console.error("Email notify failed:", err));
 
   return NextResponse.json({ ok: true });
@@ -84,30 +94,38 @@ type LeadRecord = {
   email: string;
   message: string;
   best_time: string | null;
-  position: string | null;
   source: string;
   type: string;
+  details: {
+    relationship: string;
+    city: string;
+    care_needed: string[];
+    timeframe: string;
+    schedule: string;
+    payment: string;
+  };
   created_at: string;
 };
 
 async function notify(r: LeadRecord) {
   const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) return; // notifications disabled until configured
+  if (!apiKey) return;
 
   const to = (process.env.NOTIFY_TO || "info@myhomecares.com").split(",").map((s) => s.trim());
-  // Sent from an already-verified Resend domain. These are internal alert emails
-  // (only staff see them), so the from-domain doesn't affect customers.
-  // Override with NOTIFY_FROM once myhomecares.com can be verified (needs DNS off Wix).
   const from = process.env.NOTIFY_FROM || "My Home Cares Website <notifications@homelycare.io>";
-  const isApplication = r.type === "application";
-  const label = isApplication ? "New job application" : "New inquiry";
-  const subject = `${label} from ${r.name} — myhomecares.com`;
+  const subject = `New consultation request from ${r.name} — myhomecares.com`;
+  const d = r.details;
 
   const fields: [string, string][] = [
     ["Name", r.name],
     ["Phone", r.phone],
     ["Email", r.email],
-    ...(r.position ? ([["Position", r.position]] as [string, string][]) : []),
+    ...(d.relationship ? ([["Who needs care", d.relationship]] as [string, string][]) : []),
+    ...(d.city ? ([["City", d.city]] as [string, string][]) : []),
+    ...(d.care_needed.length ? ([["Care needed", d.care_needed.join(", ")]] as [string, string][]) : []),
+    ...(d.timeframe ? ([["Timeframe", d.timeframe]] as [string, string][]) : []),
+    ...(d.schedule ? ([["Schedule", d.schedule]] as [string, string][]) : []),
+    ...(d.payment ? ([["Payment method", d.payment]] as [string, string][]) : []),
     ...(r.best_time ? ([["Best time to call", r.best_time]] as [string, string][]) : []),
     ["Message", r.message || "—"],
     ["Page / source", r.source],
@@ -116,12 +134,12 @@ async function notify(r: LeadRecord) {
   const rows = fields
     .map(
       ([k, v]) =>
-        `<tr><td style="padding:6px 12px;font-weight:600;color:#33373d;border-bottom:1px solid #eee">${k}</td><td style="padding:6px 12px;color:#1d1d1f;border-bottom:1px solid #eee">${String(v).replace(/</g, "&lt;")}</td></tr>`
+        `<tr><td style="padding:6px 12px;font-weight:600;color:#33373d;border-bottom:1px solid #eee;white-space:nowrap">${k}</td><td style="padding:6px 12px;color:#1d1d1f;border-bottom:1px solid #eee">${String(v).replace(/</g, "&lt;")}</td></tr>`
     )
     .join("");
 
   const html = `<div style="font-family:Arial,sans-serif;max-width:560px;margin:auto">
-    <h2 style="color:#009ee6">${label}</h2>
+    <h2 style="color:#009ee6">New consultation request</h2>
     <p style="color:#5b6168">Submitted through myhomecares.com.</p>
     <table style="border-collapse:collapse;width:100%;border:1px solid #eee;border-radius:8px;overflow:hidden">${rows}</table>
     <p style="color:#99a0aa;font-size:12px;margin-top:16px">Reply directly to this email to reach the person${r.email ? ` (${r.email})` : ""}.</p>
