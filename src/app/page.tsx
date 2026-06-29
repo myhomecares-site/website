@@ -131,9 +131,9 @@ export default function Home() {
             intro="A full range of services designed to meet your unique needs with compassion and professionalism."
           />
         </Reveal>
-        <div className="mt-11 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-11 flex flex-wrap justify-center gap-5">
           {services.map((s, i) => (
-            <Reveal key={s.slug} className="h-full" delay={(i % 4) * 90}>
+            <Reveal key={s.slug} className="h-full w-full sm:w-[calc(50%_-_0.625rem)] lg:w-[calc(25%_-_0.9375rem)]" delay={(i % 4) * 90}>
               <ServiceCard
                 title={s.title}
                 description={s.short}

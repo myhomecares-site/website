@@ -40,9 +40,9 @@ export function Reviews() {
           <h2 className="mt-4 text-3xl font-bold sm:text-4xl">What families say</h2>
           <p className="mt-3 text-lg text-muted">Real words from the Maryland families we care for.</p>
         </div>
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 flex flex-wrap justify-center gap-6">
           {testimonials.map((t) => (
-            <figure key={t.name + t.quote} className="flex flex-col rounded-2xl border border-border bg-white p-6 card-shadow">
+            <figure key={t.name + t.quote} className="flex w-full flex-col rounded-2xl border border-border bg-white p-6 card-shadow sm:w-[calc(50%_-_0.75rem)] lg:w-[calc(33.333%_-_1rem)]">
               <Stars />
               <blockquote className="mt-4 flex-1 leading-relaxed text-ink-soft">&ldquo;{t.quote}&rdquo;</blockquote>
               <figcaption className="mt-4 text-sm font-semibold text-ink">

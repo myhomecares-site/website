@@ -33,7 +33,7 @@ const steps = [
 
 const highlights = [
   { icon: "shield-heart", title: "OHCQ-compliant", text: "Meets Maryland Residential Service Agency training requirements (OHCQ license RSA-01229)." },
-  { icon: "heart-hand", title: "Built by our nurses", text: "Designed by our Director of Nursing, Courtney Dawkins, RN BSN." },
+  { icon: "heart-hand", title: "Built by our nurses", text: "Designed by our Director of Nursing, Courtney Dawkins, RN-BSN." },
   { icon: "clock", title: "Quick & mobile", text: "About 30 minutes, and you can complete it right on your phone." },
   { icon: "star", title: "Certificate included", text: "Earn a certificate of completion you can keep for your records." },
 ];

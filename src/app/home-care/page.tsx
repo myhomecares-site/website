@@ -30,9 +30,11 @@ export default function HomeCarePage() {
           title="A complete range of home care, all under one trusted team"
           intro="From clinical skilled nursing to everyday companionship, we tailor every service to the individual we serve."
         />
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 flex flex-wrap justify-center gap-6">
           {services.map((s) => (
-            <ServiceCard key={s.slug} title={s.title} description={s.short} href={`/${s.slug}`} icon={s.icon} image={serviceImages[s.slug]} />
+            <div key={s.slug} className="w-full sm:w-[calc(50%_-_0.75rem)] lg:w-[calc(33.333%_-_1rem)]">
+              <ServiceCard title={s.title} description={s.short} href={`/${s.slug}`} icon={s.icon} image={serviceImages[s.slug]} />
+            </div>
           ))}
         </div>
       </Section>

@@ -79,7 +79,7 @@ export function ChatWidget() {
 
       {/* Panel */}
       {open && (
-        <div className="fixed bottom-24 right-4 z-50 flex h-[32rem] max-h-[calc(100vh-7rem)] w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden rounded-2xl border border-border bg-white shadow-2xl sm:right-6">
+        <div className="fixed bottom-24 right-4 z-50 flex h-[32rem] max-h-[calc(100vh_-_7rem)] w-[calc(100vw_-_2rem)] max-w-sm flex-col overflow-hidden rounded-2xl border border-border bg-white shadow-2xl sm:right-6">
           {/* Header */}
           <div className="flex items-center gap-3 bg-primary px-4 py-3.5 text-white">
             <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/15">

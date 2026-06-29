@@ -21,12 +21,12 @@ export default function ResourcesPage() {
       />
       <Section>
         <SectionHeading title="Forms & care documentation" intro="Learn about the forms behind our personalized, well-documented care." />
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 flex flex-wrap justify-center gap-6">
           {careForms.map((f) => (
             <Link
               key={f.slug}
               href={`/${f.slug}`}
-              className="group flex flex-col rounded-2xl border border-border bg-white p-6 transition-all hover:-translate-y-1 hover:border-primary/30 card-shadow"
+              className="group flex w-full flex-col rounded-2xl border border-border bg-white p-6 transition-all hover:-translate-y-1 hover:border-primary/30 card-shadow sm:w-[calc(50%_-_0.75rem)] lg:w-[calc(33.333%_-_1rem)]"
             >
               <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary-50 text-primary">
                 <Icon name="check" className="h-5 w-5" strokeWidth={2.5} />

@@ -211,12 +211,12 @@ export function SpecializedCare() {
             Beyond everyday care, our team is trained to support more complex conditions and situations across Maryland.
           </p>
         </div>
-        <div className="mt-11 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-11 flex flex-wrap justify-center gap-5">
           {conditions.map((c) => (
             <Link
               key={c.slug}
               href={`/${c.slug}`}
-              className="group flex h-full flex-col rounded-2xl border border-border bg-white p-6 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-primary/30 card-shadow"
+              className="group flex h-full w-full flex-col rounded-2xl border border-border bg-white p-6 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-primary/30 card-shadow sm:w-[calc(50%_-_0.625rem)] lg:w-[calc(33.333%_-_0.834rem)]"
             >
               <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary-50 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
                 <Icon name={c.icon} className="h-6 w-6" />

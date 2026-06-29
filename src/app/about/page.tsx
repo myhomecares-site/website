@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 const leadership = [
   { name: "David Mziray", role: "Managing Director" },
   { name: "Lulu H. Mziray, MBA-HCM", role: "Director of Operations" },
-  { name: "Courtney Dawkins, RN", role: "Director of Nursing" },
+  { name: "Courtney Dawkins, RN-BSN", role: "Director of Nursing" },
   { name: "Gillead-Gary Mziray", role: "Director of Tech" },
   { name: "Perina Gaines, RN", role: "Clinical Assessment Administrator" },
 ];
@@ -104,7 +104,7 @@ export default function AboutPage() {
         <SectionHeading center eyebrow="Our People" title="Leadership team" intro="Experienced, compassionate professionals dedicated to exceptional home health care." />
         <div className="mx-auto mt-12 flex max-w-4xl flex-wrap justify-center gap-5">
           {leadership.map((p) => (
-            <div key={p.name} className="w-full rounded-2xl border border-border bg-white p-6 text-center card-shadow sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.84rem)]">
+            <div key={p.name} className="w-full rounded-2xl border border-border bg-white p-6 text-center card-shadow sm:w-[calc(50%_-_0.625rem)] lg:w-[calc(33.333%_-_0.84rem)]">
               <span className="mx-auto inline-flex h-14 w-14 items-center justify-center rounded-full bg-primary text-lg font-bold text-white">
                 {p.name.split(" ").map((w) => w[0]).slice(0, 2).join("")}
               </span>
