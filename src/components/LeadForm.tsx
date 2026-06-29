@@ -146,7 +146,6 @@ export function LeadForm({ compact = false, source = "contact", withTime = false
             <option>Private pay</option>
             <option>Long-term care insurance</option>
             <option>Medicaid waiver</option>
-            <option>VA benefits</option>
             <option>Not sure</option>
           </select>
         </>

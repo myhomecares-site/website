@@ -11,7 +11,7 @@ const GREETING =
 
 const SUGGESTIONS = [
   "What services do you offer?",
-  "Do you accept VA or Medicaid?",
+  "Do you accept Medicaid?",
   "How soon can care start?",
   "I'd like a free consultation",
 ];

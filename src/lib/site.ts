@@ -339,7 +339,7 @@ export type CareForm = (typeof careForms)[number];
 
 // ---- Specialized / condition-specific care pages ---------------------------
 // These capture high-intent, need-based searches (e.g. "dementia care in
-// Maryland", "VA home care") that the general service pages don't target.
+// Maryland", "live-in care") that the general service pages don't target.
 export const conditions = [
   {
     slug: "alzheimers-dementia-care-maryland",
@@ -417,31 +417,6 @@ export const conditions = [
     relatedServices: ["skilled-nursing", "personal-care", "homemaking"],
   },
   {
-    slug: "veterans-home-care-maryland",
-    name: "Veterans Home Care",
-    navLabel: "Veterans Home Care (VA)",
-    icon: "shield-heart",
-    hero: "Home Care for Veterans in Maryland",
-    subhead:
-      "Respectful, dignified in-home care for those who served, with help understanding VA benefits that may cover it.",
-    metaTitle: "Veterans Home Care in Maryland (VA Benefits) | My Home Cares",
-    metaDescription:
-      "Compassionate in-home care for Maryland veterans. Personal care, skilled nursing, and companionship, plus guidance on VA benefits like Aid and Attendance that may help pay for care.",
-    intro:
-      "Veterans and their spouses deserve care that honors their service. Many families don't realize that VA benefits may help pay for in-home care. We provide compassionate support for veterans across Maryland and help you understand the options that may be available to you.",
-    approach:
-      "We deliver personalized care built around each veteran's needs and preferences, and we point families toward benefits that may help, such as the VA Aid and Attendance benefit. Eligibility depends on service history, income, and care needs, and we are glad to help you find the right information.",
-    helpWith: [
-      "Personal care, companionship, and skilled nursing at home",
-      "Support for service-related conditions and mobility needs",
-      "Help understanding VA benefits that may cover care",
-      "Respite for spouses and family caregivers",
-      "A care plan that respects each veteran's routine and dignity",
-      "Coordination with VA and community providers",
-    ],
-    relatedServices: ["personal-care", "skilled-nursing", "companion-care"],
-  },
-  {
     slug: "24-hour-live-in-care-maryland",
     name: "24-Hour & Live-In Care",
     navLabel: "24-Hour & Live-In Care",
@@ -479,8 +454,8 @@ export const differentiators = [
   },
   {
     icon: "shield-heart",
-    title: "Medicaid waiver & VA accepted",
-    text: "Beyond private pay, we work with Maryland Medicaid waiver programs and VA benefits, and help you understand what may cover your care.",
+    title: "Medicaid waiver welcome",
+    text: "Beyond private pay, we work with Maryland Medicaid home- and community-based waiver programs, and help you understand what may cover your care.",
   },
   {
     icon: "clock",

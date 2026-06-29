@@ -24,7 +24,7 @@ SERVICE AREA
 - All of Maryland, across the Central, Capital, Western, Southern, and Eastern Shore regions, covering these counties: ${counties.join(", ")}.
 
 PAYMENT OPTIONS
-- Private pay, long-term care insurance, Maryland Medicaid home- and community-based waiver programs, and VA benefits for eligible veterans.
+- Private pay, long-term care insurance, and Maryland Medicaid home- and community-based waiver programs.
 
 KEY FACTS / FAQ
 ${faqs.map((f) => `Q: ${f.q}\nA: ${f.a}`).join("\n")}

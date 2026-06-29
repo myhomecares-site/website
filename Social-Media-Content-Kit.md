@@ -142,15 +142,15 @@ Keep all designs consistent so your feed looks professional and recognizable:
 
 ---
 
-### Post 3.3 , Honoring veterans (VA benefits)
+### Post 3.3 , 24-hour and live-in care
 
 **Caption (all platforms):**
-> To the veterans who served our country: you may be eligible for VA benefits that help pay for in-home care. Many families don't realize this support exists. We're proud to care for Maryland's veterans and to help families understand their options.
+> Some loved ones need more than a few hours of help. When safety and comfort call for someone present at all times, our 24-hour and live-in care provides continuous, attentive support in the place they feel most at home, day and night.
 >
-> Learn more: https://www.myhomecares.com/veterans-home-care-maryland or call (410) 231-3076.
-> #Veterans #VABenefits #VeteranCare #MarylandVeterans #HomeCare
+> Learn more: https://www.myhomecares.com/24-hour-live-in-care-maryland or call (410) 231-3076.
+> #LiveInCare #24HourCare #SeniorCare #MarylandHomeCare #Caregiving
 
-**Design brief:** Respectful patriotic touch (subtle, not loud). Headline: "Honoring those who served." Subtext: "VA benefits may help cover in-home care." Logo + phone.
+**Design brief:** Calm nighttime-to-day imagery or a clock motif. Headline: "Care that never clocks out." Subtext: "24-hour and live-in support across Maryland." Logo + phone.
 
 ---
 

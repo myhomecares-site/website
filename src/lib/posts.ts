@@ -33,15 +33,7 @@ export const posts: Post[] = [
     date: "2026-06-20",
     category: "Paying for Care",
     excerpt:
-      "Private pay, long-term care insurance, Medicaid waivers, and VA benefits, a plain-English look at how Maryland families pay for home care.",
-  },
-  {
-    slug: "honoring-veterans-through-compassionate-home-care",
-    title: "Honoring Veterans Through Compassionate Home Care",
-    date: "2024-11-11",
-    category: "Community",
-    excerpt:
-      "A Veterans Day commitment from My Home Cares, recognizing those who served with dignified, compassionate care at home.",
+      "Private pay, long-term care insurance, and Medicaid waivers, a plain-English look at how Maryland families pay for home care.",
   },
   {
     slug: "world-diabetes-day-raising-awareness",

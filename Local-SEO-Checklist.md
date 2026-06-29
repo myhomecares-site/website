@@ -30,8 +30,8 @@ This is the listing that shows on Google Maps and the local "3-pack." It outrank
 - [ ] **Service area:** add each county/region you serve (you don't show a street address if you work in clients' homes, set it as a service-area business).
 - [ ] **Phone:** (410) 231-3076. **Website:** https://www.myhomecares.com
 - [ ] **Hours:** set real hours; mark 24/7 availability if you take calls around the clock.
-- [ ] **Description:** mention licensed Maryland RSA, your services, your regions, and your differentiators (OHCQ-compliant training, Medicaid waiver & VA accepted, fast start).
-- [ ] **Services:** add each one (Skilled Nursing, Personal Care, Companion Care, Respite Care, Homemaking, Meal Planning) plus specialized care (Alzheimer's & Dementia, Parkinson's, Post-Surgery, Veterans, 24-Hour/Live-In).
+- [ ] **Description:** mention licensed Maryland RSA, your services, your regions, and your differentiators (OHCQ-compliant training, Medicaid waiver welcome, fast start).
+- [ ] **Services:** add each one (Skilled Nursing, Personal Care, Companion Care, Respite Care, Homemaking, Meal Planning) plus specialized care (Alzheimer's & Dementia, Parkinson's, Post-Surgery, 24-Hour/Live-In).
 - [ ] **Photos:** add 10+ real photos, your team/caregivers, logo, and a few warm in-home care images. Profiles with photos get far more clicks. Add new photos monthly.
 - [ ] **Attributes:** check anything that applies (e.g. "Identifies as women-owned," "Online appointments," "Onsite services").
 

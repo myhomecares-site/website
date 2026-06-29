@@ -16,7 +16,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "How much does home care cost, and how can it be paid for?",
-    a: "Cost depends on the level of care and hours needed. Care can be paid for through private pay, long-term care insurance, Maryland Medicaid home- and community-based waiver programs, and VA benefits for eligible veterans. We're happy to walk you through your options during a free consultation.",
+    a: "Cost depends on the level of care and hours needed. Care can be paid for through private pay, long-term care insurance, and Maryland Medicaid home- and community-based waiver programs. We're happy to walk you through your options during a free consultation.",
   },
   {
     q: "How quickly can care begin?",

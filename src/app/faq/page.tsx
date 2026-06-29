@@ -7,7 +7,7 @@ import { FaqList } from "@/components/Faq";
 export const metadata: Metadata = {
   title: "Frequently Asked Questions",
   description:
-    "Answers to common questions about home care in Maryland, services, licensing, cost and payment options (private pay, Medicaid waiver, VA), service areas, and getting started with My Home Cares.",
+    "Answers to common questions about home care in Maryland, services, licensing, cost and payment options (private pay, Medicaid waiver), service areas, and getting started with My Home Cares.",
   alternates: { canonical: "https://www.myhomecares.com/faq/" },
 };
 
