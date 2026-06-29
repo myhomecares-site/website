@@ -30,7 +30,7 @@ export function Header() {
           scrolled ? "h-[4.75rem]" : "h-[5.5rem]"
         }`}
       >
-        <Logo className={scrolled ? "h-14 sm:h-[4.25rem]" : "h-16 sm:h-[5rem]"} />
+        <Logo variant="symbol" className={scrolled ? "h-14 sm:h-16" : "h-16 sm:h-[5rem]"} />
 
         <nav className="hidden items-center gap-1 lg:flex">
           {mainNav.map((item) => (
