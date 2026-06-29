@@ -1,4 +1,7 @@
 import { NextResponse } from "next/server";
+import { sendMail } from "@/lib/mail";
+
+export const runtime = "nodejs";
 
 type LeadPayload = {
   name?: string;
@@ -91,25 +94,13 @@ export async function POST(req: Request) {
 
 // Friendly confirmation sent automatically to the person who reached out.
 async function autoReply(r: { name: string; email: string }) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey || !r.email) return;
-  const from = process.env.NOTIFY_FROM || "My Home Cares <notifications@homelycare.io>";
+  if (!r.email) return;
   const html = `<div style="font-family:Arial,sans-serif;max-width:520px;margin:auto;color:#1d1d1f">
     <h2 style="color:#009ee6">Thank you, ${String(r.name || "").replace(/</g, "&lt;") || "there"}!</h2>
     <p style="color:#5b6168;line-height:1.6">We've received your request and a member of our care team will reach out shortly to discuss how we can help you and your loved one. For anything urgent, call us at (410) 231-3076.</p>
     <p style="color:#5b6168;line-height:1.6">Warmly,<br/>The My Home Cares Team<br/>Where Service Matters</p>
   </div>`;
-  await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      from,
-      to: [r.email],
-      reply_to: "info@myhomecares.com",
-      subject: "We received your request — My Home Cares",
-      html,
-    }),
-  }).catch(() => {});
+  await sendMail({ to: [r.email], subject: "We received your request — My Home Cares", html });
 }
 
 type LeadRecord = {
@@ -132,11 +123,7 @@ type LeadRecord = {
 };
 
 async function notify(r: LeadRecord) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) return;
-
   const to = (process.env.NOTIFY_TO || "info@myhomecares.com").split(",").map((s) => s.trim());
-  const from = process.env.NOTIFY_FROM || "My Home Cares Website <notifications@homelycare.io>";
   const subject = `New consultation request from ${r.name} — myhomecares.com`;
   const d = r.details;
 
@@ -169,10 +156,5 @@ async function notify(r: LeadRecord) {
     <p style="color:#99a0aa;font-size:12px;margin-top:16px">Reply directly to this email to reach the person${r.email ? ` (${r.email})` : ""}.</p>
   </div>`;
 
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ from, to, subject, html, reply_to: r.email || undefined }),
-  });
-  if (!res.ok) console.error("Resend send failed:", res.status, await res.text());
+  await sendMail({ to, subject, html, replyTo: r.email || undefined });
 }

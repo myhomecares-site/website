@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { PDFDocument, StandardFonts, rgb, type PDFPage, type PDFFont } from "pdf-lib";
+import { sendMail } from "@/lib/mail";
 
 export const runtime = "nodejs";
 
@@ -146,26 +147,14 @@ export async function POST(req: Request) {
 
 // Friendly confirmation sent automatically to the applicant.
 async function applicantReply(a: App) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey || !a.email) return;
-  const from = process.env.NOTIFY_FROM || "My Home Cares Careers <notifications@homelycare.io>";
+  if (!a.email) return;
   const html = `<div style="font-family:Arial,sans-serif;max-width:520px;margin:auto;color:#1d1d1f">
     <h2 style="color:#009ee6">Thanks for applying, ${a.name.replace(/</g, "&lt;")}!</h2>
     <p style="color:#5b6168;line-height:1.6">We've received your application${a.position ? ` for <strong>${a.position.replace(/</g, "&lt;")}</strong>` : ""} and our team will review it and be in touch soon. We're excited that you're considering a career with My Home Cares.</p>
     <p style="color:#5b6168;line-height:1.6">If you have questions in the meantime, just reply to this email or call (410) 231-3076.</p>
     <p style="color:#5b6168;line-height:1.6">Warmly,<br/>The My Home Cares Team<br/>Where Service Matters</p>
   </div>`;
-  await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      from,
-      to: [a.email],
-      reply_to: "info@myhomecares.com",
-      subject: "We received your application — My Home Cares",
-      html,
-    }),
-  }).catch(() => {});
+  await sendMail({ to: [a.email], subject: "We received your application — My Home Cares", html });
 }
 
 async function buildPdf(a: App): Promise<string> {
@@ -269,13 +258,9 @@ async function buildPdf(a: App): Promise<string> {
 }
 
 async function emailApplication(a: App, attachments: Attachment[]) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) return;
-
   const to = (process.env.APPLY_NOTIFY_TO || "info@myhomecares.com,lulu@myhomecares.com")
     .split(",")
     .map((s) => s.trim());
-  const from = process.env.NOTIFY_FROM || "My Home Cares Careers <notifications@homelycare.io>";
   const subject = `New caregiver application — ${a.name}${a.position ? ` (${a.position})` : ""}`;
   const safe = (s: string) => String(s || "—").replace(/</g, "&lt;");
   const d = a.details;
@@ -314,10 +299,5 @@ async function emailApplication(a: App, attachments: Attachment[]) {
     <p style="color:#99a0aa;font-size:12px;margin-top:16px">Reply to this email to reach the candidate${a.email ? ` (${a.email})` : ""}.</p>
   </div>`;
 
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ from, to, subject, html, reply_to: a.email || undefined, attachments }),
-  });
-  if (!res.ok) console.error("Resend application email failed:", res.status, await res.text());
+  await sendMail({ to, subject, html, replyTo: a.email || undefined, attachments });
 }
