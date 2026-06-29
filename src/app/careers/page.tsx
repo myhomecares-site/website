@@ -115,10 +115,6 @@ export default function CareersPage() {
                 <p className="text-xs font-semibold uppercase tracking-wide text-muted">What we offer</p>
                 <p className="mt-1.5 text-sm text-ink-soft">{job.benefits.join(" · ")}</p>
               </div>
-
-              <div className="mt-6">
-                <Button href={`/job-application?role=${job.slug}`} withArrow>Apply for this role</Button>
-              </div>
             </div>
           ))}
         </div>
