@@ -12,6 +12,30 @@ export type Post = {
 
 export const posts: Post[] = [
   {
+    slug: "signs-your-parent-needs-home-care",
+    title: "10 Signs Your Aging Parent May Need Home Care",
+    date: "2026-06-27",
+    category: "Family Resources",
+    excerpt:
+      "Not sure if it's time for help at home? Here are ten common signs that your aging parent could benefit from in-home care in Maryland.",
+  },
+  {
+    slug: "how-to-choose-home-care-agency-maryland",
+    title: "How to Choose a Home Care Agency in Maryland: An RSA Checklist",
+    date: "2026-06-25",
+    category: "Family Resources",
+    excerpt:
+      "Choosing a home care agency is a big decision. Use this Maryland RSA checklist — licensing, screening, and the right questions to ask.",
+  },
+  {
+    slug: "how-to-pay-for-home-care-maryland",
+    title: "How to Pay for Home Care in Maryland: Your Options Explained",
+    date: "2026-06-20",
+    category: "Paying for Care",
+    excerpt:
+      "Private pay, long-term care insurance, Medicaid waivers, and VA benefits — a plain-English look at how Maryland families pay for home care.",
+  },
+  {
     slug: "honoring-veterans-through-compassionate-home-care",
     title: "Honoring Veterans Through Compassionate Home Care",
     date: "2024-11-11",

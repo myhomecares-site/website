@@ -9,6 +9,10 @@ export const site = {
     "Compassionate, personalized in-home care across Maryland — skilled nursing, personal care, companionship, and more.",
   url: "https://www.myhomecares.com",
   trainingUrl: "https://myhomecares-training.vercel.app/",
+  // Replace with your Google Business Profile "write a review" short link once claimed
+  // (Google Business Profile → Ask for reviews → copy link). Falls back to a search.
+  reviewUrl: "https://search.google.com/local/writereview?placeid=",
+  reviewSearchUrl: "https://www.google.com/search?q=My+Home+Cares+Maryland+reviews",
   phone: "(410) 231-3076",
   phoneHref: "tel:+14102313076",
   email: "info@myhomecares.com",

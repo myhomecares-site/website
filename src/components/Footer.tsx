@@ -63,6 +63,7 @@ export function Footer() {
                 { label: "Careers", href: "/careers" },
                 { label: "CareLink Staffing", href: "/carelink-staffing" },
                 { label: "Resources", href: "/resources" },
+                { label: "FAQ", href: "/faq" },
                 { label: "Blog", href: "/blog" },
                 { label: "Contact", href: "/contact" },
               ].map((l) => (

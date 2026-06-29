@@ -41,9 +41,13 @@ export async function generateMetadata({
   }
   const loc = locationMap.get(slug);
   if (loc) {
+    const title = `Home Care Services in ${loc.name}, MD`;
+    const description = `Compassionate in-home care in ${loc.name}, Maryland — skilled nursing, personal care, companion care, respite, and homemaking from My Home Cares. Call ${site.phone} for a free consultation.`;
     return {
-      title: `Quality Home Care Services in ${loc.name}`,
-      description: `Skilled nursing, personalized home care assistance, and personal care for seniors across ${loc.name}, Maryland.`,
+      title,
+      description,
+      alternates: { canonical: `${site.url}/${loc.slug}/` },
+      openGraph: { title: `${title} | ${site.name}`, description, url: `${site.url}/${loc.slug}/`, type: "website" },
     };
   }
   const form = careFormMap.get(slug);

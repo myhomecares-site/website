@@ -5,6 +5,9 @@ import { ServiceCard, CTASection, Stat, TrustBand, HowItWorks, Stars } from "@/c
 import { VideoFeature } from "@/components/VideoFeature";
 import { LeadForm } from "@/components/LeadForm";
 import { SiteImage } from "@/components/SiteImage";
+import { Reviews } from "@/components/Reviews";
+import { FaqList } from "@/components/Faq";
+import { faqs } from "@/lib/faq";
 import { Reveal } from "@/components/Reveal";
 import { Blobs } from "@/components/Decor";
 import { Icon } from "@/components/icons";
@@ -199,6 +202,9 @@ export default function Home() {
         </div>
       </Section>
 
+      {/* Reviews */}
+      <Reviews />
+
       {/* Careers teaser */}
       <Section>
         <div className="relative overflow-hidden rounded-3xl border border-border bg-ink px-6 py-12 sm:px-12 sm:py-16">
@@ -223,6 +229,22 @@ export default function Home() {
               </Link>
             </div>
           </div>
+        </div>
+      </Section>
+
+      {/* FAQ */}
+      <Section muted>
+        <SectionHeading
+          center
+          eyebrow="Questions & Answers"
+          title="Frequently asked questions"
+          intro="Quick answers about home care in Maryland — services, cost, and getting started."
+        />
+        <div className="mt-10">
+          <FaqList items={faqs.slice(0, 5)} />
+        </div>
+        <div className="mt-8 text-center">
+          <Button href="/faq" variant="outline" withArrow>See all FAQs</Button>
         </div>
       </Section>
 

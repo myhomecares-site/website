@@ -5,6 +5,8 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { BackToTop } from "@/components/BackToTop";
+import { StructuredData } from "@/components/StructuredData";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { site } from "@/lib/site";
 
 const poppins = Poppins({
@@ -29,6 +31,9 @@ export const metadata: Metadata = {
   },
   description: site.description,
   icons: { icon: "/brand/mhc-favicon.png", apple: "/brand/mhc-favicon.png" },
+  verification: process.env.GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+    : undefined,
   openGraph: {
     title: `${site.name} | Home Care Services in Maryland`,
     description: site.description,
@@ -44,11 +49,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${poppins.variable} ${quicksand.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-white">
+        <StructuredData />
         <ScrollProgress />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
         <BackToTop />
+        <GoogleAnalytics />
       </body>
     </html>
   );
