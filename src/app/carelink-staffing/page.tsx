@@ -5,7 +5,7 @@ import { PageHero } from "@/components/blocks";
 import { Icon } from "@/components/icons";
 
 export const metadata: Metadata = {
-  title: "CareLink Staffing — Healthcare Staffing in Maryland",
+  title: "CareLink Staffing, Healthcare Staffing in Maryland",
   description:
     "CareLink Staffing connects Maryland healthcare facilities with top-tier nurses, CNAs, medical technicians, and speech pathologists. 24/7 support.",
 };
@@ -42,7 +42,7 @@ export default function CareLinkPage() {
       <PageHero
         eyebrow="Healthcare Staffing Agency"
         title="CareLink Staffing: your premier healthcare staffing partner in Maryland"
-        subtitle="We bring Maryland healthcare facilities and talented professionals together — connecting top-tier nurses, CNAs, medical technicians, and speech pathologists with facilities across the state."
+        subtitle="We bring Maryland healthcare facilities and talented professionals together, connecting top-tier nurses, CNAs, medical technicians, and speech pathologists with facilities across the state."
       >
         <a href={`tel:${site.staffing.phone.replace(/[^0-9]/g, "")}`} className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white hover:bg-primary-dark">
           <Icon name="phone" className="h-4 w-4" /> {site.staffing.phone}
@@ -54,7 +54,7 @@ export default function CareLinkPage() {
         <SectionHeading
           eyebrow="Our Mission"
           title="Raising the standard for healthcare staffing in Maryland"
-          intro="We elevate healthcare by matching skilled, compassionate professionals with facilities in need — benefiting facilities, staff, and most importantly, patients."
+          intro="We elevate healthcare by matching skilled, compassionate professionals with facilities in need, benefiting facilities, staff, and most importantly, patients."
         />
         <div className="mt-12 grid gap-12 lg:grid-cols-2">
           <div>

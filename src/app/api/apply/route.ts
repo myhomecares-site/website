@@ -154,7 +154,7 @@ async function applicantReply(a: App) {
     <p style="color:#5b6168;line-height:1.6;margin:0 0 12px">If you have questions in the meantime, just reply to this email or call (410) 231-3076.</p>
     <p style="color:#5b6168;line-height:1.6;margin:0">Warmly,<br/>The My Home Cares Team</p>`
   );
-  await sendMail({ to: [a.email], subject: "We received your application — My Home Cares", html });
+  await sendMail({ to: [a.email], subject: "We received your application, My Home Cares", html });
 }
 
 async function buildPdf(a: App): Promise<string> {
@@ -230,8 +230,8 @@ async function buildPdf(a: App): Promise<string> {
   field("Employment type", a.employment_type || "—");
   field("Earliest start date", a.start_date || "—");
   field("Reliable transportation", d.transportation || "—");
-  field("Availability — days", a.availability_days.join(", ") || "—");
-  field("Availability — shifts", a.availability_shifts.join(", ") || "—");
+  field("Availability, days", a.availability_days.join(", ") || "—");
+  field("Availability, shifts", a.availability_shifts.join(", ") || "—");
 
   heading("Certifications & experience");
   field("Certifications held", d.certs_held.join(", ") || "—");
@@ -261,7 +261,7 @@ async function emailApplication(a: App, attachments: Attachment[]) {
   const to = (process.env.APPLY_NOTIFY_TO || "info@myhomecares.com,lulu@myhomecares.com")
     .split(",")
     .map((s) => s.trim());
-  const subject = `New caregiver application — ${a.name}${a.position ? ` (${a.position})` : ""}`;
+  const subject = `New caregiver application, ${a.name}${a.position ? ` (${a.position})` : ""}`;
   const safe = (s: string) => String(s || "—").replace(/</g, "&lt;");
   const d = a.details;
 

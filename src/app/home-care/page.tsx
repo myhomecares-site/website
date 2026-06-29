@@ -7,7 +7,7 @@ import { Icon } from "@/components/icons";
 export const metadata: Metadata = {
   title: "Expert Home Care Services in Maryland",
   description:
-    "Compassionate, professional home care tailored to the unique needs of your loved ones across Maryland — skilled nursing, personal care, companionship and more.",
+    "Compassionate, professional home care tailored to the unique needs of your loved ones across Maryland, skilled nursing, personal care, companionship and more.",
 };
 
 export default function HomeCarePage() {

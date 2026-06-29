@@ -25,7 +25,7 @@ export const posts: Post[] = [
     date: "2026-06-25",
     category: "Family Resources",
     excerpt:
-      "Choosing a home care agency is a big decision. Use this Maryland RSA checklist — licensing, screening, and the right questions to ask.",
+      "Choosing a home care agency is a big decision. Use this Maryland RSA checklist, licensing, screening, and the right questions to ask.",
   },
   {
     slug: "how-to-pay-for-home-care-maryland",
@@ -33,7 +33,7 @@ export const posts: Post[] = [
     date: "2026-06-20",
     category: "Paying for Care",
     excerpt:
-      "Private pay, long-term care insurance, Medicaid waivers, and VA benefits — a plain-English look at how Maryland families pay for home care.",
+      "Private pay, long-term care insurance, Medicaid waivers, and VA benefits, a plain-English look at how Maryland families pay for home care.",
   },
   {
     slug: "honoring-veterans-through-compassionate-home-care",
@@ -41,7 +41,7 @@ export const posts: Post[] = [
     date: "2024-11-11",
     category: "Community",
     excerpt:
-      "A Veterans Day commitment from My Home Cares — recognizing those who served with dignified, compassionate care at home.",
+      "A Veterans Day commitment from My Home Cares, recognizing those who served with dignified, compassionate care at home.",
   },
   {
     slug: "world-diabetes-day-raising-awareness",
@@ -63,7 +63,7 @@ export const posts: Post[] = [
     title: "The Future of Home Care: Trends and Predictions for 2024",
     date: "2024-06-06",
     category: "Industry",
-    excerpt: "The trends shaping the future of home care — from technology to personalized models.",
+    excerpt: "The trends shaping the future of home care, from technology to personalized models.",
   },
   {
     slug: "supporting-family-caregivers-respite-care",
@@ -140,7 +140,7 @@ export const posts: Post[] = [
     title: "Leveraging Technology for Better Home Care: From Wearables to Remote Monitoring",
     date: "2024-06-06",
     category: "Technology",
-    excerpt: "From wearables to remote monitoring — technology that improves safety and care.",
+    excerpt: "From wearables to remote monitoring, technology that improves safety and care.",
   },
 ];
 

@@ -42,7 +42,7 @@ export async function generateMetadata({
   const loc = locationMap.get(slug);
   if (loc) {
     const title = `Home Care Services in ${loc.name}, MD`;
-    const description = `Compassionate in-home care in ${loc.name}, Maryland — skilled nursing, personal care, companion care, respite, and homemaking from My Home Cares. Call ${site.phone} for a free consultation.`;
+    const description = `Compassionate in-home care in ${loc.name}, Maryland, skilled nursing, personal care, companion care, respite, and homemaking from My Home Cares. Call ${site.phone} for a free consultation.`;
     return {
       title,
       description,
@@ -108,7 +108,7 @@ function CareFormTemplate({ form }: { form: CareForm }) {
             </div>
             <p className="mt-6 leading-relaxed text-muted">
               Need a copy of this form, or have questions about our documentation and care planning?
-              Our team is happy to help — reach out any time.
+              Our team is happy to help, reach out any time.
             </p>
             <div className="mt-6">
               <Button href="/contact" withArrow>Contact Our Care Team</Button>
@@ -175,7 +175,7 @@ function ServiceTemplate({ service }: { service: Service }) {
                 className="mb-8 aspect-[16/9] w-full rounded-2xl"
               />
             )}
-            <h2 className="text-2xl font-bold sm:text-3xl">Specialized {service.title} Care</h2>
+            <h2 className="text-2xl font-bold sm:text-3xl">Specialized {service.title}</h2>
             <p className="mt-4 text-lg leading-relaxed text-muted">{service.intro}</p>
 
             <div className="mt-8 rounded-2xl border border-border bg-surface p-6 sm:p-8">
@@ -190,7 +190,7 @@ function ServiceTemplate({ service }: { service: Service }) {
               <p className="mt-3 leading-relaxed text-muted">
                 Choosing My Home Cares means entrusting your loved ones to a team renowned for
                 expertise and compassion across Maryland. Our caregivers are highly qualified and
-                deeply committed to care that goes beyond the basics — coordinating closely with
+                deeply committed to care that goes beyond the basics, coordinating closely with
                 families and providers to enhance quality of life. It&apos;s a personal touch that
                 sets us apart as a leading provider of {service.title.toLowerCase()}.
               </p>
@@ -233,7 +233,7 @@ function LocationTemplate({ name }: { name: string }) {
   const cards = [
     {
       title: `Skilled Nursing in ${name}`,
-      description: `For ${name} seniors needing skilled nursing at home — wound care, respiratory support, trach management, pre/post-surgery assistance and more.`,
+      description: `For ${name} seniors needing skilled nursing at home, wound care, respiratory support, trach management, pre/post-surgery assistance and more.`,
       href: "/skilled-nursing",
       icon: "stethoscope",
     },
@@ -288,7 +288,7 @@ function LocationTemplate({ name }: { name: string }) {
             {name} families rely on My Home Cares for a full range of professional in-home health
             services delivered with expertise and care. Our skilled nurses provide wound management,
             IV therapies, catheter training and more. Caregivers promote independence by assisting
-            with grooming, bathing, meal preparation and daily tasks — bringing skilled nursing and
+            with grooming, bathing, meal preparation and daily tasks, bringing skilled nursing and
             personal care tailored to each individual&apos;s needs, right at home.
           </p>
         </div>
@@ -308,7 +308,7 @@ function LocationTemplate({ name }: { name: string }) {
               With years of experience serving {name}, My Home Cares is a trusted provider of skilled
               nursing and personalized home care assistance. Our
               local team delivers professional home health care tailored to each client&apos;s unique
-              needs — enabling independence and elevating quality of life, brought directly to your
+              needs, enabling independence and elevating quality of life, brought directly to your
               door.
             </p>
             <div className="mt-8">
@@ -325,7 +325,7 @@ function LocationTemplate({ name }: { name: string }) {
         </div>
       </Section>
 
-      <CTASection title={`Get in Touch — Serving ${name}, MD`} />
+      <CTASection title={`Get in Touch, Serving ${name}, MD`} />
     </>
   );
 }

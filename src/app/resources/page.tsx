@@ -8,7 +8,7 @@ import { Icon } from "@/components/icons";
 export const metadata: Metadata = {
   title: "Care Resources & Forms",
   description:
-    "Care documentation and forms used by the My Home Cares team — service plans, assessments, medication records, and daily logs.",
+    "Care documentation and forms used by the My Home Cares team, service plans, assessments, medication records, and daily logs.",
 };
 
 export default function ResourcesPage() {

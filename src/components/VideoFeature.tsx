@@ -34,7 +34,7 @@ export function VideoFeature() {
             <h2 className="text-3xl font-bold sm:text-4xl">Compassionate care, in action</h2>
             <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
               Watch how My Home Cares brings skilled, heartfelt support into the homes of Maryland
-              families — helping your loved ones live with comfort, dignity, and independence.
+              families, helping your loved ones live with comfort, dignity, and independence.
             </p>
             <ul className="mt-6 space-y-3">
               {[

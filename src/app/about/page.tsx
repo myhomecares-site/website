@@ -32,7 +32,7 @@ export default function AboutPage() {
       <PageHero
         eyebrow="Trusted Home Care in Maryland"
         title="About My Home Cares"
-        subtitle="Launched in 2018, My Home Cares was born from the success of our software application — combining technology with compassionate care to help individuals of all ages live with dignity and comfort at home."
+        subtitle="Launched in 2018, My Home Cares was born from the success of our software application, combining technology with compassionate care to help individuals of all ages live with dignity and comfort at home."
       >
         <Button href="/contact" withArrow>Schedule a Consultation</Button>
       </PageHero>
@@ -55,10 +55,10 @@ export default function AboutPage() {
             </p>
             <blockquote className="mt-6 border-l-4 border-primary pl-5 italic text-ink-soft">
               &ldquo;At My Home Cares, we believe in the transformative power of personalized care.
-              We&apos;re not just nurses — we&apos;re care companions on your journey to health and
+              We&apos;re not just nurses, we&apos;re care companions on your journey to health and
               happiness.&rdquo;
               <footer className="mt-2 text-sm font-semibold not-italic text-muted">
-                — Perina Gaines, RN, Clinical Assessment Administrator
+               , Perina Gaines, RN, Clinical Assessment Administrator
               </footer>
             </blockquote>
           </div>
@@ -66,7 +66,7 @@ export default function AboutPage() {
             <div className="rounded-2xl border border-border bg-surface p-6">
               <h3 className="text-lg font-bold">Our Mission</h3>
               <p className="mt-3 leading-relaxed text-muted">
-                To act as an extended branch of care — offering peace of mind and enabling your
+                To act as an extended branch of care, offering peace of mind and enabling your
                 cherished ones, at any age, to thrive within the comforting embrace of their own
                 homes. We foster an environment where love and support serve as the foundation for
                 transformative care.
@@ -76,7 +76,7 @@ export default function AboutPage() {
               <h3 className="text-lg font-bold">Innovation in Care</h3>
               <p className="mt-3 leading-relaxed text-muted">
                 We are developing a state-of-the-art software application to revolutionize how we
-                support patients, staff and families — enhancing communication, streamlining
+                support patients, staff and families, enhancing communication, streamlining
                 processes, and providing valuable resources across our care network.
               </p>
             </div>

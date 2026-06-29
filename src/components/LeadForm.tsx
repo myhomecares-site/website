@@ -70,7 +70,7 @@ export function LeadForm({ compact = false, source = "contact", withTime = false
         <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-accent-50 text-accent-dark">
           <Icon name="check" className="h-7 w-7" strokeWidth={2.5} />
         </span>
-        <h3 className="text-lg font-bold text-ink">Thank you — we&apos;ll be in touch</h3>
+        <h3 className="text-lg font-bold text-ink">Thank you, we&apos;ll be in touch</h3>
         <p className="text-sm text-muted">
           A member of our care team will reach out shortly. For urgent needs, call us directly.
         </p>

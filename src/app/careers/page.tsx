@@ -8,7 +8,7 @@ import { Icon } from "@/components/icons";
 export const metadata: Metadata = {
   title: "Careers in Maryland",
   description:
-    "A rewarding career in home care awaits. Join My Home Cares — apply online for caregiver, CNA/GNA, CMT, and nursing roles across Maryland.",
+    "A rewarding career in home care awaits. Join My Home Cares, apply online for caregiver, CNA/GNA, CMT, and nursing roles across Maryland.",
 };
 
 const perks = [
@@ -24,7 +24,7 @@ export default function CareersPage() {
       <PageHero
         eyebrow="Home Care Jobs in Maryland"
         title="A rewarding career in home care awaits"
-        subtitle="My Home Cares is more than a workplace — it's a community where compassion, excellence, and dedication are at the heart of everything we do."
+        subtitle="My Home Cares is more than a workplace, it's a community where compassion, excellence, and dedication are at the heart of everything we do."
       >
         <Button href="/job-application" withArrow>Apply Now</Button>
         <Button href="#openings" variant="outline">View Job Postings</Button>
@@ -38,7 +38,7 @@ export default function CareersPage() {
               Our team members are valued not just for their skills, but for the unique perspectives
               and passion they bring to our mission of providing outstanding care. We offer a
               supportive, inclusive environment that fosters professional growth and personal
-              fulfillment — and the opportunity to make a real difference in your community.
+              fulfillment, and the opportunity to make a real difference in your community.
             </p>
             <div className="mt-8">
               <Button href="#openings" withArrow>View Job Postings</Button>
@@ -64,7 +64,7 @@ export default function CareersPage() {
           center
           eyebrow="Open Positions"
           title="Current job postings"
-          intro="Find your fit below and apply in minutes — tell us your availability and we'll be in touch."
+          intro="Find your fit below and apply in minutes, tell us your availability and we'll be in touch."
         />
         <div className="mx-auto mt-12 max-w-4xl space-y-6">
           {jobs.map((job) => (
@@ -127,7 +127,7 @@ export default function CareersPage() {
             <h2 className="text-2xl font-bold sm:text-3xl">Complete your OHCQ-compliant training online</h2>
             <p className="mt-4 leading-relaxed text-muted">
               New and current caregivers complete our Maryland RSA training through short video
-              modules — designed by our Director of Nursing and finished with a certification check.
+              modules, designed by our Director of Nursing and finished with a certification check.
               About 30 minutes, right from your phone.
             </p>
           </div>

@@ -4,7 +4,7 @@ export type Faq = { q: string; a: string };
 export const faqs: Faq[] = [
   {
     q: "What areas of Maryland does My Home Cares serve?",
-    a: "We provide in-home care across Maryland, including the Central, Capital, Western, Southern, and Eastern Shore regions — covering 24+ counties such as Baltimore, Anne Arundel, Howard, Montgomery, Prince George's, Frederick, Harford, and more. If you don't see your county listed, call us; we're always expanding.",
+    a: "We provide in-home care across Maryland, including the Central, Capital, Western, Southern, and Eastern Shore regions, covering 24+ counties such as Baltimore, Anne Arundel, Howard, Montgomery, Prince George's, Frederick, Harford, and more. If you don't see your county listed, call us; we're always expanding.",
   },
   {
     q: "Is My Home Cares licensed in Maryland?",
@@ -12,7 +12,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "What home care services do you offer?",
-    a: "We offer skilled nursing, personal care (bathing, dressing, grooming, mobility), companion care, respite care for family caregivers, homemaking, and meal planning and preparation — all tailored to your loved one's needs.",
+    a: "We offer skilled nursing, personal care (bathing, dressing, grooming, mobility), companion care, respite care for family caregivers, homemaking, and meal planning and preparation, all tailored to your loved one's needs.",
   },
   {
     q: "How much does home care cost, and how can it be paid for?",
@@ -28,7 +28,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "Do you offer 24/7 or live-in care?",
-    a: "Yes. We offer flexible scheduling — from a few hours a week to full-time, overnight, and 24/7 or live-in care — depending on what your loved one needs.",
+    a: "Yes. We offer flexible scheduling, from a few hours a week to full-time, overnight, and 24/7 or live-in care, depending on what your loved one needs.",
   },
   {
     q: "How do I get started?",

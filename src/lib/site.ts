@@ -6,7 +6,7 @@ export const site = {
   shortName: "MHC",
   tagline: "Maryland's finest home care services",
   description:
-    "Compassionate, personalized in-home care across Maryland — skilled nursing, personal care, companionship, and more.",
+    "Compassionate, personalized in-home care across Maryland, skilled nursing, personal care, companionship, and more.",
   url: "https://www.myhomecares.com",
   trainingUrl: "https://myhomecares-training.vercel.app/",
   // Replace with your Google Business Profile "write a review" short link once claimed
@@ -44,12 +44,12 @@ export const services = [
     slug: "skilled-nursing",
     title: "Skilled Nursing",
     short:
-      "Professional medical care at home — wound care, post-surgery support, respiratory, cardiac and diabetic care, IV therapies and more.",
+      "Professional medical care at home, wound care, post-surgery support, respiratory, cardiac and diabetic care, IV therapies and more.",
     hero: "Expert Skilled Nursing in Maryland",
     subhead:
       "The highest standard of skilled nursing care in Maryland, ensuring your loved ones receive professional and compassionate medical attention.",
     intro:
-      "My Home Cares delivers professional medical care right in the comfort of your home. Our skilled nurses handle everything from routine assessments and monitoring to complex care needs — with patient safety and comfort always first.",
+      "My Home Cares delivers professional medical care right in the comfort of your home. Our skilled nurses handle everything from routine assessments and monitoring to complex care needs, with patient safety and comfort always first.",
     features: [
       "Nursing assessments and ongoing health monitoring",
       "Comprehensive wound care and management",
@@ -68,7 +68,7 @@ export const services = [
     subhead:
       "Enhancing daily living with personalized care that ensures dignity and independence for your loved ones.",
     intro:
-      "Each person has unique needs, so our personal care assistance is tailored to every individual we serve — always prioritizing dignity, comfort and trust.",
+      "Each person has unique needs, so our personal care assistance is tailored to every individual we serve, always prioritizing dignity, comfort and trust.",
     features: [
       "Assistance with bathing, dressing, and grooming",
       "Mobility support and transfer assistance",
@@ -82,12 +82,12 @@ export const services = [
     slug: "companion-care",
     title: "Companion Care",
     short:
-      "Genuine connection — conversation, hobbies, outings and emotional support that combat loneliness and isolation.",
+      "Genuine connection, conversation, hobbies, outings and emotional support that combat loneliness and isolation.",
     hero: "Companion Care Services in Maryland",
     subhead:
       "Fostering meaningful connections and joyful experiences that enhance quality of life for your loved ones.",
     intro:
-      "Companionship is more than presence — it's genuine connection. Our caregivers create a comfortable, stimulating environment tailored to each client's interests.",
+      "Companionship is more than presence, it's genuine connection. Our caregivers create a comfortable, stimulating environment tailored to each client's interests.",
     features: [
       "Engaging and meaningful conversation",
       "Participation in hobbies and interests",
@@ -101,7 +101,7 @@ export const services = [
     slug: "respite-care",
     title: "Respite Care",
     short:
-      "Temporary, reliable relief for family caregivers — so you can rest and recharge while care continues uninterrupted.",
+      "Temporary, reliable relief for family caregivers, so you can rest and recharge while care continues uninterrupted.",
     hero: "Quality Respite Care in Maryland",
     subhead:
       "Essential breaks for family caregivers, delivered with compassion and continuity of care.",
@@ -120,7 +120,7 @@ export const services = [
     slug: "homemaking",
     title: "Homemaking",
     short:
-      "A clean, safe and orderly home — light housekeeping, laundry, meal prep, grocery shopping and errands.",
+      "A clean, safe and orderly home, light housekeeping, laundry, meal prep, grocery shopping and errands.",
     hero: "Professional Homemaking Services in Maryland",
     subhead:
       "The comfort and convenience of a well-kept home, designed to enhance your daily living environment.",
@@ -139,7 +139,7 @@ export const services = [
     slug: "meal-planning-and-preparation",
     title: "Meal Planning & Preparation",
     short:
-      "Nutritious, dietary-tailored meals — from planning and grocery shopping to cooking and clean-up.",
+      "Nutritious, dietary-tailored meals, from planning and grocery shopping to cooking and clean-up.",
     hero: "Nutritious Meal Planning in Maryland",
     subhead:
       "Tailored meal planning and preparation that ensures healthy, enjoyable meals for you and your loved ones.",
@@ -209,7 +209,7 @@ export const homeCareSubservices = [
   "respite-care",
 ];
 
-// Maryland service areas — region + counties. Slugs match legacy URLs for SEO.
+// Maryland service areas, region + counties. Slugs match legacy URLs for SEO.
 export const regions = [
   {
     name: "Western Region",
@@ -275,14 +275,14 @@ export const locations = [
   ),
 ];
 
-// Care forms & resources — slugs match legacy URLs.
+// Care forms & resources, slugs match legacy URLs.
 export const careForms = [
   {
     slug: "caregiver-service-plan",
     title: "Caregiver Service Plan",
     summary: "The individualized plan of care that guides every visit.",
     purpose:
-      "A documented plan outlining each client's specific care needs, goals, schedule, and the tasks assigned to caregivers — reviewed and updated as needs change.",
+      "A documented plan outlining each client's specific care needs, goals, schedule, and the tasks assigned to caregivers, reviewed and updated as needs change.",
     captures: ["Client goals & preferences", "Assigned care tasks", "Visit schedule", "Review dates"],
   },
   {
@@ -322,7 +322,7 @@ export const careForms = [
     title: "Emergency Medical Data Sheet",
     summary: "Critical information ready for any emergency.",
     purpose:
-      "A single sheet consolidating key medical information — conditions, medications, allergies, and contacts — to share quickly with first responders.",
+      "A single sheet consolidating key medical information, conditions, medications, allergies, and contacts, to share quickly with first responders.",
     captures: ["Conditions & allergies", "Current medications", "Physician & pharmacy", "Emergency contacts"],
   },
   {
@@ -330,7 +330,7 @@ export const careForms = [
     title: "Caregiver Daily Log",
     summary: "A daily record of care, tasks, and observations.",
     purpose:
-      "A visit-by-visit log of tasks completed, meals, activities, and any changes in condition — keeping families informed and care consistent.",
+      "A visit-by-visit log of tasks completed, meals, activities, and any changes in condition, keeping families informed and care consistent.",
     captures: ["Tasks completed", "Meals & fluids", "Mood & activity", "Notes & changes"],
   },
 ] as const;

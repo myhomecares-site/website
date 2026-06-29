@@ -8,7 +8,7 @@ export function Logo() {
   return (
     <Link href="/" className="inline-flex items-center" aria-label={site.name}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={LOGO_WORDMARK_DATA} alt={`${site.name} — Where Service Matters`} className="h-14 w-auto sm:h-16" />
+      <img src={LOGO_WORDMARK_DATA} alt={`${site.name}, Where Service Matters`} className="h-14 w-auto sm:h-16" />
     </Link>
   );
 }

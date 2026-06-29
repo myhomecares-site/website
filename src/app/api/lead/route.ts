@@ -101,7 +101,7 @@ async function autoReply(r: { name: string; email: string }) {
     `<p style="color:#5b6168;line-height:1.6;margin:0 0 12px">We've received your request and a member of our care team will reach out shortly to discuss how we can help you and your loved one. For anything urgent, call us at (410) 231-3076.</p>
     <p style="color:#5b6168;line-height:1.6;margin:0">Warmly,<br/>The My Home Cares Team</p>`
   );
-  await sendMail({ to: [r.email], subject: "We received your request — My Home Cares", html });
+  await sendMail({ to: [r.email], subject: "We received your request, My Home Cares", html });
 }
 
 type LeadRecord = {
@@ -125,7 +125,7 @@ type LeadRecord = {
 
 async function notify(r: LeadRecord) {
   const to = (process.env.NOTIFY_TO || "info@myhomecares.com").split(",").map((s) => s.trim());
-  const subject = `New consultation request from ${r.name} — myhomecares.com`;
+  const subject = `New consultation request from ${r.name}, myhomecares.com`;
   const d = r.details;
 
   const fields: [string, string][] = [

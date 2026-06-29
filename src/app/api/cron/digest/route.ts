@@ -3,7 +3,7 @@ import { sendMail, brandedEmail } from "@/lib/mail";
 
 export const runtime = "nodejs";
 
-// Weekly insights digest — triggered by Vercel Cron (see vercel.json).
+// Weekly insights digest, triggered by Vercel Cron (see vercel.json).
 // Reads the past week's consultation requests + applications and emails a summary.
 export async function GET(req: Request) {
   // Protect the endpoint: Vercel Cron sends this header when CRON_SECRET is set.
@@ -76,7 +76,7 @@ export async function GET(req: Request) {
   const to = (process.env.DIGEST_TO || "info@myhomecares.com").split(",").map((s) => s.trim());
   await sendMail({
     to,
-    subject: `Weekly insights — ${leads.length} requests, ${apps.length} applications`,
+    subject: `Weekly insights, ${leads.length} requests, ${apps.length} applications`,
     html,
   });
 

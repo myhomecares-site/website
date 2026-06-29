@@ -26,7 +26,7 @@ function StartButton({ className = "" }: { className?: string }) {
 }
 
 const steps = [
-  { icon: "phone", title: "Sign in", text: "Enter your phone number — we text you a 6-digit code. No password needed." },
+  { icon: "phone", title: "Sign in", text: "Enter your phone number, we text you a 6-digit code. No password needed." },
   { icon: "activity", title: "Watch the modules", text: "Short video segments covering each OHCQ-required competency. Go at your own pace." },
   { icon: "check", title: "Pass the check", text: "Score 80% or higher on a short quiz to receive your training certificate." },
 ];
@@ -44,7 +44,7 @@ export default function TrainingPage() {
       <PageHero
         eyebrow="OHCQ-Compliant Caregiver Training"
         title="RSA caregiver training, made simple"
-        subtitle="Maryland OHCQ-compliant Residential Service Agency training for My Home Cares caregivers — short video modules covering the required competencies, ending with a quick certification check. We'll guide you the whole way."
+        subtitle="Maryland OHCQ-compliant Residential Service Agency training for My Home Cares caregivers, short video modules covering the required competencies, ending with a quick certification check. We'll guide you the whole way."
       >
         <StartButton />
         <span className="self-center text-sm text-muted">Takes about 30 minutes · works on your phone</span>

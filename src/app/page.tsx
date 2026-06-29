@@ -87,7 +87,7 @@ export default function Home() {
 
       <TrustBand />
 
-      {/* Find Your Care — consultation */}
+      {/* Find Your Care, consultation */}
       <Section>
         <div className="grid items-center gap-10 overflow-hidden rounded-3xl border border-border bg-surface p-6 sm:p-10 lg:grid-cols-2">
           <div>
@@ -166,7 +166,7 @@ export default function Home() {
             <p className="eyebrow mb-3">About My Home Cares</p>
             <h2 className="text-3xl font-bold sm:text-4xl">Your trusted Maryland home care provider</h2>
             <p className="mt-5 text-lg leading-relaxed text-muted">
-              Since 2018, My Home Cares has been dedicated to quality care across Maryland — from
+              Since 2018, My Home Cares has been dedicated to quality care across Maryland, from
               skilled nursing to personalized home assistance, tailored to the unique needs of those
               we serve. We extend professional caregiving to families and individuals right at their
               doorstep.
@@ -174,7 +174,7 @@ export default function Home() {
             <blockquote className="mt-6 border-l-4 border-primary pl-5 text-ink-soft italic">
               &ldquo;{site.signature}&rdquo;
               <footer className="mt-2 text-sm font-semibold not-italic text-muted">
-                — {site.signatureBy}
+               , {site.signatureBy}
               </footer>
             </blockquote>
             <div className="mt-8">
@@ -186,9 +186,9 @@ export default function Home() {
           <div className="grid gap-5 sm:grid-cols-2">
             {[
               { icon: "heart-hand", title: "People-first", text: "Care that honors dignity, comfort and independence." },
-              { icon: "shield-heart", title: "Trusted & licensed", text: `Maryland licensed — ${site.license}.` },
+              { icon: "shield-heart", title: "Trusted & licensed", text: `Maryland licensed, ${site.license}.` },
               { icon: "users", title: "Family-oriented team", text: "Caregivers who treat your loved ones like their own." },
-              { icon: "activity", title: "Tech-enabled care", text: "Built from a software company — innovation at our core." },
+              { icon: "activity", title: "Tech-enabled care", text: "Built from a software company, innovation at our core." },
             ].map((c) => (
               <div key={c.title} className="rounded-2xl border border-border bg-white p-5 card-shadow">
                 <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary-50 text-primary">
@@ -238,7 +238,7 @@ export default function Home() {
           center
           eyebrow="Questions & Answers"
           title="Frequently asked questions"
-          intro="Quick answers about home care in Maryland — services, cost, and getting started."
+          intro="Quick answers about home care in Maryland, services, cost, and getting started."
         />
         <div className="mt-10">
           <FaqList items={faqs.slice(0, 5)} />

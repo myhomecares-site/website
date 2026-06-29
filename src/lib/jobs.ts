@@ -18,7 +18,7 @@ export const jobs: Job[] = [
     type: "Full-Time & Part-Time",
     schedule: "Flexible shifts across Maryland",
     summary:
-      "Provide compassionate, day-to-day support that helps clients live comfortably and independently at home — from companionship to help with daily activities.",
+      "Provide compassionate, day-to-day support that helps clients live comfortably and independently at home, from companionship to help with daily activities.",
     responsibilities: [
       "Assist with bathing, dressing, grooming, and mobility",
       "Prepare meals and help with light housekeeping and errands",
@@ -45,7 +45,7 @@ export const jobs: Job[] = [
     slug: "cna-gna",
     title: "Certified Nursing Assistant (CNA) / GNA",
     type: "Part-Time",
-    schedule: "Flexible — approx. 20 hours per week",
+    schedule: "Flexible, approx. 20 hours per week",
     summary:
       "We're looking for a dedicated, compassionate CNA/GNA to deliver the highest standard of hands-on care to our clients in their homes.",
     responsibilities: [
@@ -105,7 +105,7 @@ export const jobs: Job[] = [
     type: "Full-Time, Part-Time & Per Diem",
     schedule: "Flexible scheduling",
     summary:
-      "Deliver skilled nursing care in clients' homes — assessments, wound care, medication management, and more — with expertise and compassion.",
+      "Deliver skilled nursing care in clients' homes, assessments, wound care, medication management, and more, with expertise and compassion.",
     responsibilities: [
       "Conduct nursing assessments and ongoing health monitoring",
       "Provide wound care, medication management, and skilled interventions",

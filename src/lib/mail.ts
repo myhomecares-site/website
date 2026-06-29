@@ -9,7 +9,7 @@ export function brandedEmail(heading: string, body: string): string {
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
     <table role="presentation" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px;background:#ffffff;border:1px solid #e6e8ea;border-radius:14px;overflow:hidden">
       <tr><td style="background:#ffffff;padding:26px 28px 18px;border-bottom:3px solid #009ee6;text-align:center">
-        <img src="https://www.myhomecares.com/brand/mhc-wordmark.png" alt="My Home Cares — Where Service Matters" width="210" style="display:inline-block;width:210px;max-width:72%;height:auto" />
+        <img src="https://www.myhomecares.com/brand/mhc-wordmark.png" alt="My Home Cares, Where Service Matters" width="210" style="display:inline-block;width:210px;max-width:72%;height:auto" />
       </td></tr>
       <tr><td style="padding:28px">
         <h1 style="margin:0 0 14px;font-size:20px;line-height:1.3;color:#009ee6">${heading}</h1>
@@ -43,7 +43,7 @@ export async function sendMail(opts: {
   const user = process.env.GMAIL_USER;
   const pass = process.env.GMAIL_APP_PASSWORD;
   if (!user || !pass) {
-    console.log("[mail] GMAIL_USER/GMAIL_APP_PASSWORD not configured — skipping send");
+    console.log("[mail] GMAIL_USER/GMAIL_APP_PASSWORD not configured, skipping send");
     return;
   }
 

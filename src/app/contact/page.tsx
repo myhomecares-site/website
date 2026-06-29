@@ -7,7 +7,7 @@ import { Icon } from "@/components/icons";
 export const metadata: Metadata = {
   title: "Contact Us",
   description:
-    "Get in touch with My Home Cares for personalized home care services in Maryland. Fill out our contact form for all inquiries — we're here to help.",
+    "Get in touch with My Home Cares for personalized home care services in Maryland. Fill out our contact form for all inquiries, we're here to help.",
 };
 
 export default function ContactPage() {

@@ -34,7 +34,7 @@ export default async function JobApplicationPage({
               <p className="mt-3 text-lg text-muted">
                 You&apos;re applying for{" "}
                 <span className="font-semibold text-ink">{job.title}</span>. Fill out the application
-                below — including your availability — and we&apos;ll be in touch.
+                below, including your availability, and we&apos;ll be in touch.
               </p>
             ) : (
               <p className="mt-3 text-lg text-muted">

@@ -84,7 +84,7 @@ export default async function BlogPostPage({
                 <p className="text-lg text-ink-soft">{post.excerpt}</p>
                 <div className="mt-6 rounded-2xl border border-border bg-surface p-6 text-sm text-muted">
                   The full article is being migrated from our previous site. In the meantime, our care
-                  team is happy to answer any questions on this topic — reach out any time.
+                  team is happy to answer any questions on this topic, reach out any time.
                 </div>
               </>
             );

@@ -53,7 +53,7 @@ export function TrustBand() {
 
 export function HowItWorks() {
   const steps = [
-    { icon: "phone", title: "Free consultation", text: "We listen to your family's needs and answer every question — no pressure, no obligation." },
+    { icon: "phone", title: "Free consultation", text: "We listen to your family's needs and answer every question, no pressure, no obligation." },
     { icon: "heart-hand", title: "Personalized care plan", text: "We build a tailored plan around your loved one's health, routine, and preferences." },
     { icon: "users", title: "Matched caregiver", text: "We pair you with a trained, compassionate caregiver who's the right fit." },
     { icon: "shield-heart", title: "Ongoing support", text: "We check in, adapt the plan as needs change, and stay reachable around the clock." },
@@ -64,7 +64,7 @@ export function HowItWorks() {
         <div className="mx-auto max-w-2xl text-center">
           <p className="eyebrow mb-3">Getting Started Is Simple</p>
           <h2 className="text-3xl font-bold sm:text-4xl">How My Home Cares works</h2>
-          <p className="mt-4 text-lg text-muted">From first call to compassionate care at home — in four simple steps.</p>
+          <p className="mt-4 text-lg text-muted">From first call to compassionate care at home, in four simple steps.</p>
         </div>
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((s, i) => (

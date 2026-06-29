@@ -83,7 +83,7 @@ export function ApplicationForm({
         <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-accent-50 text-accent-dark">
           <Icon name="check" className="h-7 w-7" strokeWidth={2.5} />
         </span>
-        <h3 className="text-lg font-bold text-ink">Application received — thank you!</h3>
+        <h3 className="text-lg font-bold text-ink">Application received, thank you!</h3>
         <p className="max-w-sm text-sm text-muted">
           Our team will review your application and reach out soon. We appreciate your interest in joining My Home Cares.
         </p>
@@ -157,7 +157,7 @@ export function ApplicationForm({
           <YesNo name="transportation" label="Reliable transportation?" />
         </div>
         <div>
-          <label className={labelCls}>Availability — days</label>
+          <label className={labelCls}>Availability, days</label>
           <div className="flex flex-wrap gap-2">
             {DAYS.map((d) => (
               <label key={d} className={chip}>
@@ -168,7 +168,7 @@ export function ApplicationForm({
           </div>
         </div>
         <div>
-          <label className={labelCls}>Availability — shifts</label>
+          <label className={labelCls}>Availability, shifts</label>
           <div className="flex flex-wrap gap-2">
             {SHIFTS.map((s) => (
               <label key={s} className={chip}>
@@ -248,7 +248,7 @@ export function ApplicationForm({
       <div className="space-y-4">
         <SectionTitle>Documents</SectionTitle>
         <div className="rounded-xl border border-dashed border-border bg-surface p-4">
-          <p className="text-xs text-muted">Resume and any certifications (PDF, Word, or image — up to 4 MB total).</p>
+          <p className="text-xs text-muted">Resume and any certifications (PDF, Word, or image, up to 4 MB total).</p>
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
             <div>
               <label className={labelCls}>Resume</label>
