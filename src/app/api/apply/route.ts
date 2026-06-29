@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { PDFDocument, StandardFonts, rgb, type PDFPage, type PDFFont } from "pdf-lib";
-import { sendMail } from "@/lib/mail";
+import { sendMail, brandedEmail } from "@/lib/mail";
 
 export const runtime = "nodejs";
 
@@ -148,12 +148,12 @@ export async function POST(req: Request) {
 // Friendly confirmation sent automatically to the applicant.
 async function applicantReply(a: App) {
   if (!a.email) return;
-  const html = `<div style="font-family:Arial,sans-serif;max-width:520px;margin:auto;color:#1d1d1f">
-    <h2 style="color:#009ee6">Thanks for applying, ${a.name.replace(/</g, "&lt;")}!</h2>
-    <p style="color:#5b6168;line-height:1.6">We've received your application${a.position ? ` for <strong>${a.position.replace(/</g, "&lt;")}</strong>` : ""} and our team will review it and be in touch soon. We're excited that you're considering a career with My Home Cares.</p>
-    <p style="color:#5b6168;line-height:1.6">If you have questions in the meantime, just reply to this email or call (410) 231-3076.</p>
-    <p style="color:#5b6168;line-height:1.6">Warmly,<br/>The My Home Cares Team<br/>Where Service Matters</p>
-  </div>`;
+  const html = brandedEmail(
+    `Thanks for applying, ${a.name.replace(/</g, "&lt;")}!`,
+    `<p style="color:#5b6168;line-height:1.6;margin:0 0 12px">We've received your application${a.position ? ` for <strong>${a.position.replace(/</g, "&lt;")}</strong>` : ""} and our team will review it and be in touch soon. We're excited that you're considering a career with My Home Cares.</p>
+    <p style="color:#5b6168;line-height:1.6;margin:0 0 12px">If you have questions in the meantime, just reply to this email or call (410) 231-3076.</p>
+    <p style="color:#5b6168;line-height:1.6;margin:0">Warmly,<br/>The My Home Cares Team</p>`
+  );
   await sendMail({ to: [a.email], subject: "We received your application — My Home Cares", html });
 }
 
@@ -285,9 +285,9 @@ async function emailApplication(a: App, attachments: Attachment[]) {
     ["Documents", a.documents || "None attached"],
   ];
 
-  const html = `<div style="font-family:Arial,sans-serif;max-width:580px;margin:auto">
-    <h2 style="color:#009ee6">New caregiver application</h2>
-    <p style="color:#5b6168">Submitted through myhomecares.com. The full application PDF${a.documents ? ", resume/certifications," : ""} are attached.</p>
+  const html = brandedEmail(
+    "New caregiver application",
+    `<p style="color:#5b6168;margin:0 0 14px">Submitted through myhomecares.com. The full application PDF${a.documents ? ", resume/certifications," : ""} are attached.</p>
     <table style="border-collapse:collapse;width:100%;border:1px solid #eee;border-radius:8px;overflow:hidden">
       ${rows
         .map(
@@ -296,8 +296,8 @@ async function emailApplication(a: App, attachments: Attachment[]) {
         )
         .join("")}
     </table>
-    <p style="color:#99a0aa;font-size:12px;margin-top:16px">Reply to this email to reach the candidate${a.email ? ` (${a.email})` : ""}.</p>
-  </div>`;
+    <p style="color:#99a0aa;font-size:12px;margin-top:16px">Reply to this email to reach the candidate${a.email ? ` (${a.email})` : ""}.</p>`
+  );
 
   await sendMail({ to, subject, html, replyTo: a.email || undefined, attachments });
 }

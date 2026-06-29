@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { sendMail } from "@/lib/mail";
+import { sendMail, brandedEmail } from "@/lib/mail";
 
 export const runtime = "nodejs";
 
@@ -95,11 +95,12 @@ export async function POST(req: Request) {
 // Friendly confirmation sent automatically to the person who reached out.
 async function autoReply(r: { name: string; email: string }) {
   if (!r.email) return;
-  const html = `<div style="font-family:Arial,sans-serif;max-width:520px;margin:auto;color:#1d1d1f">
-    <h2 style="color:#009ee6">Thank you, ${String(r.name || "").replace(/</g, "&lt;") || "there"}!</h2>
-    <p style="color:#5b6168;line-height:1.6">We've received your request and a member of our care team will reach out shortly to discuss how we can help you and your loved one. For anything urgent, call us at (410) 231-3076.</p>
-    <p style="color:#5b6168;line-height:1.6">Warmly,<br/>The My Home Cares Team<br/>Where Service Matters</p>
-  </div>`;
+  const name = String(r.name || "").replace(/</g, "&lt;") || "there";
+  const html = brandedEmail(
+    `Thank you, ${name}!`,
+    `<p style="color:#5b6168;line-height:1.6;margin:0 0 12px">We've received your request and a member of our care team will reach out shortly to discuss how we can help you and your loved one. For anything urgent, call us at (410) 231-3076.</p>
+    <p style="color:#5b6168;line-height:1.6;margin:0">Warmly,<br/>The My Home Cares Team</p>`
+  );
   await sendMail({ to: [r.email], subject: "We received your request — My Home Cares", html });
 }
 
@@ -149,12 +150,12 @@ async function notify(r: LeadRecord) {
     )
     .join("");
 
-  const html = `<div style="font-family:Arial,sans-serif;max-width:560px;margin:auto">
-    <h2 style="color:#009ee6">New consultation request</h2>
-    <p style="color:#5b6168">Submitted through myhomecares.com.</p>
+  const html = brandedEmail(
+    "New consultation request",
+    `<p style="color:#5b6168;margin:0 0 14px">Submitted through myhomecares.com.</p>
     <table style="border-collapse:collapse;width:100%;border:1px solid #eee;border-radius:8px;overflow:hidden">${rows}</table>
-    <p style="color:#99a0aa;font-size:12px;margin-top:16px">Reply directly to this email to reach the person${r.email ? ` (${r.email})` : ""}.</p>
-  </div>`;
+    <p style="color:#99a0aa;font-size:12px;margin-top:16px">Reply directly to this email to reach the person${r.email ? ` (${r.email})` : ""}.</p>`
+  );
 
   await sendMail({ to, subject, html, replyTo: r.email || undefined });
 }

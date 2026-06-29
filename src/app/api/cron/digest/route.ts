@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { sendMail } from "@/lib/mail";
+import { sendMail, brandedEmail } from "@/lib/mail";
 
 export const runtime = "nodejs";
 
@@ -54,10 +54,10 @@ export async function GET(req: Request) {
   const top = (pairs: [string, number][], n = 5) =>
     pairs.length ? pairs.slice(0, n).map(([k, v]) => `${k} (${v})`).join(", ") : "—";
 
-  const html = `<div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;color:#1d1d1f">
-    <h2 style="color:#009ee6">Weekly insights — My Home Cares</h2>
-    <p style="color:#5b6168">${new Date(since).toLocaleDateString("en-US")} – ${new Date().toLocaleDateString("en-US")}</p>
-    <h3 style="margin-bottom:4px">Consultation requests: ${leads.length}</h3>
+  const html = brandedEmail(
+    "Weekly insights",
+    `<p style="color:#5b6168;margin:0 0 14px">${new Date(since).toLocaleDateString("en-US")} – ${new Date().toLocaleDateString("en-US")}</p>
+    <h3 style="margin:0 0 6px;color:#1d2a39">Consultation requests: ${leads.length}</h3>
     <table style="border-collapse:collapse;width:100%;border:1px solid #eee;border-radius:8px;overflow:hidden">
       ${[
         ["Top counties/cities", top(leadCities)],
@@ -66,12 +66,12 @@ export async function GET(req: Request) {
         ["Lead sources", top(leadSource)],
       ].map(([k, v]) => `<tr><td style="padding:6px 12px;font-weight:600;color:#33373d;border-bottom:1px solid #eee;white-space:nowrap">${k}</td><td style="padding:6px 12px;border-bottom:1px solid #eee">${v}</td></tr>`).join("")}
     </table>
-    <h3 style="margin:18px 0 4px">Job applications: ${apps.length}</h3>
+    <h3 style="margin:18px 0 6px;color:#1d2a39">Job applications: ${apps.length}</h3>
     <table style="border-collapse:collapse;width:100%;border:1px solid #eee;border-radius:8px;overflow:hidden">
       <tr><td style="padding:6px 12px;font-weight:600;color:#33373d;border-bottom:1px solid #eee;white-space:nowrap">By position</td><td style="padding:6px 12px;border-bottom:1px solid #eee">${top(appPositions)}</td></tr>
     </table>
-    <p style="color:#99a0aa;font-size:12px;margin-top:16px">All submissions are in your Supabase database. This is an automated weekly summary.</p>
-  </div>`;
+    <p style="color:#99a0aa;font-size:12px;margin-top:16px">All submissions are in your Supabase database. This is an automated weekly summary.</p>`
+  );
 
   const to = (process.env.DIGEST_TO || "info@myhomecares.com").split(",").map((s) => s.trim());
   await sendMail({
