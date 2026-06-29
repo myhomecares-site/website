@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { BackToTop } from "@/components/BackToTop";
+import { ChatWidget } from "@/components/ChatWidget";
 import { StructuredData } from "@/components/StructuredData";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { site } from "@/lib/site";
@@ -55,6 +56,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <BackToTop />
+        <ChatWidget />
         <GoogleAnalytics />
       </body>
     </html>
