@@ -1,9 +1,32 @@
 import { site, regions } from "@/lib/site";
+import { testimonials } from "@/lib/testimonials";
 
 // LocalBusiness / HomeHealthCare schema. Listing every Maryland county under
 // areaServed helps Google connect regional/county searches to My Home Cares.
 export function StructuredData() {
   const counties = regions.flatMap((r) => r.counties);
+
+  // Only emit review markup when real reviews exist (never fabricate ratings).
+  const ratings = testimonials.map((t) => t.rating ?? 5);
+  const reviewData =
+    testimonials.length > 0
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1),
+            reviewCount: testimonials.length,
+            bestRating: 5,
+            worstRating: 1,
+          },
+          review: testimonials.map((t) => ({
+            "@type": "Review",
+            reviewRating: { "@type": "Rating", ratingValue: t.rating ?? 5, bestRating: 5, worstRating: 1 },
+            author: { "@type": "Person", name: t.name },
+            ...(t.date ? { datePublished: t.date } : {}),
+            reviewBody: t.quote,
+          })),
+        }
+      : {};
 
   const data = {
     "@context": "https://schema.org",
@@ -35,6 +58,7 @@ export function StructuredData() {
       site.social.x,
     ],
     hasCredential: "Maryland OHCQ License RSA-01229 | HCSA-00845",
+    ...reviewData,
   };
 
   return (

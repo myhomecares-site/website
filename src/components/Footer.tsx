@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { services, regions, site, associations, media } from "@/lib/site";
+import { services, regions, conditions, site, associations, media } from "@/lib/site";
 import { Logo } from "./Logo";
 import { Icon } from "./icons";
 
@@ -52,6 +52,16 @@ export function Footer() {
                 </li>
               ))}
             </ul>
+            <h4 className="mt-6 text-sm font-semibold uppercase tracking-wider text-white">Specialized Care</h4>
+            <ul className="mt-4 space-y-2.5 text-sm">
+              {conditions.map((c) => (
+                <li key={c.slug}>
+                  <Link href={`/${c.slug}`} className="text-white/70 transition-colors hover:text-white">
+                    {c.navLabel}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div>
@@ -60,6 +70,7 @@ export function Footer() {
               {[
                 { label: "About Us", href: "/about" },
                 { label: "Service Areas", href: "/service-areas" },
+                { label: "Reviews", href: "/reviews" },
                 { label: "Careers", href: "/careers" },
                 { label: "CareLink Staffing", href: "/carelink-staffing" },
                 { label: "Resources", href: "/resources" },

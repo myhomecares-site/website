@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { services, locations, careForms, serviceImages, site, type Service, type CareForm } from "@/lib/site";
+import { services, locations, careForms, conditions, serviceImages, site, type Service, type CareForm, type Condition } from "@/lib/site";
 import { Container, Section, Button } from "@/components/ui";
 import { FeatureList, CTASection, ServiceCard } from "@/components/blocks";
 import { SiteImage } from "@/components/SiteImage";
@@ -15,6 +15,7 @@ const locationMap = new Map<string, { name: string; slug: string }>(
   locations.map((l) => [l.slug, l])
 );
 const careFormMap = new Map<string, CareForm>(careForms.map((f) => [f.slug, f]));
+const conditionMap = new Map<string, Condition>(conditions.map((c) => [c.slug, c]));
 
 export const dynamicParams = false;
 
@@ -23,6 +24,7 @@ export function generateStaticParams() {
     ...services.map((s) => ({ slug: s.slug })),
     ...locations.map((l) => ({ slug: l.slug })),
     ...careForms.map((f) => ({ slug: f.slug })),
+    ...conditions.map((c) => ({ slug: c.slug })),
   ];
 }
 
@@ -54,6 +56,15 @@ export async function generateMetadata({
   if (form) {
     return { title: form.title, description: form.summary };
   }
+  const condition = conditionMap.get(slug);
+  if (condition) {
+    return {
+      title: condition.metaTitle,
+      description: condition.metaDescription,
+      alternates: { canonical: `${site.url}/${condition.slug}/` },
+      openGraph: { title: condition.metaTitle, description: condition.metaDescription, url: `${site.url}/${condition.slug}/`, type: "website" },
+    };
+  }
   return {};
 }
 
@@ -69,6 +80,8 @@ export default async function CatchAllPage({
   if (loc) return <LocationTemplate name={loc.name} />;
   const form = careFormMap.get(slug);
   if (form) return <CareFormTemplate form={form} />;
+  const condition = conditionMap.get(slug);
+  if (condition) return <ConditionTemplate condition={condition} />;
   notFound();
 }
 
@@ -326,6 +339,99 @@ function LocationTemplate({ name }: { name: string }) {
       </Section>
 
       <CTASection title={`Get in Touch, Serving ${name}, MD`} />
+    </>
+  );
+}
+
+/* ---------------- Condition template ---------------- */
+
+function ConditionTemplate({ condition }: { condition: Condition }) {
+  const related = services.filter((s) => (condition.relatedServices as readonly string[]).includes(s.slug));
+  const otherConditions = conditions.filter((c) => c.slug !== condition.slug);
+  return (
+    <>
+      <section className="hero-gradient border-b border-border">
+        <Container className="py-14 sm:py-18">
+          <nav className="mb-5 flex items-center gap-2 text-sm text-muted">
+            <Link href="/home-care" className="hover:text-primary">Services</Link>
+            <span>/</span>
+            <span className="text-ink">{condition.name}</span>
+          </nav>
+          <div className="max-w-3xl animate-rise">
+            <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white px-4 py-1.5 text-xs font-semibold text-primary">
+              <Icon name="heart-hand" className="h-3.5 w-3.5" /> Specialized Care
+            </span>
+            <h1 className="mt-5 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+              {condition.hero}
+            </h1>
+            <p className="mt-5 text-lg leading-relaxed text-muted">{condition.subhead}</p>
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <Button href="/contact" withArrow>Schedule a Consultation</Button>
+              <a href={site.phoneHref} className="inline-flex items-center gap-2 font-semibold text-ink hover:text-primary">
+                <Icon name="phone" className="h-4 w-4 text-primary" /> Call {site.phone}
+              </a>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <Section>
+        <div className="grid gap-12 lg:grid-cols-[1fr_320px]">
+          <div className="max-w-2xl">
+            <p className="text-lg leading-relaxed text-muted">{condition.intro}</p>
+
+            <h2 className="mt-10 text-2xl font-bold sm:text-3xl">How we help</h2>
+            <div className="mt-6 rounded-2xl border border-border bg-surface p-6 sm:p-8">
+              <FeatureList items={condition.helpWith} />
+            </div>
+
+            <h3 className="mt-10 text-lg font-bold">Our approach</h3>
+            <p className="mt-3 leading-relaxed text-muted">{condition.approach}</p>
+
+            {related.length > 0 && (
+              <div className="mt-10">
+                <h3 className="text-lg font-bold">Related services</h3>
+                <div className="mt-5 grid gap-6 sm:grid-cols-3">
+                  {related.map((s) => (
+                    <ServiceCard
+                      key={s.slug}
+                      title={s.title}
+                      description={s.short}
+                      href={`/${s.slug}`}
+                      icon={s.icon}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Sidebar */}
+          <aside className="space-y-6">
+            <div className="rounded-2xl border border-border bg-white p-6 card-shadow">
+              <h3 className="font-bold">Request a consultation</h3>
+              <p className="mt-1 text-sm text-muted">We&apos;ll respond promptly.</p>
+              <div className="mt-4">
+                <LeadForm compact source={`condition-${condition.slug}`} />
+              </div>
+            </div>
+            <div className="rounded-2xl border border-border bg-white p-5">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted">More Specialized Care</h3>
+              <ul className="mt-3 space-y-1">
+                {otherConditions.map((o) => (
+                  <li key={o.slug}>
+                    <Link href={`/${o.slug}`} className="flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-ink-soft hover:bg-primary-50 hover:text-primary">
+                      <Icon name={o.icon} className="h-4 w-4 text-primary" /> {o.navLabel}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </Section>
+
+      <CTASection />
     </>
   );
 }

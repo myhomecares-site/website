@@ -337,12 +337,172 @@ export const careForms = [
 
 export type CareForm = (typeof careForms)[number];
 
+// ---- Specialized / condition-specific care pages ---------------------------
+// These capture high-intent, need-based searches (e.g. "dementia care in
+// Maryland", "VA home care") that the general service pages don't target.
+export const conditions = [
+  {
+    slug: "alzheimers-dementia-care-maryland",
+    name: "Alzheimer's & Dementia Care",
+    navLabel: "Alzheimer's & Dementia Care",
+    icon: "heart-hand",
+    hero: "Alzheimer's & Dementia Care at Home in Maryland",
+    subhead:
+      "Patient, specialized memory care that keeps your loved one safe, calm, and comfortable in the home they know best.",
+    metaTitle: "Alzheimer's & Dementia Home Care in Maryland | My Home Cares",
+    metaDescription:
+      "Compassionate in-home Alzheimer's and dementia care across Maryland. Trained caregivers provide routine, safety, and memory support so your loved one can stay home. Call for a free consultation.",
+    intro:
+      "A dementia diagnosis changes daily life for the whole family. Familiar surroundings, gentle routines, and a caregiver who understands memory loss can make all the difference. Our caregivers are trained to support people living with Alzheimer's and other forms of dementia at every stage, with patience, structure, and genuine warmth.",
+    approach:
+      "We build a calm, predictable daily routine, reduce fall and wandering risks at home, and use proven techniques to ease confusion and agitation. We also support families with guidance and regular updates, so you always know how your loved one is doing.",
+    helpWith: [
+      "Consistent daily routines that reduce confusion and anxiety",
+      "Supervision and safety to lower wandering and fall risks",
+      "Help with bathing, dressing, grooming, and meals",
+      "Medication reminders and coordination with providers",
+      "Meaningful activities and gentle cognitive engagement",
+      "Respite so family caregivers can rest and recharge",
+    ],
+    relatedServices: ["personal-care", "companion-care", "respite-care"],
+  },
+  {
+    slug: "parkinsons-care-maryland",
+    name: "Parkinson's Care",
+    navLabel: "Parkinson's Care",
+    icon: "activity",
+    hero: "In-Home Parkinson's Care in Maryland",
+    subhead:
+      "Mobility, medication, and daily-living support that helps people with Parkinson's live safely and confidently at home.",
+    metaTitle: "Parkinson's Home Care in Maryland | My Home Cares",
+    metaDescription:
+      "Specialized in-home Parkinson's care in Maryland. Our caregivers support mobility, medication timing, fall prevention, and daily activities. Call for a free consultation.",
+    intro:
+      "Parkinson's affects movement, balance, and daily routines in ways that change over time. The right in-home support helps your loved one stay independent and safe while protecting their dignity. Our caregivers understand the practical challenges of Parkinson's and adapt care as needs evolve.",
+    approach:
+      "We focus on safe mobility and transfers, careful medication timing, and a home set up to prevent falls. We encourage the movement and activity that support quality of life, and we keep families and providers informed of any changes.",
+    helpWith: [
+      "Safe mobility, transfers, and fall prevention",
+      "On-time medication reminders to keep symptoms managed",
+      "Help with eating, dressing, grooming, and hygiene",
+      "Encouragement with prescribed exercises and activity",
+      "Meal preparation tailored to swallowing and nutrition needs",
+      "Skilled nursing support for more complex needs",
+    ],
+    relatedServices: ["skilled-nursing", "personal-care", "companion-care"],
+  },
+  {
+    slug: "post-surgery-home-care-maryland",
+    name: "Post-Surgery & Hospital-to-Home Care",
+    navLabel: "Post-Surgery Recovery Care",
+    icon: "stethoscope",
+    hero: "Post-Surgery & Hospital-to-Home Care in Maryland",
+    subhead:
+      "A safe, supported recovery at home, so you can heal comfortably and avoid a return trip to the hospital.",
+    metaTitle: "Post-Surgery & Hospital-to-Home Care in Maryland | My Home Cares",
+    metaDescription:
+      "In-home recovery care after surgery or a hospital stay in Maryland. Skilled nursing, wound care, medication management, and daily support to help you heal safely at home.",
+    intro:
+      "The days and weeks after surgery or a hospital stay are when support matters most. A smooth transition home, with the right help in place, lowers the risk of complications and readmission and lets you focus on getting better. We coordinate care quickly so support is ready the day you come home.",
+    approach:
+      "Our nurses and caregivers follow your discharge plan closely, manage wounds and medications, watch for warning signs, and handle the everyday tasks that are hard during recovery. We stay in close contact with your family and care providers throughout.",
+    helpWith: [
+      "Skilled nursing, wound care, and post-operative monitoring",
+      "Medication management and symptom tracking",
+      "Help with bathing, dressing, and safe mobility",
+      "Meal preparation and light housekeeping while you heal",
+      "Transportation reminders and follow-up coordination",
+      "Watchful support to help prevent hospital readmission",
+    ],
+    relatedServices: ["skilled-nursing", "personal-care", "homemaking"],
+  },
+  {
+    slug: "veterans-home-care-maryland",
+    name: "Veterans Home Care",
+    navLabel: "Veterans Home Care (VA)",
+    icon: "shield-heart",
+    hero: "Home Care for Veterans in Maryland",
+    subhead:
+      "Respectful, dignified in-home care for those who served, with help understanding VA benefits that may cover it.",
+    metaTitle: "Veterans Home Care in Maryland (VA Benefits) | My Home Cares",
+    metaDescription:
+      "Compassionate in-home care for Maryland veterans. Personal care, skilled nursing, and companionship, plus guidance on VA benefits like Aid and Attendance that may help pay for care.",
+    intro:
+      "Veterans and their spouses deserve care that honors their service. Many families don't realize that VA benefits may help pay for in-home care. We provide compassionate support for veterans across Maryland and help you understand the options that may be available to you.",
+    approach:
+      "We deliver personalized care built around each veteran's needs and preferences, and we point families toward benefits that may help, such as the VA Aid and Attendance benefit. Eligibility depends on service history, income, and care needs, and we are glad to help you find the right information.",
+    helpWith: [
+      "Personal care, companionship, and skilled nursing at home",
+      "Support for service-related conditions and mobility needs",
+      "Help understanding VA benefits that may cover care",
+      "Respite for spouses and family caregivers",
+      "A care plan that respects each veteran's routine and dignity",
+      "Coordination with VA and community providers",
+    ],
+    relatedServices: ["personal-care", "skilled-nursing", "companion-care"],
+  },
+  {
+    slug: "24-hour-live-in-care-maryland",
+    name: "24-Hour & Live-In Care",
+    navLabel: "24-Hour & Live-In Care",
+    icon: "clock",
+    hero: "24-Hour & Live-In Home Care in Maryland",
+    subhead:
+      "Around-the-clock support and peace of mind, with a caregiver present day and night for those who need constant care.",
+    metaTitle: "24-Hour & Live-In Home Care in Maryland | My Home Cares",
+    metaDescription:
+      "Around-the-clock and live-in home care across Maryland. Continuous, attentive support day and night for loved ones who need constant supervision and assistance.",
+    intro:
+      "Some loved ones need more than a few hours of help. When safety, supervision, or comfort calls for someone present at all times, 24-hour and live-in care provides continuous support in the place they feel most at home. Families gain peace of mind knowing care never stops.",
+    approach:
+      "We coordinate dependable caregiver coverage so there is always a trained, compassionate professional on hand, overnight and throughout the day. Care plans cover everything from personal care and medication to companionship and overnight safety, and we adapt as needs change.",
+    helpWith: [
+      "Continuous day-and-night supervision and assistance",
+      "Overnight safety, repositioning, and toileting support",
+      "Personal care, meals, and medication reminders",
+      "Companionship and engagement throughout the day",
+      "Rapid response to changing or urgent needs",
+      "Reliable coverage and consistent, familiar caregivers",
+    ],
+    relatedServices: ["personal-care", "skilled-nursing", "companion-care"],
+  },
+] as const;
+
+export type Condition = (typeof conditions)[number];
+
+// What makes My Home Cares stand out, used in the differentiators section.
+export const differentiators = [
+  {
+    icon: "activity",
+    title: "OHCQ-compliant caregiver training",
+    text: "Our caregivers complete a training program built by our Director of Nursing, so the people in your home meet Maryland's standards and then some.",
+  },
+  {
+    icon: "shield-heart",
+    title: "Medicaid waiver & VA accepted",
+    text: "Beyond private pay, we work with Maryland Medicaid waiver programs and VA benefits, and help you understand what may cover your care.",
+  },
+  {
+    icon: "clock",
+    title: "Care can start in days",
+    text: "After a quick assessment, we build your plan and match a caregiver fast, so support is in place when you need it, not weeks later.",
+  },
+  {
+    icon: "star",
+    title: "Licensed Maryland RSA",
+    text: `A licensed Residential Service Agency regulated by OHCQ (${"RSA-01229 | HCSA-00845"}). Caregivers are screened, background-checked, and insured.`,
+  },
+];
+
 export const mainNav: NavItem[] = [
   { label: "Home", href: "/" },
   {
     label: "Services",
     href: "/home-care",
-    children: services.map((s) => ({ label: s.title, href: `/${s.slug}` })),
+    children: [
+      ...services.map((s) => ({ label: s.title, href: `/${s.slug}` })),
+      ...conditions.map((c) => ({ label: c.navLabel, href: `/${c.slug}` })),
+    ],
   },
   { label: "Service Areas", href: "/service-areas" },
   { label: "About", href: "/about" },

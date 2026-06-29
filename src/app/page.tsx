@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { services, serviceImages, site, mediaAssets } from "@/lib/site";
 import { Container, Section, SectionHeading, Button } from "@/components/ui";
-import { ServiceCard, CTASection, Stat, TrustBand, HowItWorks, Stars } from "@/components/blocks";
+import { ServiceCard, CTASection, Stat, TrustBand, HowItWorks, Stars, WhatSetsUsApart, SpecializedCare } from "@/components/blocks";
 import { VideoFeature } from "@/components/VideoFeature";
 import { LeadForm } from "@/components/LeadForm";
 import { SiteImage } from "@/components/SiteImage";
@@ -154,6 +154,14 @@ export default function Home() {
       {/* How it works */}
       <div className="bg-surface">
         <HowItWorks />
+      </div>
+
+      {/* Specialized care */}
+      <SpecializedCare />
+
+      {/* What sets us apart */}
+      <div className="bg-surface">
+        <WhatSetsUsApart />
       </div>
 
       {/* Video */}

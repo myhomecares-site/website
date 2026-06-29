@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { site, associations, media } from "@/lib/site";
+import { site, associations, media, differentiators, conditions } from "@/lib/site";
 import { Button, Container } from "./ui";
 import { Icon } from "./icons";
 import { SiteImage } from "./SiteImage";
@@ -167,6 +167,68 @@ export function CTASection({
               </a>
             </div>
           </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+export function WhatSetsUsApart() {
+  return (
+    <section className="py-14 sm:py-20">
+      <Container>
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="eyebrow mb-3">Why Families Choose Us</p>
+          <h2 className="text-3xl font-bold sm:text-4xl">What sets My Home Cares apart</h2>
+          <p className="mt-4 text-lg text-muted">
+            More than a home care agency, a licensed Maryland team built on training, trust, and care that starts when you need it.
+          </p>
+        </div>
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {differentiators.map((d) => (
+            <div key={d.title} className="rounded-2xl border border-border bg-white p-6 card-shadow">
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-white">
+                <Icon name={d.icon} className="h-6 w-6" />
+              </span>
+              <h3 className="mt-5 text-lg font-bold">{d.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{d.text}</p>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+export function SpecializedCare() {
+  return (
+    <section className="py-14 sm:py-20">
+      <Container>
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="eyebrow mb-3">Specialized Care</p>
+          <h2 className="text-3xl font-bold sm:text-4xl">Expert support for specific needs</h2>
+          <p className="mt-4 text-lg text-muted">
+            Beyond everyday care, our team is trained to support more complex conditions and situations across Maryland.
+          </p>
+        </div>
+        <div className="mt-11 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {conditions.map((c) => (
+            <Link
+              key={c.slug}
+              href={`/${c.slug}`}
+              className="group flex h-full flex-col rounded-2xl border border-border bg-white p-6 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-primary/30 card-shadow"
+            >
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary-50 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
+                <Icon name={c.icon} className="h-6 w-6" />
+              </span>
+              <h3 className="mt-5 text-lg font-bold">{c.name}</h3>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{c.subhead}</p>
+              <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
+                Learn More
+                <Icon name="arrow" className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </span>
+            </Link>
+          ))}
         </div>
       </Container>
     </section>

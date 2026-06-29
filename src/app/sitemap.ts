@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { site, services, locations, careForms } from "@/lib/site";
+import { site, services, locations, careForms, conditions } from "@/lib/site";
 import { posts } from "@/lib/posts";
 
 // Full sitemap so Google can discover & index every service, region, and county page.
@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/home-care/", priority: 0.9, freq: "monthly" },
     { path: "/service-areas/", priority: 0.9, freq: "monthly" },
     { path: "/about/", priority: 0.7, freq: "monthly" },
+    { path: "/reviews/", priority: 0.6, freq: "monthly" },
     { path: "/contact/", priority: 0.8, freq: "monthly" },
     { path: "/careers/", priority: 0.6, freq: "monthly" },
     { path: "/caregivers/", priority: 0.7, freq: "monthly" },
@@ -32,6 +33,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Service pages
   for (const s of services) {
     entries.push({ url: u(`/${s.slug}/`), lastModified: now, changeFrequency: "monthly", priority: 0.8 });
+  }
+
+  // Specialized / condition-specific pages
+  for (const c of conditions) {
+    entries.push({ url: u(`/${c.slug}/`), lastModified: now, changeFrequency: "monthly", priority: 0.8 });
   }
 
   // Region + county service-area pages (the local-SEO landing pages)
