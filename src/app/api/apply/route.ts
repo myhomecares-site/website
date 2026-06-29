@@ -139,7 +139,33 @@ export async function POST(req: Request) {
     console.error("Application PDF/email failed:", err);
   }
 
+  await applicantReply(app).catch((err) => console.error("Applicant auto-reply failed:", err));
+
   return NextResponse.json({ ok: true });
+}
+
+// Friendly confirmation sent automatically to the applicant.
+async function applicantReply(a: App) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey || !a.email) return;
+  const from = process.env.NOTIFY_FROM || "My Home Cares Careers <notifications@homelycare.io>";
+  const html = `<div style="font-family:Arial,sans-serif;max-width:520px;margin:auto;color:#1d1d1f">
+    <h2 style="color:#009ee6">Thanks for applying, ${a.name.replace(/</g, "&lt;")}!</h2>
+    <p style="color:#5b6168;line-height:1.6">We've received your application${a.position ? ` for <strong>${a.position.replace(/</g, "&lt;")}</strong>` : ""} and our team will review it and be in touch soon. We're excited that you're considering a career with My Home Cares.</p>
+    <p style="color:#5b6168;line-height:1.6">If you have questions in the meantime, just reply to this email or call (410) 231-3076.</p>
+    <p style="color:#5b6168;line-height:1.6">Warmly,<br/>The My Home Cares Team<br/>Where Service Matters</p>
+  </div>`;
+  await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      from,
+      to: [a.email],
+      reply_to: "info@myhomecares.com",
+      subject: "We received your application — My Home Cares",
+      html,
+    }),
+  }).catch(() => {});
 }
 
 async function buildPdf(a: App): Promise<string> {

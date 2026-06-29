@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/about/", priority: 0.7, freq: "monthly" },
     { path: "/contact/", priority: 0.8, freq: "monthly" },
     { path: "/careers/", priority: 0.6, freq: "monthly" },
+    { path: "/caregivers/", priority: 0.7, freq: "monthly" },
     { path: "/carelink-staffing/", priority: 0.6, freq: "monthly" },
     { path: "/faq/", priority: 0.6, freq: "monthly" },
     { path: "/resources/", priority: 0.4, freq: "yearly" },

@@ -351,6 +351,7 @@ export const mainNav: NavItem[] = [
     href: "/careers",
     children: [
       { label: "Careers", href: "/careers" },
+      { label: "Caregiver Jobs", href: "/caregivers" },
       { label: "CareLink Staffing", href: "/carelink-staffing" },
       { label: "Apply Now", href: "/job-application" },
     ],

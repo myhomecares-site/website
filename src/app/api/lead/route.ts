@@ -84,8 +84,32 @@ export async function POST(req: Request) {
   }
 
   await notify(record).catch((err) => console.error("Email notify failed:", err));
+  await autoReply(record).catch((err) => console.error("Auto-reply failed:", err));
 
   return NextResponse.json({ ok: true });
+}
+
+// Friendly confirmation sent automatically to the person who reached out.
+async function autoReply(r: { name: string; email: string }) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey || !r.email) return;
+  const from = process.env.NOTIFY_FROM || "My Home Cares <notifications@homelycare.io>";
+  const html = `<div style="font-family:Arial,sans-serif;max-width:520px;margin:auto;color:#1d1d1f">
+    <h2 style="color:#009ee6">Thank you, ${String(r.name || "").replace(/</g, "&lt;") || "there"}!</h2>
+    <p style="color:#5b6168;line-height:1.6">We've received your request and a member of our care team will reach out shortly to discuss how we can help you and your loved one. For anything urgent, call us at (410) 231-3076.</p>
+    <p style="color:#5b6168;line-height:1.6">Warmly,<br/>The My Home Cares Team<br/>Where Service Matters</p>
+  </div>`;
+  await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      from,
+      to: [r.email],
+      reply_to: "info@myhomecares.com",
+      subject: "We received your request — My Home Cares",
+      html,
+    }),
+  }).catch(() => {});
 }
 
 type LeadRecord = {
