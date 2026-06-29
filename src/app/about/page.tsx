@@ -11,12 +11,13 @@ export const metadata: Metadata = {
     "My Home Cares offers trusted home care services in Maryland. Our nurses deliver personalized care with expertise, warmth, and compassion.",
 };
 
+// Ordered by leadership seniority so the team reads top-down.
 const leadership = [
-  { name: "Perina Gaines, RN", role: "Clinical Assessment Administrator" },
-  { name: "Lulu H. Mziray, MBA-HCM", role: "Director of Operations" },
   { name: "David Mziray", role: "Managing Director" },
-  { name: "Gillead-Gary Mziray", role: "Director of Tech" },
+  { name: "Lulu H. Mziray, MBA-HCM", role: "Director of Operations" },
   { name: "Courtney Dawkins, RN", role: "Director of Nursing" },
+  { name: "Gillead-Gary Mziray", role: "Director of Tech" },
+  { name: "Perina Gaines, RN", role: "Clinical Assessment Administrator" },
 ];
 
 const values = [
@@ -101,9 +102,9 @@ export default function AboutPage() {
 
       <Section>
         <SectionHeading center eyebrow="Our People" title="Leadership team" intro="Experienced, compassionate professionals dedicated to exceptional home health care." />
-        <div className="mx-auto mt-12 grid max-w-4xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto mt-12 flex max-w-4xl flex-wrap justify-center gap-5">
           {leadership.map((p) => (
-            <div key={p.name} className="rounded-2xl border border-border bg-white p-6 text-center card-shadow">
+            <div key={p.name} className="w-full rounded-2xl border border-border bg-white p-6 text-center card-shadow sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.84rem)]">
               <span className="mx-auto inline-flex h-14 w-14 items-center justify-center rounded-full bg-primary text-lg font-bold text-white">
                 {p.name.split(" ").map((w) => w[0]).slice(0, 2).join("")}
               </span>
