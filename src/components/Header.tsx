@@ -19,10 +19,10 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b transition-all duration-300 ${
+      className={`sticky top-0 z-50 border-b backdrop-blur-xl backdrop-saturate-150 transition-all duration-300 ${
         scrolled
-          ? "border-border/70 bg-white/90 shadow-[0_4px_24px_-14px_rgba(20,28,38,0.25)] backdrop-blur-md"
-          : "border-transparent bg-white/70 backdrop-blur-md"
+          ? "border-white/40 bg-white/55 shadow-[0_8px_30px_-12px_rgba(20,28,38,0.28)] supports-[backdrop-filter]:bg-white/55"
+          : "border-white/30 bg-white/35 supports-[backdrop-filter]:bg-white/35"
       }`}
     >
       <div
@@ -30,7 +30,7 @@ export function Header() {
           scrolled ? "h-[4.75rem]" : "h-[5.5rem]"
         }`}
       >
-        <Logo />
+        <Logo className={scrolled ? "h-14 sm:h-[4.25rem]" : "h-16 sm:h-[5rem]"} />
 
         <nav className="hidden items-center gap-1 lg:flex">
           {mainNav.map((item) => (
