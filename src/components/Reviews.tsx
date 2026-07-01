@@ -15,9 +15,8 @@ export function Reviews() {
             <Stars className="justify-center" />
             <h2 className="mt-4 text-3xl font-bold sm:text-4xl">Families across Maryland trust My Home Cares</h2>
             <blockquote className="mx-auto mt-5 max-w-2xl text-lg italic text-ink-soft">
-              &ldquo;{site.signature}&rdquo;
+              &ldquo;{site.trustLine}&rdquo;
             </blockquote>
-            <p className="mt-3 text-sm font-semibold text-muted">— {site.signatureBy}</p>
             <a
               href={reviewLink}
               target="_blank"

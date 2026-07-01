@@ -20,9 +20,17 @@ export const site = {
   license: "RSA-01229 | HCSA-00845",
   founded: 2018,
   region: "Maryland",
+  // Founder signature, used ONLY on the About page (leadership section).
   signature:
     "Through tender hearts and unwavering dedication, we light the path of compassion, ensuring every step of the way feels like home.",
   signatureBy: "David Mziray, Managing Director",
+  // Brand statements used elsewhere so the founder signature stays unique to About.
+  mission:
+    "Licensed, compassionate home care across Maryland, delivered with the dignity, warmth, and respect every family deserves.",
+  promise:
+    "We believe care should feel personal. Every plan is built around the person, not a checklist, so your loved one stays safe, comfortable, and independent at home.",
+  trustLine:
+    "Maryland families trust My Home Cares to care for the people they love, with skilled, screened caregivers and a team that treats every client like family.",
   social: {
     facebook: "https://www.facebook.com/My-Home-Cares-119680482758704/",
     instagram: "https://www.instagram.com/myhomecares",

@@ -21,9 +21,9 @@ export function Footer() {
               <Logo />
             </div>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-white/70">
-              {site.signature}
+              {site.mission}
             </p>
-            <p className="mt-3 text-sm font-medium text-white/90">— {site.signatureBy}</p>
+            <p className="mt-3 text-sm font-medium text-white/90">Where Service Matters</p>
 
             <div className="mt-6 flex flex-wrap gap-2.5">
               {socialLinks.map((s) => (

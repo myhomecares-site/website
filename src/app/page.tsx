@@ -180,9 +180,9 @@ export default function Home() {
               doorstep.
             </p>
             <blockquote className="mt-6 border-l-4 border-primary pl-5 text-ink-soft italic">
-              &ldquo;{site.signature}&rdquo;
+              &ldquo;{site.promise}&rdquo;
               <footer className="mt-2 text-sm font-semibold not-italic text-muted">
-               , {site.signatureBy}
+                Our promise to every family we serve
               </footer>
             </blockquote>
             <div className="mt-8">
