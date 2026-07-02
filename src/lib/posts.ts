@@ -8,9 +8,19 @@ export type Post = {
   date: string;
   category: string;
   excerpt: string;
+  image?: string; // featured image (also used as social/OG preview)
 };
 
 export const posts: Post[] = [
+  {
+    slug: "maryland-medicaid-renewal-check-your-mail",
+    title: "Maryland Medicaid Renewal: Check Your Mail So You Don't Lose Coverage",
+    date: "2026-07-01",
+    category: "Paying for Care",
+    excerpt:
+      "Maryland Medicaid renews every 12 months, and the notice arrives by mail. Here's how to keep your coverage (and any home-care funding) from lapsing, plus who to call.",
+    image: "/wp-content/uploads/2024/07/medicaid-renewal-check-your-mail.png",
+  },
   {
     slug: "signs-your-parent-needs-home-care",
     title: "10 Signs Your Aging Parent May Need Home Care",
