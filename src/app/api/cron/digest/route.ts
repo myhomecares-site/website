@@ -45,6 +45,33 @@ export async function GET(req: Request) {
   const str = (v: unknown) => (typeof v === "string" ? v : "");
   const arr = (v: unknown) => (Array.isArray(v) ? (v as string[]) : []);
 
+  // --- Central-region focus (current priority) ---
+  const CENTRAL = ["Anne Arundel County", "Baltimore City", "Baltimore County", "Carroll County", "Harford County", "Howard County"];
+  const CITY_TO_COUNTY: Record<string, string> = {};
+  const addCities = (county: string, cities: string[]) => cities.forEach((c) => (CITY_TO_COUNTY[c.toLowerCase()] = county));
+  addCities("Anne Arundel County", ["Glen Burnie", "Annapolis", "Severn", "Severna Park", "Pasadena", "Odenton", "Crofton", "Millersville", "Arnold", "Linthicum", "Hanover", "Edgewater", "Gambrills", "Brooklyn Park", "Ferndale", "Maryland City", "Fort Meade"]);
+  addCities("Baltimore City", ["Baltimore"]);
+  addCities("Baltimore County", ["Towson", "Dundalk", "Essex", "Catonsville", "Owings Mills", "Randallstown", "Parkville", "Pikesville", "Rosedale", "Middle River", "Reisterstown", "Perry Hall", "Nottingham", "Cockeysville", "Woodlawn", "Overlea", "Timonium", "White Marsh", "Halethorpe", "Lutherville", "Arbutus"]);
+  addCities("Carroll County", ["Westminster", "Eldersburg", "Sykesville", "Hampstead", "Taneytown", "Mount Airy", "Manchester", "Finksburg"]);
+  addCities("Harford County", ["Bel Air", "Aberdeen", "Havre de Grace", "Edgewood", "Joppatowne", "Fallston", "Abingdon", "Forest Hill"]);
+  addCities("Howard County", ["Columbia", "Ellicott City", "Elkridge", "Fulton", "Clarksville", "Savage", "Jessup", "Woodstock", "North Laurel"]);
+  const countyOf = (row: Record<string, unknown>): string | null => {
+    const src = str(row.source).toLowerCase();
+    if (src.startsWith("location-")) {
+      const nm = str(row.source).slice("location-".length).trim();
+      const hit = CENTRAL.find((c) => c.toLowerCase() === nm.toLowerCase());
+      if (hit) return hit;
+      if (nm.toLowerCase().includes("central")) return "Central (region page)";
+      return null;
+    }
+    const city = str(d(row).city).trim().toLowerCase();
+    return city && CITY_TO_COUNTY[city] ? CITY_TO_COUNTY[city] : null;
+  };
+  const centralLeads = leads.filter((l) => countyOf(l) !== null);
+  const centralByCounty = tally(centralLeads.map((l) => countyOf(l) as string));
+  const centralServices = tally(centralLeads.flatMap((l) => arr(d(l).care_needed)));
+  const centralPayment = tally(centralLeads.map((l) => str(d(l).payment)));
+
   const leadCities = tally(leads.map((l) => str(d(l).city)));
   const leadServices = tally(leads.flatMap((l) => arr(d(l).care_needed)));
   const leadPayment = tally(leads.map((l) => str(d(l).payment)));
@@ -57,7 +84,18 @@ export async function GET(req: Request) {
   const html = brandedEmail(
     "Weekly insights",
     `<p style="color:#5b6168;margin:0 0 14px">${new Date(since).toLocaleDateString("en-US")} – ${new Date().toLocaleDateString("en-US")}</p>
-    <h3 style="margin:0 0 6px;color:#1d2a39">Consultation requests: ${leads.length}</h3>
+    <div style="background:#e6f6fd;border:1px solid #bfe8fa;border-radius:10px;padding:12px 14px;margin:0 0 18px">
+      <h3 style="margin:0 0 8px;color:#007fbb">Central region focus, ${centralLeads.length} of ${leads.length} requests</h3>
+      <table style="border-collapse:collapse;width:100%">
+        ${[
+          ["By county", top(centralByCounty, 6)],
+          ["Services requested", top(centralServices)],
+          ["Payment methods", top(centralPayment)],
+        ].map(([k, v]) => `<tr><td style="padding:4px 8px;font-weight:600;color:#33373d;white-space:nowrap;vertical-align:top">${k}</td><td style="padding:4px 8px;color:#1d2a39">${v}</td></tr>`).join("")}
+      </table>
+      <p style="color:#5b6168;font-size:12px;margin:8px 0 0">${leads.length - centralLeads.length} request(s) came from outside Central (paused regions) or an unspecified location.</p>
+    </div>
+    <h3 style="margin:0 0 6px;color:#1d2a39">All consultation requests: ${leads.length}</h3>
     <table style="border-collapse:collapse;width:100%;border:1px solid #eee;border-radius:8px;overflow:hidden">
       ${[
         ["Top counties/cities", top(leadCities)],
@@ -76,7 +114,7 @@ export async function GET(req: Request) {
   const to = (process.env.DIGEST_TO || "info@myhomecares.com").split(",").map((s) => s.trim());
   await sendMail({
     to,
-    subject: `Weekly insights, ${leads.length} requests, ${apps.length} applications`,
+    subject: `Weekly insights, ${centralLeads.length} Central / ${leads.length} total requests, ${apps.length} applications`,
     html,
   });
 
