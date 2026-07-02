@@ -8,6 +8,13 @@ import { Icon } from "@/components/icons";
 export const metadata: Metadata = {
   title: "Blog",
   description: "Insights, tips, and stories on home care, caregiving, and healthy aging from My Home Cares.",
+  alternates: { canonical: "https://www.myhomecares.com/blog/" },
+  openGraph: {
+    title: "Blog | My Home Cares",
+    description: "Insights, tips, and stories on home care, caregiving, and healthy aging from My Home Cares.",
+    url: "https://www.myhomecares.com/blog/",
+    type: "website",
+  },
 };
 
 export default function BlogPage() {

@@ -2,9 +2,11 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { posts, formatDate } from "@/lib/posts";
+import { site } from "@/lib/site";
 import { Container, Section } from "@/components/ui";
 import { CTASection } from "@/components/blocks";
 import { Icon } from "@/components/icons";
+import { JsonLd, breadcrumbLd } from "@/components/JsonLd";
 import bodies from "@/lib/blog-bodies.json";
 
 const postMap = new Map(posts.map((p) => [p.slug, p]));
@@ -29,7 +31,19 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = postMap.get(slug);
   if (!post) return {};
-  return { title: post.title, description: post.excerpt };
+  const url = `${site.url}/blog/${post.slug}/`;
+  return {
+    title: post.title,
+    description: post.excerpt,
+    alternates: { canonical: url },
+    openGraph: {
+      title: `${post.title} | ${site.name}`,
+      description: post.excerpt,
+      url,
+      type: "article",
+      publishedTime: post.date,
+    },
+  };
 }
 
 export default async function BlogPostPage({
@@ -41,8 +55,30 @@ export default async function BlogPostPage({
   const post = postMap.get(slug);
   if (!post) notFound();
 
+  const url = `${site.url}/blog/${post.slug}/`;
   return (
     <>
+      <JsonLd data={breadcrumbLd([
+        { name: "Home", url: site.url },
+        { name: "Blog", url: `${site.url}/blog/` },
+        { name: post.title, url },
+      ])} />
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: post.title,
+        description: post.excerpt,
+        datePublished: post.date,
+        dateModified: post.date,
+        author: { "@type": "Organization", name: site.name, url: site.url },
+        publisher: {
+          "@type": "Organization",
+          name: site.name,
+          logo: { "@type": "ImageObject", url: `${site.url}/brand/mhc-wordmark.png` },
+        },
+        mainEntityOfPage: url,
+        image: `${site.url}/wp-content/uploads/2024/01/caring-nurse-helping-elderly.png`,
+      }} />
       <section className="hero-gradient border-b border-border">
         <Container className="py-14 sm:py-18">
           <Link href="/blog" className="mb-5 inline-flex items-center gap-1.5 text-sm font-medium text-muted hover:text-primary">

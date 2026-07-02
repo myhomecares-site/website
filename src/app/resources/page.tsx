@@ -9,6 +9,14 @@ export const metadata: Metadata = {
   title: "Care Resources & Forms",
   description:
     "Care documentation and forms used by the My Home Cares team, service plans, assessments, medication records, and daily logs.",
+  alternates: { canonical: "https://www.myhomecares.com/resources/" },
+  openGraph: {
+    title: "Care Resources & Forms | My Home Cares",
+    description:
+      "Care documentation and forms used by the My Home Cares team, service plans, assessments, medication records, and daily logs.",
+    url: "https://www.myhomecares.com/resources/",
+    type: "website",
+  },
 };
 
 export default function ResourcesPage() {

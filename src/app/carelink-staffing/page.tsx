@@ -8,6 +8,14 @@ export const metadata: Metadata = {
   title: "CareLink Staffing, Healthcare Staffing in Maryland",
   description:
     "CareLink Staffing connects Maryland healthcare facilities with top-tier nurses, CNAs, medical technicians, and speech pathologists. 24/7 support.",
+  alternates: { canonical: "https://www.myhomecares.com/carelink-staffing/" },
+  openGraph: {
+    title: "CareLink Staffing, Healthcare Staffing in Maryland | My Home Cares",
+    description:
+      "CareLink Staffing connects Maryland healthcare facilities with top-tier nurses, CNAs, medical technicians, and speech pathologists. 24/7 support.",
+    url: "https://www.myhomecares.com/carelink-staffing/",
+    type: "website",
+  },
 };
 
 const facilities = [

@@ -7,6 +7,7 @@ import { FeatureList, CTASection, ServiceCard } from "@/components/blocks";
 import { SiteImage } from "@/components/SiteImage";
 import { LeadForm } from "@/components/LeadForm";
 import { Icon } from "@/components/icons";
+import { JsonLd, breadcrumbLd } from "@/components/JsonLd";
 
 type Params = { slug: string };
 
@@ -39,6 +40,8 @@ export async function generateMetadata({
     return {
       title: `${service.hero}`,
       description: service.subhead,
+      alternates: { canonical: `${site.url}/${service.slug}/` },
+      openGraph: { title: `${service.hero} | ${site.name}`, description: service.subhead, url: `${site.url}/${service.slug}/`, type: "website" },
     };
   }
   const loc = locationMap.get(slug);
@@ -54,7 +57,12 @@ export async function generateMetadata({
   }
   const form = careFormMap.get(slug);
   if (form) {
-    return { title: form.title, description: form.summary };
+    return {
+      title: form.title,
+      description: form.summary,
+      alternates: { canonical: `${site.url}/${form.slug}/` },
+      openGraph: { title: `${form.title} | ${site.name}`, description: form.summary, url: `${site.url}/${form.slug}/`, type: "website" },
+    };
   }
   const condition = conditionMap.get(slug);
   if (condition) {
@@ -77,7 +85,7 @@ export default async function CatchAllPage({
   const service = serviceMap.get(slug);
   if (service) return <ServiceTemplate service={service} />;
   const loc = locationMap.get(slug);
-  if (loc) return <LocationTemplate name={loc.name} />;
+  if (loc) return <LocationTemplate name={loc.name} slug={loc.slug} />;
   const form = careFormMap.get(slug);
   if (form) return <CareFormTemplate form={form} />;
   const condition = conditionMap.get(slug);
@@ -154,8 +162,24 @@ function CareFormTemplate({ form }: { form: CareForm }) {
 
 function ServiceTemplate({ service }: { service: Service }) {
   const others = services.filter((s) => s.slug !== service.slug);
+  const url = `${site.url}/${service.slug}/`;
   return (
     <>
+      <JsonLd data={breadcrumbLd([
+        { name: "Home", url: site.url },
+        { name: "Services", url: `${site.url}/home-care/` },
+        { name: service.title, url },
+      ])} />
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: service.title,
+        serviceType: service.title,
+        description: service.subhead,
+        provider: { "@type": "HomeHealthCareBusiness", name: site.name, telephone: site.phone, url: site.url },
+        areaServed: { "@type": "State", name: "Maryland" },
+        url,
+      }} />
       <section className="hero-gradient border-b border-border">
         <Container className="py-14 sm:py-18">
           <nav className="mb-5 flex items-center gap-2 text-sm text-muted">
@@ -242,7 +266,7 @@ function ServiceTemplate({ service }: { service: Service }) {
 
 /* ---------------- Location template ---------------- */
 
-function LocationTemplate({ name }: { name: string }) {
+function LocationTemplate({ name, slug }: { name: string; slug: string }) {
   const cards = [
     {
       title: `Skilled Nursing in ${name}`,
@@ -266,6 +290,11 @@ function LocationTemplate({ name }: { name: string }) {
 
   return (
     <>
+      <JsonLd data={breadcrumbLd([
+        { name: "Home", url: site.url },
+        { name: "Service Areas", url: `${site.url}/service-areas/` },
+        { name, url: `${site.url}/${slug}/` },
+      ])} />
       <section className="hero-gradient border-b border-border">
         <Container className="py-14 sm:py-18">
           <nav className="mb-5 flex items-center gap-2 text-sm text-muted">
@@ -348,8 +377,24 @@ function LocationTemplate({ name }: { name: string }) {
 function ConditionTemplate({ condition }: { condition: Condition }) {
   const related = services.filter((s) => (condition.relatedServices as readonly string[]).includes(s.slug));
   const otherConditions = conditions.filter((c) => c.slug !== condition.slug);
+  const url = `${site.url}/${condition.slug}/`;
   return (
     <>
+      <JsonLd data={breadcrumbLd([
+        { name: "Home", url: site.url },
+        { name: "Services", url: `${site.url}/home-care/` },
+        { name: condition.name, url },
+      ])} />
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: condition.name,
+        serviceType: condition.name,
+        description: condition.subhead,
+        provider: { "@type": "HomeHealthCareBusiness", name: site.name, telephone: site.phone, url: site.url },
+        areaServed: { "@type": "State", name: "Maryland" },
+        url,
+      }} />
       <section className="hero-gradient border-b border-border">
         <Container className="py-14 sm:py-18">
           <nav className="mb-5 flex items-center gap-2 text-sm text-muted">

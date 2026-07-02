@@ -8,6 +8,14 @@ export const metadata: Metadata = {
   title: "Contact Us",
   description:
     "Get in touch with My Home Cares for personalized home care services in Maryland. Fill out our contact form for all inquiries, we're here to help.",
+  alternates: { canonical: "https://www.myhomecares.com/contact/" },
+  openGraph: {
+    title: "Contact Us | My Home Cares",
+    description:
+      "Get in touch with My Home Cares for personalized home care services in Maryland. Fill out our contact form for all inquiries, we're here to help.",
+    url: "https://www.myhomecares.com/contact/",
+    type: "website",
+  },
 };
 
 export default function ContactPage() {

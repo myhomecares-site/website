@@ -11,6 +11,11 @@ import { faqs } from "@/lib/faq";
 import { Reveal } from "@/components/Reveal";
 import { Blobs } from "@/components/Decor";
 import { Icon } from "@/components/icons";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "https://www.myhomecares.com/" },
+};
 
 export default function Home() {
   return (

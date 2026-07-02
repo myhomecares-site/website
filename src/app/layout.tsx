@@ -41,6 +41,21 @@ export const metadata: Metadata = {
     url: site.url,
     siteName: site.name,
     type: "website",
+    locale: "en_US",
+    images: [
+      {
+        url: "/wp-content/uploads/2024/01/caring-nurse-helping-elderly.png",
+        width: 1200,
+        height: 630,
+        alt: "My Home Cares, compassionate home care across Maryland",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${site.name} | Home Care Services in Maryland`,
+    description: site.description,
+    images: ["/wp-content/uploads/2024/01/caring-nurse-helping-elderly.png"],
   },
 };
 

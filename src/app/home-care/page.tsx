@@ -8,6 +8,14 @@ export const metadata: Metadata = {
   title: "Expert Home Care Services in Maryland",
   description:
     "Compassionate, professional home care tailored to the unique needs of your loved ones across Maryland, skilled nursing, personal care, companionship and more.",
+  alternates: { canonical: "https://www.myhomecares.com/home-care/" },
+  openGraph: {
+    title: "Expert Home Care Services in Maryland | My Home Cares",
+    description:
+      "Compassionate, professional home care tailored to the unique needs of your loved ones across Maryland, skilled nursing, personal care, companionship and more.",
+    url: "https://www.myhomecares.com/home-care/",
+    type: "website",
+  },
 };
 
 export default function HomeCarePage() {

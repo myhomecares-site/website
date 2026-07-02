@@ -9,6 +9,14 @@ export const metadata: Metadata = {
   title: "Service Areas in Maryland",
   description:
     "Explore My Home Cares service areas across Maryland, including the Western, Capital, Central, Southern, and Eastern Shore Regions.",
+  alternates: { canonical: "https://www.myhomecares.com/service-areas/" },
+  openGraph: {
+    title: "Service Areas in Maryland | My Home Cares",
+    description:
+      "Explore My Home Cares service areas across Maryland, including the Western, Capital, Central, Southern, and Eastern Shore Regions.",
+    url: "https://www.myhomecares.com/service-areas/",
+    type: "website",
+  },
 };
 
 export default function ServiceAreasPage() {

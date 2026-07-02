@@ -9,6 +9,14 @@ export const metadata: Metadata = {
   title: "About Us",
   description:
     "My Home Cares offers trusted home care services in Maryland. Our nurses deliver personalized care with expertise, warmth, and compassion.",
+  alternates: { canonical: "https://www.myhomecares.com/about/" },
+  openGraph: {
+    title: "About Us | My Home Cares",
+    description:
+      "My Home Cares offers trusted home care services in Maryland. Our nurses deliver personalized care with expertise, warmth, and compassion.",
+    url: "https://www.myhomecares.com/about/",
+    type: "website",
+  },
 };
 
 // Ordered by leadership seniority so the team reads top-down.

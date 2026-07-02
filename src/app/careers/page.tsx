@@ -9,6 +9,14 @@ export const metadata: Metadata = {
   title: "Careers in Maryland",
   description:
     "A rewarding career in home care awaits. Join My Home Cares, apply online for caregiver, CNA/GNA, CMT, and nursing roles across Maryland.",
+  alternates: { canonical: "https://www.myhomecares.com/careers/" },
+  openGraph: {
+    title: "Careers in Maryland | My Home Cares",
+    description:
+      "A rewarding career in home care awaits. Join My Home Cares, apply online for caregiver, CNA/GNA, CMT, and nursing roles across Maryland.",
+    url: "https://www.myhomecares.com/careers/",
+    type: "website",
+  },
 };
 
 const perks = [
