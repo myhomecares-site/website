@@ -19,6 +19,10 @@ export const faqs: Faq[] = [
     a: "Cost depends on the level of care and hours needed. Care can be paid for through private pay, long-term care insurance, and Maryland Medicaid home- and community-based waiver programs. We're happy to walk you through your options during a free consultation.",
   },
   {
+    q: "Does Medicaid cover home care in Maryland?",
+    a: "For those who qualify, Maryland Medicaid home- and community-based waiver programs (such as Community First Choice and the Community Options waiver) can help cover in-home care so people can stay at home instead of a facility. Eligibility depends on financial and functional criteria. We're happy to help you understand your options and point you in the right direction during a free consultation.",
+  },
+  {
     q: "How quickly can care begin?",
     a: "In many cases we can begin care within a few days of your consultation. After a quick assessment of your loved one's needs, we build a personalized care plan and match a caregiver who's the right fit.",
   },

@@ -46,8 +46,8 @@ export async function generateMetadata({
   }
   const loc = locationMap.get(slug);
   if (loc) {
-    const title = `Home Care Services in ${loc.name}, MD`;
-    const description = `Compassionate in-home care in ${loc.name}, Maryland, skilled nursing, personal care, companion care, respite, and homemaking from My Home Cares. Call ${site.phone} for a free consultation.`;
+    const title = `Home Care & Senior Care in ${loc.name}, MD`;
+    const description = `Home care and senior care in ${loc.name}, Maryland. In-home skilled nursing, personal care, companion care, respite, dementia care, and 24-hour caregivers from My Home Cares, a licensed Maryland RSA. Call ${site.phone} for a free consultation.`;
     return {
       title,
       description,
@@ -325,13 +325,21 @@ function LocationTemplate({ name, slug }: { name: string; slug: string }) {
       <Section>
         <div className="max-w-3xl">
           <p className="eyebrow mb-3">Comprehensive Home Health Services</p>
-          <h2 className="text-3xl font-bold">Care for {name} families, delivered at home</h2>
+          <h2 className="text-3xl font-bold">Home care and senior care for {name} families</h2>
           <p className="mt-4 text-lg leading-relaxed text-muted">
             {name} families rely on My Home Cares for a full range of professional in-home health
             services delivered with expertise and care. Our skilled nurses provide wound management,
             IV therapies, catheter training and more. Caregivers promote independence by assisting
             with grooming, bathing, meal preparation and daily tasks, bringing skilled nursing and
             personal care tailored to each individual&apos;s needs, right at home.
+          </p>
+          <p className="mt-4 leading-relaxed text-muted">
+            Whether you are searching for home care, senior care, elderly care, home health aides, or
+            a trusted caregiver near you in {name}, we can help. We also provide specialized{" "}
+            <Link href="/alzheimers-dementia-care-maryland" className="font-medium text-primary hover:underline">dementia and Alzheimer&apos;s care</Link>,{" "}
+            <Link href="/parkinsons-care-maryland" className="font-medium text-primary hover:underline">Parkinson&apos;s care</Link>, and{" "}
+            <Link href="/24-hour-live-in-care-maryland" className="font-medium text-primary hover:underline">24-hour and live-in care</Link>{" "}
+            across {name}, with private pay and Maryland Medicaid waiver options.
           </p>
         </div>
         <div className="mt-10 grid gap-6 sm:grid-cols-3">

@@ -6,14 +6,14 @@ import { PageHero } from "@/components/blocks";
 import { Icon } from "@/components/icons";
 
 export const metadata: Metadata = {
-  title: "Careers in Maryland",
+  title: "Caregiver, CNA & GNA Jobs in Maryland",
   description:
-    "A rewarding career in home care awaits. Join My Home Cares, apply online for caregiver, CNA/GNA, CMT, and nursing roles across Maryland.",
+    "Now hiring caregivers, CNAs, GNAs, CMTs, and nurses across Maryland. Competitive pay, real benefits, and flexible schedules. Apply online for home care jobs with My Home Cares.",
   alternates: { canonical: "https://www.myhomecares.com/careers/" },
   openGraph: {
-    title: "Careers in Maryland | My Home Cares",
+    title: "Caregiver, CNA & GNA Jobs in Maryland | My Home Cares",
     description:
-      "A rewarding career in home care awaits. Join My Home Cares, apply online for caregiver, CNA/GNA, CMT, and nursing roles across Maryland.",
+      "Now hiring caregivers, CNAs, GNAs, CMTs, and nurses across Maryland. Competitive pay, real benefits, and flexible schedules. Apply online for home care jobs with My Home Cares.",
     url: "https://www.myhomecares.com/careers/",
     type: "website",
   },
