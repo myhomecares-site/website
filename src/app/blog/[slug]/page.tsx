@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { posts, formatDate, postImage } from "@/lib/posts";
+import { posts, formatDate, postImage, postHeroImage } from "@/lib/posts";
 import { site, media } from "@/lib/site";
 import { Container, Section } from "@/components/ui";
 import { CTASection } from "@/components/blocks";
@@ -105,11 +105,11 @@ export default async function BlogPostPage({
       <Container className="pt-10 sm:pt-12">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={media(postImage(post))}
+          src={media(postHeroImage(post))}
           alt={post.title}
           width={1200}
-          height={630}
-          className="mx-auto w-full max-w-3xl rounded-2xl border border-border card-shadow"
+          height={675}
+          className="mx-auto aspect-[16/9] w-full max-w-3xl rounded-2xl border border-border object-cover card-shadow"
         />
       </Container>
 

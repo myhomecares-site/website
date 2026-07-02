@@ -148,8 +148,39 @@ export const posts: Post[] = [
 
 // Featured image for a post: use its explicit image, otherwise fall back to the
 // auto-generated branded title card (one per slug in /uploads/2024/07/cards/).
+// Used for the blog index cards and social/Open Graph previews.
 export function postImage(post: Post) {
   return post.image || `/wp-content/uploads/2024/07/cards/${post.slug}.png`;
+}
+
+// Real photographs (already licensed and used elsewhere on the site) mapped to
+// each post by topic. Shown as the in-article hero image when a reader opens a
+// post. Posts not listed here fall back to their branded card.
+export const postPhotos: Record<string, string> = {
+  "signs-your-parent-needs-home-care": "/wp-content/uploads/2024/01/caring-nurse-helping-elderly.png",
+  "how-to-choose-home-care-agency-maryland": "/wp-content/uploads/2024/02/home-care-services.webp",
+  "how-to-pay-for-home-care-maryland": "/wp-content/uploads/2024/02/skilled-nursing-services.webp",
+  "world-diabetes-day-raising-awareness": "/wp-content/uploads/2024/01/meal-preparation-maryland.webp",
+  "celebrating-world-kindness-day": "/wp-content/uploads/2024/01/companion-care-maryland-1.webp",
+  "future-home-care-trends-2024": "/wp-content/uploads/2024/02/skilled-nursing-services.webp",
+  "supporting-family-caregivers-respite-care": "/wp-content/uploads/2024/01/Respite-care-md.webp",
+  "impact-value-based-care-home-health": "/wp-content/uploads/2024/01/skilled-nursing-maryland.webp",
+  "enhancing-memory-care-dementia-patients": "/wp-content/uploads/2024/01/personal-care.png",
+  "holistic-approaches-home-care": "/wp-content/uploads/2024/02/home-care-services.webp",
+  "role-occupational-physical-therapy-home-care": "/wp-content/uploads/2024/01/skilled-nursing-maryland.webp",
+  "embracing-ai-revolutionizing-home-care": "/wp-content/uploads/2024/02/skilled-nursing-services.webp",
+  "assistive-robotics-home-care": "/wp-content/uploads/2024/02/home-care-services.webp",
+  "caregiver-recruitment-retention-strategies": "/wp-content/uploads/2024/01/companion-care-maryland-1.webp",
+  "personalized-care-plans-home-care": "/wp-content/uploads/2024/01/personal-care.png",
+  "navigating-regulatory-changes-home-care-2024": "/wp-content/uploads/2024/01/skilled-nursing-maryland.webp",
+  "leveraging-technology-better-home-care": "/wp-content/uploads/2024/02/skilled-nursing-services.webp",
+  "world-kindness-day": "/wp-content/uploads/2024/01/companion-care-maryland-1.webp",
+};
+
+// In-article hero image: a real topic photo if one is mapped, else the branded
+// card (also covers posts like the Medicaid one that set an explicit image).
+export function postHeroImage(post: Post) {
+  return post.image || postPhotos[post.slug] || postImage(post);
 }
 
 export function formatDate(iso: string) {
