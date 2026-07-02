@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { posts, formatDate } from "@/lib/posts";
+import { posts, formatDate, postImage } from "@/lib/posts";
 import { site, media } from "@/lib/site";
 import { Container, Section } from "@/components/ui";
 import { CTASection } from "@/components/blocks";
@@ -32,7 +32,7 @@ export async function generateMetadata({
   const post = postMap.get(slug);
   if (!post) return {};
   const url = `${site.url}/blog/${post.slug}/`;
-  const ogImage = `${site.url}${post.image || "/wp-content/uploads/2024/01/caring-nurse-helping-elderly.png"}`;
+  const ogImage = `${site.url}${postImage(post)}`;
   return {
     title: post.title,
     description: post.excerpt,
@@ -85,7 +85,7 @@ export default async function BlogPostPage({
           logo: { "@type": "ImageObject", url: `${site.url}/brand/mhc-wordmark.png` },
         },
         mainEntityOfPage: url,
-        image: `${site.url}${post.image || "/wp-content/uploads/2024/01/caring-nurse-helping-elderly.png"}`,
+        image: `${site.url}${postImage(post)}`,
       }} />
       <section className="hero-gradient border-b border-border">
         <Container className="py-14 sm:py-18">
@@ -102,18 +102,16 @@ export default async function BlogPostPage({
         </Container>
       </section>
 
-      {post.image && (
-        <Container className="pt-10 sm:pt-12">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={media(post.image)}
-            alt={post.title}
-            width={1200}
-            height={630}
-            className="mx-auto w-full max-w-3xl rounded-2xl border border-border card-shadow"
-          />
-        </Container>
-      )}
+      <Container className="pt-10 sm:pt-12">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={media(postImage(post))}
+          alt={post.title}
+          width={1200}
+          height={630}
+          className="mx-auto w-full max-w-3xl rounded-2xl border border-border card-shadow"
+        />
+      </Container>
 
       <Section>
         <article className="prose-care mx-auto max-w-2xl">

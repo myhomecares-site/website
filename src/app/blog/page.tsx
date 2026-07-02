@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { posts, formatDate } from "@/lib/posts";
+import { posts, formatDate, postImage } from "@/lib/posts";
 import { media } from "@/lib/site";
 import { Section } from "@/components/ui";
 import { PageHero, CTASection } from "@/components/blocks";
@@ -34,16 +34,14 @@ export default function BlogPage() {
               href={`/blog/${post.slug}`}
               className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-white transition-all hover:-translate-y-1 hover:border-primary/30 card-shadow"
             >
-              {post.image && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={media(post.image)}
-                  alt={post.title}
-                  width={1200}
-                  height={630}
-                  className="aspect-[1200/630] w-full border-b border-border object-cover"
-                />
-              )}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={media(postImage(post))}
+                alt={post.title}
+                width={1200}
+                height={630}
+                className="aspect-[1200/630] w-full border-b border-border object-cover"
+              />
               <div className="flex flex-1 flex-col p-6">
               <div className="flex items-center gap-2 text-xs">
                 <span className="rounded-full bg-primary-50 px-2.5 py-1 font-semibold text-primary">{post.category}</span>

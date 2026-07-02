@@ -146,6 +146,12 @@ export const posts: Post[] = [
   },
 ];
 
+// Featured image for a post: use its explicit image, otherwise fall back to the
+// auto-generated branded title card (one per slug in /uploads/2024/07/cards/).
+export function postImage(post: Post) {
+  return post.image || `/wp-content/uploads/2024/07/cards/${post.slug}.png`;
+}
+
 export function formatDate(iso: string) {
   return new Date(iso + "T00:00:00").toLocaleDateString("en-US", {
     year: "numeric",
