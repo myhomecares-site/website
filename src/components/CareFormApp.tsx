@@ -6,10 +6,12 @@ import { careFormSchemas, type FormBlock, type FormField } from "@/lib/care-form
 import { Icon } from "@/components/icons";
 
 /*
-  Interactive, on-device care-form tool (HomelyCare pattern).
-  - Fill the schema-driven form, "Save entry" -> stored in localStorage on THIS device.
-  - Running list of saved entries per form, with edit / print / delete + CSV export.
-  - No health data ever leaves the device (no server, no login).
+  Interactive, on-device care-form tool.
+  - Uncontrolled inputs (values read from the DOM on save) so typing never
+    triggers React re-renders — stays fast even on very large forms.
+  - Forms with several section headings render as collapsible <details> so a
+    closed section isn't laid out; the page opens instantly on any device.
+  - Entries save in localStorage on THIS device (no server, no PHI transmitted).
 */
 
 type Values = Record<string, string | boolean>;
@@ -26,7 +28,7 @@ function widthCls(w?: FormField["width"]) {
   return "col-span-6 sm:col-span-3";
 }
 
-// ---- value helpers ---------------------------------------------------------
+// ---- id helpers ------------------------------------------------------------
 function fieldId(bi: number, name: string) { return `b${bi}.f.${name}`; }
 function taId(bi: number) { return `b${bi}.ta`; }
 function checkId(bi: number, ii: number) { return `b${bi}.c.${ii}`; }
@@ -38,6 +40,23 @@ function skId(bi: number, r: number, k: "yes" | "no" | "date" | "rn") { return `
 
 function tableRowCount(b: Extract<FormBlock, { kind: "table" }>) {
   return b.rowLabels ? b.rowLabels.length : (b.rows || 4);
+}
+
+// Read every named input in the form into a values map.
+function readForm(form: HTMLFormElement): Values {
+  const vals: Values = {};
+  form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>("input, textarea, select").forEach((el) => {
+    const id = el.getAttribute("name");
+    if (!id) return;
+    if (el instanceof HTMLInputElement && el.type === "checkbox") {
+      if (el.checked) vals[id] = true;
+    } else if (el instanceof HTMLInputElement && el.type === "radio") {
+      if (el.checked) vals[id] = el.value;
+    } else if (el.value) {
+      vals[id] = el.value;
+    }
+  });
+  return vals;
 }
 
 function summarize(schema: FormBlock[], values: Values) {
@@ -56,8 +75,6 @@ function summarize(schema: FormBlock[], values: Values) {
   return { client, date };
 }
 
-// Card label: prefer the caregiver identity (name + number) for logs saved per
-// person (e.g. the monthly caregiver log); otherwise fall back to client + date.
 function labelOf(schema: FormBlock[], values: Values): { title: string; sub: string } {
   const fv: Record<string, string> = {};
   schema.forEach((b, bi) => {
@@ -132,12 +149,14 @@ function flatten(schema: FormBlock[], values: Values): [string, string][] {
 // ---- component -------------------------------------------------------------
 export function CareFormApp({ slug, title }: { slug: string; title: string }) {
   const schema = careFormSchemas[slug];
-  const [values, setValues] = useState<Values>({});
   const [entries, setEntries] = useState<Entry[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [initial, setInitial] = useState<Values>({});
+  const [formKey, setFormKey] = useState(0);
   const [mounted, setMounted] = useState(false);
   const [query, setQuery] = useState("");
   const [toastMsg, setToastMsg] = useState("");
+  const formRef = useRef<HTMLFormElement>(null);
   const topRef = useRef<HTMLDivElement>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -151,11 +170,23 @@ export function CareFormApp({ slug, title }: { slug: string; title: string }) {
 
   if (!schema) return null;
 
+  // Group blocks into sections by heading, preserving original block indexes.
+  const headingCount = schema.filter((b) => b.kind === "heading").length;
+  const collapsible = headingCount >= 3;
+  type Sec = { heading: string | null; items: { block: FormBlock; bi: number }[] };
+  const sections: Sec[] = [];
+  let cur: Sec = { heading: null, items: [] };
+  schema.forEach((b, bi) => {
+    if (b.kind === "heading") { sections.push(cur); cur = { heading: b.text, items: [] }; }
+    else cur.items.push({ block: b, bi });
+  });
+  sections.push(cur);
+  const visibleSections = sections.filter((s) => s.items.length > 0);
+
   const persist = (next: Entry[]) => {
     setEntries(next);
     try { localStorage.setItem(storeKey(slug), JSON.stringify(next)); } catch { /* ignore */ }
   };
-  const set = (id: string, v: string | boolean) => setValues((prev) => ({ ...prev, [id]: v }));
   const toast = (m: string) => {
     setToastMsg(m);
     if (toastTimer.current) clearTimeout(toastTimer.current);
@@ -163,24 +194,36 @@ export function CareFormApp({ slug, title }: { slug: string; title: string }) {
   };
 
   const saveEntry = () => {
+    if (!formRef.current) return;
+    const values = readForm(formRef.current);
     const id = editingId || "e" + Date.now();
     const entry: Entry = { id, savedAt: new Date().toISOString(), values };
-    const next = [entry, ...entries.filter((e) => e.id !== id)];
-    persist(next);
+    persist([entry, ...entries.filter((e) => e.id !== id)]);
     setEditingId(id);
     toast(editingId ? "Entry updated" : "Entry saved on this device");
   };
-  const newEntry = () => { setValues({}); setEditingId(null); topRef.current?.scrollIntoView({ behavior: "smooth" }); };
-  const editEntry = (e: Entry) => { setValues(e.values); setEditingId(e.id); topRef.current?.scrollIntoView({ behavior: "smooth" }); };
+  const newEntry = () => { setInitial({}); setEditingId(null); setFormKey((k) => k + 1); topRef.current?.scrollIntoView({ behavior: "smooth" }); };
+  const editEntry = (e: Entry) => { setInitial(e.values); setEditingId(e.id); setFormKey((k) => k + 1); topRef.current?.scrollIntoView({ behavior: "smooth" }); };
   const deleteEntry = (id: string) => {
     persist(entries.filter((e) => e.id !== id));
     if (editingId === id) newEntry();
     toast("Entry deleted");
   };
 
+  const printForm = () => {
+    formRef.current?.querySelectorAll("details").forEach((d) => { d.open = true; });
+    setTimeout(() => window.print(), 40);
+  };
+  const toggleAll = () => {
+    const all = formRef.current?.querySelectorAll("details");
+    if (!all) return;
+    const anyClosed = Array.from(all).some((d) => !d.open);
+    all.forEach((d) => { d.open = anyClosed; });
+  };
+
   const exportCSV = () => {
     const q = (s: string) => `"${(s || "").replace(/"/g, '""')}"`;
-    const header = ["Saved", "Client", "Date", "Details"].map(q).join(",");
+    const header = ["Saved", "Name", "Date", "Details"].map(q).join(",");
     const rows = entries.map((e) => {
       const { client, date } = summarize(schema, e.values);
       const details = flatten(schema, e.values).map(([l, v]) => `${l}: ${v}`).join(" | ");
@@ -204,10 +247,15 @@ export function CareFormApp({ slug, title }: { slug: string; title: string }) {
             <p className="text-sm text-muted">Fill it in, then save on this device, print, or export. Data stays on this device.</p>
           </div>
           <div className="flex flex-wrap gap-2">
+            {collapsible && (
+              <button type="button" onClick={toggleAll} className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2.5 text-sm font-semibold text-ink-soft transition hover:bg-surface">
+                Expand / collapse all
+              </button>
+            )}
             <button type="button" onClick={saveEntry} className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-accent-dark">
               <Icon name="check" className="h-4 w-4" strokeWidth={2.5} /> {editingId ? "Update entry" : "Save entry"}
             </button>
-            <button type="button" onClick={() => window.print()} className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-primary-dark">
+            <button type="button" onClick={printForm} className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-primary-dark">
               <Icon name="download" className="h-4 w-4" /> Print / PDF
             </button>
             <button type="button" onClick={newEntry} className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-semibold text-ink-soft transition hover:bg-surface">
@@ -222,11 +270,30 @@ export function CareFormApp({ slug, title }: { slug: string; title: string }) {
           <p className="text-sm text-muted">{title} · Licensed Maryland RSA ({site.license})</p>
         </div>
 
-        <div className="care-form space-y-8">
-          {schema.map((block, bi) => (
-            <Block key={bi} block={block} bi={bi} values={values} set={set} />
-          ))}
-        </div>
+        <form key={formKey} ref={formRef} className="care-form space-y-6">
+          {visibleSections.map((sec, si) =>
+            sec.heading == null ? (
+              <div key={si} className="space-y-8">
+                {sec.items.map(({ block, bi }) => <Block key={bi} block={block} bi={bi} initial={initial} />)}
+              </div>
+            ) : collapsible ? (
+              <details key={si} open={si === 0} className="group overflow-hidden rounded-xl border border-border print:border-0">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-2 bg-surface-2 px-4 py-3 text-sm font-bold uppercase tracking-wide text-ink">
+                  {sec.heading}
+                  <Icon name="arrow" className="h-4 w-4 rotate-90 text-muted transition-transform group-open:rotate-[270deg]" />
+                </summary>
+                <div className="space-y-8 p-4 sm:p-5">
+                  {sec.items.map(({ block, bi }) => <Block key={bi} block={block} bi={bi} initial={initial} />)}
+                </div>
+              </details>
+            ) : (
+              <div key={si} className="space-y-6">
+                <h3 className="-mx-6 border-y border-border bg-surface-2 px-6 py-2 text-sm font-bold uppercase tracking-wide text-ink sm:-mx-8 sm:px-8">{sec.heading}</h3>
+                {sec.items.map(({ block, bi }) => <Block key={bi} block={block} bi={bi} initial={initial} />)}
+              </div>
+            )
+          )}
+        </form>
       </div>
 
       {/* Saved entries (device only) */}
@@ -284,7 +351,6 @@ export function CareFormApp({ slug, title }: { slug: string; title: string }) {
         </p>
       </div>
 
-      {/* Toast */}
       {toastMsg && (
         <div className="no-print fixed bottom-24 left-1/2 z-50 -translate-x-1/2 rounded-xl bg-ink px-4 py-2.5 text-sm font-medium text-white shadow-lg">
           {toastMsg}
@@ -294,8 +360,11 @@ export function CareFormApp({ slug, title }: { slug: string; title: string }) {
   );
 }
 
-// ---- block renderer (controlled) ------------------------------------------
-function Block({ block, bi, values, set }: { block: FormBlock; bi: number; values: Values; set: (id: string, v: string | boolean) => void }) {
+// ---- block renderer (uncontrolled) ----------------------------------------
+function Block({ block, bi, initial }: { block: FormBlock; bi: number; initial: Values }) {
+  const dv = (id: string) => (initial[id] as string) || "";
+  const dc = (id: string) => !!initial[id];
+
   switch (block.kind) {
     case "fields":
       return (
@@ -307,7 +376,7 @@ function Block({ block, bi, values, set }: { block: FormBlock; bi: number; value
               return (
                 <label key={f.name} className={`${widthCls(f.width)} block`}>
                   <span className="mb-1 block text-xs font-semibold uppercase tracking-wide text-muted">{f.label}</span>
-                  <input type={f.type || "text"} value={(values[id] as string) || ""} onChange={(e) => set(id, e.target.value)} className={inputCls} />
+                  <input type={f.type || "text"} name={id} defaultValue={dv(id)} className={inputCls} />
                 </label>
               );
             })}
@@ -324,7 +393,7 @@ function Block({ block, bi, values, set }: { block: FormBlock; bi: number; value
               const id = checkId(bi, ii);
               return (
                 <label key={it} className="flex items-start gap-2.5 text-sm text-ink-soft">
-                  <input type="checkbox" checked={!!values[id]} onChange={(e) => set(id, e.target.checked)} className="mt-0.5 h-4 w-4 shrink-0 rounded border-border text-primary focus:ring-primary/30" />
+                  <input type="checkbox" name={id} defaultChecked={dc(id)} className="mt-0.5 h-4 w-4 shrink-0 rounded border-border text-primary focus:ring-primary/30" />
                   {it}
                 </label>
               );
@@ -338,7 +407,7 @@ function Block({ block, bi, values, set }: { block: FormBlock; bi: number; value
       return (
         <label className="block">
           <span className="mb-1 block text-base font-bold text-ink">{block.label}</span>
-          <textarea rows={block.rows || 3} value={(values[id] as string) || ""} onChange={(e) => set(id, e.target.value)} className={inputCls} />
+          <textarea rows={block.rows || 3} name={id} defaultValue={dv(id)} className={inputCls} />
         </label>
       );
     }
@@ -353,7 +422,7 @@ function Block({ block, bi, values, set }: { block: FormBlock; bi: number; value
             <div className="flex flex-wrap gap-1.5">
               {nums.map((n) => (
                 <label key={n} className="flex flex-col items-center gap-1 text-xs text-ink-soft">
-                  <input type="radio" name={`scale-b${bi}`} checked={values[id] === String(n)} onChange={() => set(id, String(n))} className="h-4 w-4 text-primary focus:ring-primary/30" />
+                  <input type="radio" name={id} value={String(n)} defaultChecked={initial[id] === String(n)} className="h-4 w-4 text-primary focus:ring-primary/30" />
                   {n}
                 </label>
               ))}
@@ -388,7 +457,7 @@ function Block({ block, bi, values, set }: { block: FormBlock; bi: number; value
                       const id = cellId(bi, r, c);
                       return (
                         <td key={c} className="border border-border p-0">
-                          <input type="text" value={(values[id] as string) || ""} onChange={(e) => set(id, e.target.value)} className="w-full border-0 bg-transparent px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary/20" />
+                          <input type="text" name={id} defaultValue={dv(id)} className="w-full border-0 bg-transparent px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary/20" />
                         </td>
                       );
                     })}
@@ -406,8 +475,8 @@ function Block({ block, bi, values, set }: { block: FormBlock; bi: number; value
           {block.roles.map((role, ri) => (
             <div key={role}>
               <div className="flex items-end gap-3">
-                <input type="text" aria-label={`${role} signature`} value={(values[sigId(bi, ri, "name")] as string) || ""} onChange={(e) => set(sigId(bi, ri, "name"), e.target.value)} className="flex-1 border-0 border-b border-ink/40 bg-transparent px-1 py-1 text-sm focus:border-primary focus:outline-none" />
-                <input type="date" aria-label={`${role} date`} value={(values[sigId(bi, ri, "date")] as string) || ""} onChange={(e) => set(sigId(bi, ri, "date"), e.target.value)} className="w-36 border-0 border-b border-ink/40 bg-transparent px-1 py-1 text-sm focus:border-primary focus:outline-none" />
+                <input type="text" name={sigId(bi, ri, "name")} defaultValue={dv(sigId(bi, ri, "name"))} aria-label={`${role} signature`} className="flex-1 border-0 border-b border-ink/40 bg-transparent px-1 py-1 text-sm focus:border-primary focus:outline-none" />
+                <input type="date" name={sigId(bi, ri, "date")} defaultValue={dv(sigId(bi, ri, "date"))} aria-label={`${role} date`} className="w-36 border-0 border-b border-ink/40 bg-transparent px-1 py-1 text-sm focus:border-primary focus:outline-none" />
               </div>
               <p className="mt-1 text-xs text-muted">{role} · Signature / Date</p>
             </div>
@@ -444,7 +513,7 @@ function Block({ block, bi, values, set }: { block: FormBlock; bi: number; value
                       return (
                         <td key={c} className="border border-border p-0 text-center">
                           <span className="flex items-center justify-center py-1.5">
-                            <input type="checkbox" checked={!!values[id]} onChange={(e) => set(id, e.target.checked)} className="h-4 w-4 rounded border-border text-primary focus:ring-primary/30" />
+                            <input type="checkbox" name={id} defaultChecked={dc(id)} className="h-4 w-4 rounded border-border text-primary focus:ring-primary/30" />
                           </span>
                         </td>
                       );
@@ -471,26 +540,29 @@ function Block({ block, bi, values, set }: { block: FormBlock; bi: number; value
                 </tr>
               </thead>
               <tbody>
-                {block.items.map((item, r) => (
-                  <tr key={r}>
-                    <td className="border border-border px-2 py-1.5 text-center text-muted">{r + 1}</td>
-                    <td className="border border-border px-2 py-1.5 text-ink-soft">{item}</td>
-                    <td className="border border-border px-2 py-1.5 whitespace-nowrap">
-                      <label className="mr-3 inline-flex items-center gap-1">
-                        <input type="checkbox" checked={!!values[skId(bi, r, "yes")]} onChange={(e) => { set(skId(bi, r, "yes"), e.target.checked); if (e.target.checked) set(skId(bi, r, "no"), false); }} className="h-4 w-4" /> Yes
-                      </label>
-                      <label className="inline-flex items-center gap-1">
-                        <input type="checkbox" checked={!!values[skId(bi, r, "no")]} onChange={(e) => { set(skId(bi, r, "no"), e.target.checked); if (e.target.checked) set(skId(bi, r, "yes"), false); }} className="h-4 w-4" /> No
-                      </label>
-                    </td>
-                    <td className="border border-border p-0">
-                      <input type="date" value={(values[skId(bi, r, "date")] as string) || ""} onChange={(e) => set(skId(bi, r, "date"), e.target.value)} className="w-full border-0 bg-transparent px-2 py-1.5 text-sm focus:outline-none" />
-                    </td>
-                    <td className="border border-border p-0">
-                      <input type="text" value={(values[skId(bi, r, "rn")] as string) || ""} onChange={(e) => set(skId(bi, r, "rn"), e.target.value)} className="w-full border-0 bg-transparent px-2 py-1.5 text-sm focus:outline-none" />
-                    </td>
-                  </tr>
-                ))}
+                {block.items.map((item, r) => {
+                  const yesId = skId(bi, r, "yes"); const noId = skId(bi, r, "no");
+                  return (
+                    <tr key={r}>
+                      <td className="border border-border px-2 py-1.5 text-center text-muted">{r + 1}</td>
+                      <td className="border border-border px-2 py-1.5 text-ink-soft">{item}</td>
+                      <td className="border border-border px-2 py-1.5 whitespace-nowrap">
+                        <label className="mr-3 inline-flex items-center gap-1">
+                          <input type="checkbox" name={yesId} defaultChecked={dc(yesId)} onChange={(e) => { if (e.target.checked) { const o = e.target.closest("tr")?.querySelector<HTMLInputElement>(`input[name="${noId}"]`); if (o) o.checked = false; } }} className="h-4 w-4" /> Yes
+                        </label>
+                        <label className="inline-flex items-center gap-1">
+                          <input type="checkbox" name={noId} defaultChecked={dc(noId)} onChange={(e) => { if (e.target.checked) { const o = e.target.closest("tr")?.querySelector<HTMLInputElement>(`input[name="${yesId}"]`); if (o) o.checked = false; } }} className="h-4 w-4" /> No
+                        </label>
+                      </td>
+                      <td className="border border-border p-0">
+                        <input type="date" name={skId(bi, r, "date")} defaultValue={dv(skId(bi, r, "date"))} className="w-full border-0 bg-transparent px-2 py-1.5 text-sm focus:outline-none" />
+                      </td>
+                      <td className="border border-border p-0">
+                        <input type="text" name={skId(bi, r, "rn")} defaultValue={dv(skId(bi, r, "rn"))} className="w-full border-0 bg-transparent px-2 py-1.5 text-sm focus:outline-none" />
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
