@@ -54,6 +54,27 @@ function summarize(schema: FormBlock[], values: Values) {
   return { client, date };
 }
 
+// Card label: prefer the caregiver identity (name + number) for logs saved per
+// person (e.g. the monthly caregiver log); otherwise fall back to client + date.
+function labelOf(schema: FormBlock[], values: Values): { title: string; sub: string } {
+  const fv: Record<string, string> = {};
+  schema.forEach((b, bi) => {
+    if (b.kind === "fields") {
+      b.fields.forEach((f) => {
+        const v = values[fieldId(bi, f.name)];
+        if (typeof v === "string" && v.trim()) fv[f.name] = v.trim();
+      });
+    }
+  });
+  if (fv.caregiver) {
+    const title = fv.caregiverNo ? `${fv.caregiver} · #${fv.caregiverNo}` : fv.caregiver;
+    const sub = [fv.month, fv.client ? `Client: ${fv.client}` : ""].filter(Boolean).join(" · ");
+    return { title, sub };
+  }
+  const { client, date } = summarize(schema, values);
+  return { title: client || "Untitled entry", sub: date ? `Form date ${date}` : "" };
+}
+
 function flatten(schema: FormBlock[], values: Values): [string, string][] {
   const out: [string, string][] = [];
   schema.forEach((b, bi) => {
@@ -99,6 +120,7 @@ export function CareFormApp({ slug, title }: { slug: string; title: string }) {
   const [entries, setEntries] = useState<Entry[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [query, setQuery] = useState("");
   const [toastMsg, setToastMsg] = useState("");
   const topRef = useRef<HTMLDivElement>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -209,26 +231,37 @@ export function CareFormApp({ slug, title }: { slug: string; title: string }) {
             No saved entries yet. Fill in the form above and choose <span className="font-semibold text-ink-soft">Save entry</span>. Entries are stored only on this device.
           </div>
         ) : (
-          <div className="space-y-3">
-            {entries.map((e) => {
-              const { client, date } = summarize(schema, e.values);
-              return (
-                <div key={e.id} className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-white p-4 card-shadow">
-                  <div className="min-w-0">
-                    <p className="truncate font-semibold text-ink">{client || "Untitled entry"}</p>
-                    <p className="text-xs text-muted">
-                      {date ? `Form date ${date} · ` : ""}Saved {new Date(e.savedAt).toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })}
-                      {editingId === e.id && <span className="ml-2 rounded-full bg-primary-50 px-2 py-0.5 font-semibold text-primary">editing</span>}
-                    </p>
+          <>
+            {entries.length > 3 && (
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search by name or number..."
+                className="mb-3 w-full rounded-full border border-border bg-white px-4 py-2 text-sm text-ink outline-none focus:border-primary focus:ring-2 focus:ring-primary/15"
+              />
+            )}
+            <div className="space-y-3">
+              {entries
+                .map((e) => ({ e, label: labelOf(schema, e.values) }))
+                .filter(({ label }) => !query || `${label.title} ${label.sub}`.toLowerCase().includes(query.toLowerCase()))
+                .map(({ e, label }) => (
+                  <div key={e.id} className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-white p-4 card-shadow">
+                    <div className="min-w-0">
+                      <p className="truncate font-semibold text-ink">{label.title}</p>
+                      <p className="text-xs text-muted">
+                        {label.sub ? `${label.sub} · ` : ""}Saved {new Date(e.savedAt).toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })}
+                        {editingId === e.id && <span className="ml-2 rounded-full bg-primary-50 px-2 py-0.5 font-semibold text-primary">editing</span>}
+                      </p>
+                    </div>
+                    <div className="flex gap-2">
+                      <button type="button" onClick={() => editEntry(e)} className="rounded-lg border border-border px-3 py-1.5 text-sm font-semibold text-ink-soft hover:bg-surface">Open</button>
+                      <button type="button" onClick={() => deleteEntry(e.id)} className="rounded-lg border border-border px-3 py-1.5 text-sm font-semibold text-primary-dark hover:bg-surface">Delete</button>
+                    </div>
                   </div>
-                  <div className="flex gap-2">
-                    <button type="button" onClick={() => editEntry(e)} className="rounded-lg border border-border px-3 py-1.5 text-sm font-semibold text-ink-soft hover:bg-surface">Open</button>
-                    <button type="button" onClick={() => deleteEntry(e.id)} className="rounded-lg border border-border px-3 py-1.5 text-sm font-semibold text-primary-dark hover:bg-surface">Delete</button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+                ))}
+            </div>
+          </>
         )}
         <p className="mt-3 text-xs text-muted">
           Entries are saved only in this browser on this device (no server). Clearing your browser data will remove them. Use Print / PDF or Export CSV to keep a permanent copy.

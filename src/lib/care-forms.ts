@@ -183,7 +183,7 @@ export const careFormSchemas: Record<string, FormBlock[]> = {
     },
     { kind: "table", title: "Initials key", columns: ["Initials", "Full name & title"], rows: 4 },
     { kind: "textarea", label: "Notes / exceptions", rows: 3 },
-    { kind: "signatures", roles: ["Reviewed by (RN)"] },
+    { kind: "signatures", roles: ["Caregiver / Aide", "Reviewed by (RN)"] },
   ],
 
   "emergency-medical-data-sheet": [
@@ -231,47 +231,34 @@ export const careFormSchemas: Record<string, FormBlock[]> = {
     { kind: "signatures", roles: ["Completed by"] },
   ],
 
+  // Monthly caregiver log. Saves per caregiver by name + number so each aide
+  // builds their own month of daily visits, and signs at the bottom.
   "caregiver-daily-log-form": [
     {
       kind: "fields",
-      title: "Visit information",
+      title: "Caregiver",
       fields: [
-        { name: "client", label: "Client name", width: "half" },
-        { name: "caregiver", label: "Caregiver", width: "half" },
-        { name: "date", label: "Date", type: "date", width: "third" },
-        { name: "timeIn", label: "Time in", type: "time", width: "third" },
-        { name: "timeOut", label: "Time out", type: "time", width: "third" },
+        { name: "caregiver", label: "Caregiver name", width: "half" },
+        { name: "caregiverNo", label: "Caregiver number", width: "third" },
+        { name: "month", label: "Month / Year", width: "third" },
       ],
-    },
-    {
-      kind: "checklist",
-      title: "Tasks completed",
-      columns: 2,
-      items: [
-        "Bathing / hygiene", "Dressing & grooming", "Toileting / incontinence care", "Mobility / transfers",
-        "Repositioning", "Medication reminders", "Meal preparation", "Feeding assistance",
-        "Hydration encouraged", "Light housekeeping", "Laundry", "Companionship / activity",
-        "Escort / transportation",
-      ],
-    },
-    {
-      kind: "table",
-      title: "Meals & fluids",
-      columns: ["Meal", "Food offered", "Amount eaten", "Fluids (oz)"],
-      rowLabels: ["Breakfast", "Lunch", "Dinner", "Snacks"],
     },
     {
       kind: "fields",
-      title: "Well-being",
+      title: "Client",
       fields: [
-        { name: "mood", label: "Mood", width: "half" },
-        { name: "appetite", label: "Appetite", width: "half" },
-        { name: "bowel", label: "Bowel movement", width: "third" },
-        { name: "sleep", label: "Sleep", width: "third" },
+        { name: "client", label: "Client name", width: "half" },
+        { name: "clientLoc", label: "Client location / ID", width: "half" },
       ],
     },
-    { kind: "textarea", label: "Activities & observations", rows: 3 },
-    { kind: "textarea", label: "Changes in condition / concerns", rows: 3 },
-    { kind: "signatures", roles: ["Caregiver", "Supervisor (if applicable)"] },
+    { kind: "note", text: "Record each visit for the month on its own row. Note tasks, meals, and anything that changed. Sign at the bottom, then print or export at month end. For best results, print in landscape." },
+    {
+      kind: "table",
+      title: "Daily visit log",
+      columns: ["Date", "Time in", "Time out", "Hours", "Tasks, meals & observations", "Initials"],
+      rows: 20,
+    },
+    { kind: "textarea", label: "Notes / changes in condition this month", rows: 3 },
+    { kind: "signatures", roles: ["Caregiver signature", "Supervisor (if applicable)"] },
   ],
 };
