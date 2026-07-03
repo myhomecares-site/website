@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { services, serviceImages, site, mediaAssets } from "@/lib/site";
+import { services, serviceImages, site, mediaAssets, media } from "@/lib/site";
+import { posts, postImage, formatDate } from "@/lib/posts";
 import { Container, Section, SectionHeading, Button } from "@/components/ui";
 import { ServiceCard, CTASection, Stat, TrustBand, HowItWorks, Stars, WhatSetsUsApart, SpecializedCare } from "@/components/blocks";
 import { VideoFeature } from "@/components/VideoFeature";
@@ -217,6 +218,48 @@ export default function Home() {
 
       {/* Reviews */}
       <Reviews />
+
+      {/* Latest from the blog */}
+      <Section muted>
+        <SectionHeading
+          center
+          eyebrow="Insights & Resources"
+          title="Latest from our blog"
+          intro="Tips and guidance on home care, caregiving, and healthy aging in Maryland."
+        />
+        <div className="mx-auto mt-11 grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {posts.slice(0, 3).map((post) => (
+            <Link
+              key={post.slug}
+              href={`/blog/${post.slug}`}
+              className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-white transition-all hover:-translate-y-1 hover:border-primary/30 card-shadow"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={media(postImage(post))}
+                alt={post.title}
+                width={1200}
+                height={630}
+                className="aspect-[1200/630] w-full border-b border-border object-cover"
+              />
+              <div className="flex flex-1 flex-col p-6">
+                <div className="flex items-center gap-2 text-xs">
+                  <span className="rounded-full bg-primary-50 px-2.5 py-1 font-semibold text-primary">{post.category}</span>
+                  <span className="text-muted-light">{formatDate(post.date)}</span>
+                </div>
+                <h3 className="mt-4 text-lg font-bold leading-snug group-hover:text-primary">{post.title}</h3>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{post.excerpt}</p>
+                <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
+                  Read more <Icon name="arrow" className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+        <div className="mt-10 text-center">
+          <Button href="/blog" variant="outline" withArrow>View All Articles</Button>
+        </div>
+      </Section>
 
       {/* Careers teaser */}
       <Section>

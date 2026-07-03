@@ -489,6 +489,7 @@ export const mainNav: NavItem[] = [
   },
   { label: "Service Areas", href: "/service-areas" },
   { label: "About", href: "/about" },
+  { label: "Blog", href: "/blog" },
   {
     label: "Careers",
     href: "/careers",
