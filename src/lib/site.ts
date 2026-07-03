@@ -294,20 +294,12 @@ export const careForms = [
     captures: ["Client goals & preferences", "Assigned care tasks", "Visit schedule", "Review dates"],
   },
   {
-    slug: "skin-assessment-sheet",
-    title: "Skin Assessment Sheet",
-    summary: "Tracks skin integrity to prevent and catch pressure injuries early.",
-    purpose:
-      "A periodic skin check used to monitor for redness, breakdown, or pressure areas, supporting early intervention and wound prevention.",
-    captures: ["Skin condition by area", "Pressure / risk areas", "Changes over time", "Action taken"],
-  },
-  {
     slug: "participant-assessment-form",
-    title: "Participant Assessment Form",
-    summary: "The intake assessment that establishes a client's baseline.",
+    title: "Participant Assessment",
+    summary: "The full head-to-toe assessment, including skin and pressure-ulcer review.",
     purpose:
-      "A comprehensive intake that captures health history, abilities, and support needs to build an appropriate, personalized care plan.",
-    captures: ["Health history", "Functional abilities (ADLs)", "Support needs", "Emergency contacts"],
+      "A comprehensive participant assessment covering vitals, every body system, sensory and mental health, skin and pressure ulcers, activities of daily living, medications, and RN certification, all in one form.",
+    captures: ["Vitals & body systems", "Skin & pressure ulcers", "ADLs & mobility", "Medications & RN certification"],
   },
   {
     slug: "pain-evaluation",
@@ -335,11 +327,19 @@ export const careForms = [
   },
   {
     slug: "caregiver-daily-log-form",
-    title: "Caregiver Daily Log",
-    summary: "A daily record of care, tasks, and observations.",
+    title: "Caregiver Monthly Log",
+    summary: "A monthly visit log saved per caregiver by name and number.",
     purpose:
-      "A visit-by-visit log of tasks completed, meals, activities, and any changes in condition, keeping families informed and care consistent.",
-    captures: ["Tasks completed", "Meals & fluids", "Mood & activity", "Notes & changes"],
+      "A month-long record of a caregiver's visits, tasks, meals, and changes in condition, saved and searchable by the caregiver's name and number.",
+    captures: ["Caregiver name & number", "Daily visits & hours", "Tasks & observations", "Caregiver signature"],
+  },
+  {
+    slug: "unlicensed-aide-skills-assessment",
+    title: "Aide Skills Assessment Checklist",
+    summary: "The RN's competency checklist for CNAs and unlicensed aides.",
+    purpose:
+      "A skills, assessment, and demonstration checklist the RN uses to observe and certify an aide's competency across more than fifty patient-care skills, with satisfactory Yes/No, date, and observing RN for each.",
+    captures: ["50+ patient-care skills", "Satisfactory Yes/No", "Date demonstrated", "Observing RN & sign-off"],
   },
 ] as const;
 

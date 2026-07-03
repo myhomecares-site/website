@@ -18,6 +18,7 @@ const INTERACTIVE_FORMS = new Set<string>([
   "medication-administration-records",
   "participant-assessment-form",
   "caregiver-service-plan",
+  "unlicensed-aide-skills-assessment",
 ]);
 
 type Params = { slug: string };

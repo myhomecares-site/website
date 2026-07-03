@@ -33,6 +33,8 @@ function checkId(bi: number, ii: number) { return `b${bi}.c.${ii}`; }
 function scaleId(bi: number) { return `b${bi}.scale`; }
 function cellId(bi: number, r: number, c: number) { return `b${bi}.t.${r}.${c}`; }
 function sigId(bi: number, ri: number, k: "name" | "date") { return `b${bi}.s.${ri}.${k}`; }
+function ctId(bi: number, r: number, c: number) { return `b${bi}.ct.${r}.${c}`; }
+function skId(bi: number, r: number, k: "yes" | "no" | "date" | "rn") { return `b${bi}.sk.${r}.${k}`; }
 
 function tableRowCount(b: Extract<FormBlock, { kind: "table" }>) {
   return b.rowLabels ? b.rowLabels.length : (b.rows || 4);
@@ -107,6 +109,20 @@ function flatten(schema: FormBlock[], values: Values): [string, string][] {
       b.roles.forEach((role, ri) => {
         const n = values[sigId(bi, ri, "name")]; const d = values[sigId(bi, ri, "date")];
         if (n || d) out.push([role, `${n || ""} ${d || ""}`.trim()]);
+      });
+    } else if (b.kind === "checktable") {
+      b.rowLabels.forEach((label, r) => {
+        const checked = b.columns.filter((_, c) => values[ctId(bi, r, c)]);
+        if (checked.length) out.push([label, checked.join(", ")]);
+      });
+    } else if (b.kind === "skilltable") {
+      b.items.forEach((item, r) => {
+        const yes = values[skId(bi, r, "yes")]; const no = values[skId(bi, r, "no")];
+        const d = values[skId(bi, r, "date")]; const rn = values[skId(bi, r, "rn")];
+        if (yes || no || d || rn) {
+          const sat = yes ? "Yes" : no ? "No" : "";
+          out.push([item, [sat, d ? String(d) : "", rn ? `RN: ${rn}` : ""].filter(Boolean).join(" · ")]);
+        }
       });
     }
   });
@@ -396,6 +412,88 @@ function Block({ block, bi, values, set }: { block: FormBlock; bi: number; value
               <p className="mt-1 text-xs text-muted">{role} · Signature / Date</p>
             </div>
           ))}
+        </div>
+      );
+    case "heading":
+      return (
+        <h3 className="-mx-6 mt-2 border-y border-border bg-surface-2 px-6 py-2 text-sm font-bold uppercase tracking-wide text-ink sm:-mx-8 sm:px-8">
+          {block.text}
+        </h3>
+      );
+    case "checktable":
+      return (
+        <div>
+          {block.title && <h4 className="mb-2 text-base font-bold text-ink">{block.title}</h4>}
+          {block.note && <p className="mb-2 text-xs text-muted">{block.note}</p>}
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[28rem] border-collapse text-sm">
+              <thead>
+                <tr>
+                  <th className="border border-border bg-surface px-2 py-1.5" />
+                  {block.columns.map((c) => (
+                    <th key={c} className="border border-border bg-surface px-2 py-1.5 text-center text-xs font-semibold uppercase tracking-wide text-muted">{c}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {block.rowLabels.map((label, r) => (
+                  <tr key={r}>
+                    <td className="border border-border px-2 py-1.5 font-medium text-ink-soft">{label}</td>
+                    {block.columns.map((_, c) => {
+                      const id = ctId(bi, r, c);
+                      return (
+                        <td key={c} className="border border-border p-0 text-center">
+                          <span className="flex items-center justify-center py-1.5">
+                            <input type="checkbox" checked={!!values[id]} onChange={(e) => set(id, e.target.checked)} className="h-4 w-4 rounded border-border text-primary focus:ring-primary/30" />
+                          </span>
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      );
+    case "skilltable":
+      return (
+        <div>
+          {block.title && <h4 className="mb-2 text-base font-bold text-ink">{block.title}</h4>}
+          {block.note && <p className="mb-2 text-xs text-muted">{block.note}</p>}
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[38rem] border-collapse text-sm">
+              <thead>
+                <tr>
+                  {["#", "Skill assessment & demonstration", "Satisfactory", "Date", "Observation RN"].map((h) => (
+                    <th key={h} className="border border-border bg-surface px-2 py-1.5 text-left text-xs font-semibold uppercase tracking-wide text-muted">{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {block.items.map((item, r) => (
+                  <tr key={r}>
+                    <td className="border border-border px-2 py-1.5 text-center text-muted">{r + 1}</td>
+                    <td className="border border-border px-2 py-1.5 text-ink-soft">{item}</td>
+                    <td className="border border-border px-2 py-1.5 whitespace-nowrap">
+                      <label className="mr-3 inline-flex items-center gap-1">
+                        <input type="checkbox" checked={!!values[skId(bi, r, "yes")]} onChange={(e) => { set(skId(bi, r, "yes"), e.target.checked); if (e.target.checked) set(skId(bi, r, "no"), false); }} className="h-4 w-4" /> Yes
+                      </label>
+                      <label className="inline-flex items-center gap-1">
+                        <input type="checkbox" checked={!!values[skId(bi, r, "no")]} onChange={(e) => { set(skId(bi, r, "no"), e.target.checked); if (e.target.checked) set(skId(bi, r, "yes"), false); }} className="h-4 w-4" /> No
+                      </label>
+                    </td>
+                    <td className="border border-border p-0">
+                      <input type="date" value={(values[skId(bi, r, "date")] as string) || ""} onChange={(e) => set(skId(bi, r, "date"), e.target.value)} className="w-full border-0 bg-transparent px-2 py-1.5 text-sm focus:outline-none" />
+                    </td>
+                    <td className="border border-border p-0">
+                      <input type="text" value={(values[skId(bi, r, "rn")] as string) || ""} onChange={(e) => set(skId(bi, r, "rn"), e.target.value)} className="w-full border-0 bg-transparent px-2 py-1.5 text-sm focus:outline-none" />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       );
     case "note":
