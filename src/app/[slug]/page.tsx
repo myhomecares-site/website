@@ -8,7 +8,7 @@ import { SiteImage } from "@/components/SiteImage";
 import { LeadForm } from "@/components/LeadForm";
 import { Icon } from "@/components/icons";
 import { JsonLd, breadcrumbLd } from "@/components/JsonLd";
-import { CareForm } from "@/components/CareForm";
+import { CareForm as StaticCareForm } from "@/components/CareForm";
 import { CareFormApp } from "@/components/CareFormApp";
 
 // Care forms that use the interactive, save-on-device tool (pilot). Others use
@@ -133,7 +133,7 @@ function CareFormTemplate({ form }: { form: CareForm }) {
             {INTERACTIVE_FORMS.has(form.slug) ? (
               <CareFormApp slug={form.slug} title={form.title} />
             ) : (
-              <CareForm slug={form.slug} title={form.title} />
+              <StaticCareForm slug={form.slug} title={form.title} />
             )}
 
             <div className="no-print mt-8 rounded-2xl border border-border bg-surface p-6">
