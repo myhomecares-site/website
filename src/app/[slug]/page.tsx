@@ -9,6 +9,16 @@ import { LeadForm } from "@/components/LeadForm";
 import { Icon } from "@/components/icons";
 import { JsonLd, breadcrumbLd } from "@/components/JsonLd";
 import { CareForm } from "@/components/CareForm";
+import { CareFormApp } from "@/components/CareFormApp";
+
+// Care forms that use the interactive, save-on-device tool (pilot). Others use
+// the static fill-and-print form until the pattern is approved for all.
+const INTERACTIVE_FORMS = new Set<string>([
+  "caregiver-daily-log-form",
+  "medication-administration-records",
+  "participant-assessment-form",
+  "caregiver-service-plan",
+]);
 
 type Params = { slug: string };
 
@@ -120,7 +130,11 @@ function CareFormTemplate({ form }: { form: CareForm }) {
       <Section>
         <div className="grid gap-12 lg:grid-cols-[1fr_320px]">
           <div className="min-w-0">
-            <CareForm slug={form.slug} title={form.title} />
+            {INTERACTIVE_FORMS.has(form.slug) ? (
+              <CareFormApp slug={form.slug} title={form.title} />
+            ) : (
+              <CareForm slug={form.slug} title={form.title} />
+            )}
 
             <div className="no-print mt-8 rounded-2xl border border-border bg-surface p-6">
               <h2 className="text-lg font-bold">What this form captures</h2>
