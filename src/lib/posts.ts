@@ -157,15 +157,15 @@ export function postImage(post: Post) {
 // each post by topic. Shown as the in-article hero image when a reader opens a
 // post. Posts not listed here fall back to their branded card.
 export const postPhotos: Record<string, string> = {
-  "signs-your-parent-needs-home-care": "/wp-content/uploads/2024/01/caring-nurse-helping-elderly.png",
-  "how-to-choose-home-care-agency-maryland": "/wp-content/uploads/2024/02/home-care-services.webp",
-  "how-to-pay-for-home-care-maryland": "/wp-content/uploads/2024/02/skilled-nursing-services.webp",
+  "signs-your-parent-needs-home-care": "/wp-content/uploads/2024/02/home-care-services.webp",
+  "how-to-choose-home-care-agency-maryland": "/wp-content/uploads/2024/02/skilled-nursing-services.webp",
+  "how-to-pay-for-home-care-maryland": "/wp-content/uploads/2024/01/caring-nurse-helping-elderly.png",
   "world-diabetes-day-raising-awareness": "/wp-content/uploads/2024/01/meal-preparation-maryland.webp",
   "celebrating-world-kindness-day": "/wp-content/uploads/2024/01/companion-care-maryland-1.webp",
   "future-home-care-trends-2024": "/wp-content/uploads/2024/02/skilled-nursing-services.webp",
   "supporting-family-caregivers-respite-care": "/wp-content/uploads/2024/01/Respite-care-md.webp",
   "impact-value-based-care-home-health": "/wp-content/uploads/2024/01/skilled-nursing-maryland.webp",
-  "enhancing-memory-care-dementia-patients": "/wp-content/uploads/2024/01/personal-care.png",
+  "enhancing-memory-care-dementia-patients": "/wp-content/uploads/2024/01/companion-care-maryland-1.webp",
   "holistic-approaches-home-care": "/wp-content/uploads/2024/02/home-care-services.webp",
   "role-occupational-physical-therapy-home-care": "/wp-content/uploads/2024/01/skilled-nursing-maryland.webp",
   "embracing-ai-revolutionizing-home-care": "/wp-content/uploads/2024/02/skilled-nursing-services.webp",
