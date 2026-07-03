@@ -200,3 +200,28 @@ p {
   height: 48px;
   color: var(--color-surface);
 }
+
+/* ---- Print: care documentation forms ---------------------------------- */
+/* Print (or Save as PDF) shows only the fillable form (.print-area). */
+@media print {
+  body { background: #fff; }
+  header, footer, .no-print, .fixed { display: none !important; }
+  body * { visibility: hidden; }
+  .print-area, .print-area * { visibility: visible; }
+  .print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  .care-form input,
+  .care-form textarea { border: 1px solid #8a9099 !important; }
+  .care-form table th,
+  .care-form table td { border: 1px solid #8a9099 !important; }
+  .care-form table input { border: none !important; }
+  @page { margin: 0.5in; }
+}

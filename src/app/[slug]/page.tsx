@@ -8,6 +8,7 @@ import { SiteImage } from "@/components/SiteImage";
 import { LeadForm } from "@/components/LeadForm";
 import { Icon } from "@/components/icons";
 import { JsonLd, breadcrumbLd } from "@/components/JsonLd";
+import { CareForm } from "@/components/CareForm";
 
 type Params = { slug: string };
 
@@ -118,25 +119,26 @@ function CareFormTemplate({ form }: { form: CareForm }) {
 
       <Section>
         <div className="grid gap-12 lg:grid-cols-[1fr_320px]">
-          <div className="max-w-2xl">
-            <h2 className="text-2xl font-bold">What this form captures</h2>
-            <p className="mt-3 leading-relaxed text-muted">
-              Our care team uses the {form.title.toLowerCase()} to keep care consistent, safe, and
-              clearly communicated with families and providers. It typically records:
-            </p>
-            <div className="mt-6 rounded-2xl border border-border bg-surface p-6">
-              <FeatureList items={form.captures} />
-            </div>
-            <p className="mt-6 leading-relaxed text-muted">
-              Need a copy of this form, or have questions about our documentation and care planning?
-              Our team is happy to help, reach out any time.
-            </p>
-            <div className="mt-6">
-              <Button href="/contact" withArrow>Contact Our Care Team</Button>
+          <div className="min-w-0">
+            <CareForm slug={form.slug} title={form.title} />
+
+            <div className="no-print mt-8 rounded-2xl border border-border bg-surface p-6">
+              <h2 className="text-lg font-bold">What this form captures</h2>
+              <p className="mt-2 text-sm leading-relaxed text-muted">
+                Our care team uses the {form.title.toLowerCase()} to keep care consistent, safe, and
+                clearly communicated with families and providers. It typically records:
+              </p>
+              <div className="mt-4">
+                <FeatureList items={form.captures} />
+              </div>
+              <p className="mt-4 text-sm leading-relaxed text-muted">
+                Questions about our documentation and care planning? Our team is happy to help,{" "}
+                <Link href="/contact" className="font-semibold text-primary hover:underline">reach out any time</Link>.
+              </p>
             </div>
           </div>
 
-          <aside className="space-y-6">
+          <aside className="no-print space-y-6">
             <div className="rounded-2xl border border-border bg-white p-5">
               <h3 className="text-sm font-semibold uppercase tracking-wider text-muted">Other Resources</h3>
               <ul className="mt-3 space-y-1">
