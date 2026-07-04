@@ -23,7 +23,9 @@ export type FormBlock =
   // level Dependent/Independent/Assist/Cue, or pressure-ulcer count by stage).
   | { kind: "checktable"; title?: string; rowLabels: string[]; columns: string[]; note?: string }
   // Skills/competency checklist: numbered item rows with Yes/No + Date + RN name.
-  | { kind: "skilltable"; title?: string; items: string[]; note?: string };
+  | { kind: "skilltable"; title?: string; items: string[]; note?: string }
+  // Interactive body diagram (front + back) for pinpointing locations on the body.
+  | { kind: "bodymap"; label?: string };
 
 export const careFormSchemas: Record<string, FormBlock[]> = {
   "caregiver-service-plan": [
@@ -139,6 +141,7 @@ export const careFormSchemas: Record<string, FormBlock[]> = {
     { kind: "checktable", title: "Pressure ulcers — number by stage", note: "Check the column matching the number of ulcers at each stage.", rowLabels: ["Stage 1: redness of intact skin", "Stage 2: partial-thickness skin loss", "Stage 3: full-thickness skin loss", "Stage 4: full-thickness loss with destruction"], columns: ["0", "1", "2", "3", "4+"] },
     { kind: "fields", fields: [{ name: "ulcerLoc", label: "Location of ulcers", width: "full" }] },
     { kind: "textarea", label: "Surgical or other wounds (describe location, size, and nature)", rows: 2 },
+    { kind: "bodymap", label: "Mark locations on the body (tap the figure to drop a numbered pin, then note what it is)" },
 
     { kind: "heading", text: "Activities of daily living" },
     { kind: "checktable", title: "ADL assistance level", rowLabels: ["Mobility & transfers", "Bathing", "Personal hygiene (hair, nails, skin, oral)", "Toileting", "Dressing", "Eating & drinking"], columns: ["Dependent", "Independent", "Assist", "Cue"] },

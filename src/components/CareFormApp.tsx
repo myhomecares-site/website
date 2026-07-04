@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { site } from "@/lib/site";
 import { careFormSchemas, type FormBlock, type FormField } from "@/lib/care-forms";
 import { Icon } from "@/components/icons";
+import { BodyMap } from "@/components/BodyMap";
 
 /*
   Interactive, on-device care-form tool.
@@ -37,6 +38,7 @@ function cellId(bi: number, r: number, c: number) { return `b${bi}.t.${r}.${c}`;
 function sigId(bi: number, ri: number, k: "name" | "date") { return `b${bi}.s.${ri}.${k}`; }
 function ctId(bi: number, r: number, c: number) { return `b${bi}.ct.${r}.${c}`; }
 function skId(bi: number, r: number, k: "yes" | "no" | "date" | "rn") { return `b${bi}.sk.${r}.${k}`; }
+function bmId(bi: number) { return `b${bi}.bm`; }
 
 function tableRowCount(b: Extract<FormBlock, { kind: "table" }>) {
   return b.rowLabels ? b.rowLabels.length : (b.rows || 4);
@@ -141,6 +143,16 @@ function flatten(schema: FormBlock[], values: Values): [string, string][] {
           out.push([item, [sat, d ? String(d) : "", rn ? `RN: ${rn}` : ""].filter(Boolean).join(" · ")]);
         }
       });
+    } else if (b.kind === "bodymap") {
+      const raw = values[bmId(bi)];
+      if (typeof raw === "string" && raw) {
+        try {
+          const pins = JSON.parse(raw) as { id: number; side: string; note: string }[];
+          if (Array.isArray(pins) && pins.length) {
+            out.push(["Body map", pins.map((p) => `#${p.id} ${p.side}${p.note ? `: ${p.note}` : ""}`).join("; ")]);
+          }
+        } catch { /* ignore */ }
+      }
     }
   });
   return out;
@@ -568,6 +580,8 @@ function Block({ block, bi, initial }: { block: FormBlock; bi: number; initial: 
           </div>
         </div>
       );
+    case "bodymap":
+      return <BodyMap name={bmId(bi)} initial={dv(bmId(bi))} label={block.label} />;
     case "note":
       return <p className="rounded-lg border border-primary-100 bg-primary-50 px-4 py-3 text-sm text-ink-soft">{block.text}</p>;
     default:
