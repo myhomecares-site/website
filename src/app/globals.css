@@ -225,3 +225,21 @@ p {
   .care-form table input { border: none !important; }
   @page { margin: 0.5in; }
 }
+
+/* ---- Print: professional care-form output ----------------------------- */
+@media print {
+  @page { margin: 0.55in; }
+  /* Preserve borders, shaded headers, signatures, and the body diagram. */
+  .print-area { -webkit-print-color-adjust: exact; print-color-adjust: exact; font-size: 11px; color: #1d1d1f; }
+  .care-form { font-size: 11px; }
+  .care-form input, .care-form textarea, .care-form select { font-size: 11px; }
+  /* Keep sections, tables and fieldsets from splitting across pages. */
+  .care-form fieldset, .care-form table, .care-form details, .care-form > form > * { break-inside: avoid; }
+  .care-form legend, .care-form h3, .care-form h4 { break-after: avoid; }
+  /* Open all collapsible sections and drop the toggle chevron. */
+  .care-form details { border: 0 !important; }
+  .care-form summary { list-style: none; background: #eef2f5 !important; border: 1px solid #d5dde3; }
+  .care-form summary svg { display: none !important; }
+  /* Section banners and table headers keep their light shading. */
+  .care-form thead th { background: #f2f5f7 !important; }
+}

@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { site } from "@/lib/site";
 import { careFormSchemas, type FormBlock, type FormField } from "@/lib/care-forms";
 import { Icon } from "@/components/icons";
 import { BodyMap } from "@/components/BodyMap";
 import { SignaturePad } from "@/components/SignaturePad";
+import { PrintLetterhead } from "@/components/PrintLetterhead";
 
 /*
   Interactive, on-device care-form tool.
@@ -291,11 +291,7 @@ export function CareFormApp({ slug, title }: { slug: string; title: string }) {
           </div>
         </div>
 
-        {/* Print-only branded header */}
-        <div className="mb-6 hidden print:block">
-          <p className="text-lg font-bold text-ink">{site.name}</p>
-          <p className="text-sm text-muted">{title} · Licensed Maryland RSA ({site.license})</p>
-        </div>
+        <PrintLetterhead title={title} />
 
         <form key={formKey} ref={formRef} className="care-form space-y-6">
           {visibleSections.map((sec, si) =>

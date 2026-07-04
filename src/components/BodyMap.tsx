@@ -19,20 +19,11 @@ function parse(initial: string): Marker[] {
   }
 }
 
-// A simple, recognizable human silhouette (viewBox 0 0 100 200).
+// Anatomical human silhouette (viewBox 0 0 100 220), used for front and back.
 function Silhouette() {
   return (
-    <g fill="#dfeaf1" stroke="#8098a8" strokeWidth="1.3" strokeLinejoin="round">
-      <circle cx="50" cy="15" r="11" />
-      <rect x="46" y="24" width="8" height="7" />
-      {/* torso */}
-      <path d="M33 33 Q50 27 67 33 L63 92 Q50 97 37 92 Z" />
-      {/* arms */}
-      <path d="M34 34 L23 40 L18 96 L26 97 L33 46 Z" />
-      <path d="M66 34 L77 40 L82 96 L74 97 L67 46 Z" />
-      {/* legs */}
-      <path d="M39 90 L37 140 L35 192 L46 192 L48 140 L49 96 Z" />
-      <path d="M61 90 L63 140 L65 192 L54 192 L52 140 L51 96 Z" />
+    <g fill="#e2edf3" stroke="#7c94a5" strokeWidth="1.4" strokeLinejoin="round" strokeLinecap="round">
+      <path d="M50 6 C44 6 40 10 40 16 C40 21 43 25 47 27 C42 28 38 31 36 36 L33 44 C31 49 29 55 27 63 L22 92 C21 97 23 100 26 100 C28 100 30 98 30 94 L34 66 C35 61 37 58 39 56 C39 62 39 70 40 78 L41 108 C39 118 37 132 36 150 L35 196 C35 201 37 204 41 204 C44 204 46 201 46 197 L48 150 C49 138 49 126 50 118 C51 126 51 138 52 150 L54 197 C54 201 56 204 59 204 C63 204 65 201 65 196 L64 150 C63 132 61 118 59 108 L60 78 C61 70 61 62 61 56 C63 58 65 61 66 66 L70 94 C70 98 72 100 74 100 C77 100 79 97 78 92 L73 63 C71 55 69 49 67 44 L64 36 C62 31 58 28 53 27 C57 25 60 21 60 16 C60 10 56 6 50 6 Z" />
     </g>
   );
 }
@@ -62,8 +53,8 @@ function Figure({
     <div className="flex-1">
       <p className="mb-1 text-center text-xs font-semibold uppercase tracking-wide text-muted">{side}</p>
       <svg
-        viewBox="0 0 100 200"
-        className="mx-auto block h-auto w-full max-w-[9rem] cursor-crosshair rounded-lg border border-border bg-white"
+        viewBox="0 0 100 220"
+        className="mx-auto block h-auto w-full max-w-[8.5rem] cursor-crosshair rounded-lg border border-border bg-white"
         onClick={handleClick}
       >
         <Silhouette />

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { site } from "@/lib/site";
+import { PrintLetterhead } from "@/components/PrintLetterhead";
 import { careFormSchemas, type FormBlock, type FormField } from "@/lib/care-forms";
 import { Icon } from "@/components/icons";
 
@@ -163,11 +163,7 @@ export function CareForm({ slug, title }: { slug: string; title: string }) {
         </div>
       </div>
 
-      {/* Print-only branded header */}
-      <div className="mb-6 hidden print:block">
-        <p className="text-lg font-bold text-ink">{site.name}</p>
-        <p className="text-sm text-muted">{title} · Licensed Maryland RSA ({site.license})</p>
-      </div>
+      <PrintLetterhead title={title} />
 
       <form ref={formRef} className="care-form space-y-8">
         {blocks.map((block, i) => {
