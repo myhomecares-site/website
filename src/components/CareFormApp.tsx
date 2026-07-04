@@ -5,6 +5,7 @@ import { site } from "@/lib/site";
 import { careFormSchemas, type FormBlock, type FormField } from "@/lib/care-forms";
 import { Icon } from "@/components/icons";
 import { BodyMap } from "@/components/BodyMap";
+import { SignaturePad } from "@/components/SignaturePad";
 
 /*
   Interactive, on-device care-form tool.
@@ -39,6 +40,7 @@ function sigId(bi: number, ri: number, k: "name" | "date") { return `b${bi}.s.${
 function ctId(bi: number, r: number, c: number) { return `b${bi}.ct.${r}.${c}`; }
 function skId(bi: number, r: number, k: "yes" | "no" | "date" | "rn") { return `b${bi}.sk.${r}.${k}`; }
 function bmId(bi: number) { return `b${bi}.bm`; }
+function eId(bi: number) { return `b${bi}.es`; }
 
 function tableRowCount(b: Extract<FormBlock, { kind: "table" }>) {
   return b.rowLabels ? b.rowLabels.length : (b.rows || 4);
@@ -151,6 +153,19 @@ function flatten(schema: FormBlock[], values: Values): [string, string][] {
           if (Array.isArray(pins) && pins.length) {
             out.push(["Body map", pins.map((p) => `#${p.id} ${p.side}${p.note ? `: ${p.note}` : ""}`).join("; ")]);
           }
+        } catch { /* ignore */ }
+      }
+    } else if (b.kind === "esign") {
+      const raw = values[eId(bi)];
+      if (typeof raw === "string" && raw) {
+        try {
+          const s = JSON.parse(raw) as { mode: string; name?: string; agreed?: boolean; reason?: string; note?: string; witness?: string; date?: string };
+          let v = "";
+          if (s.mode === "type") v = `Signed (typed): ${s.name || ""}${s.agreed ? " · agreed" : ""}`;
+          else if (s.mode === "draw") v = "Signed (drawn)";
+          else v = `Unable to sign — ${s.reason || ""}${s.note ? `: ${s.note}` : ""}${s.witness ? ` · witness ${s.witness}` : ""}`;
+          if (s.date) v += ` · ${s.date}`;
+          out.push([b.role, v]);
         } catch { /* ignore */ }
       }
     }
@@ -582,6 +597,8 @@ function Block({ block, bi, initial }: { block: FormBlock; bi: number; initial: 
       );
     case "bodymap":
       return <BodyMap name={bmId(bi)} initial={dv(bmId(bi))} label={block.label} />;
+    case "esign":
+      return <SignaturePad name={eId(bi)} initial={dv(eId(bi))} role={block.role} />;
     case "note":
       return <p className="rounded-lg border border-primary-100 bg-primary-50 px-4 py-3 text-sm text-ink-soft">{block.text}</p>;
     default:

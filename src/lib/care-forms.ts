@@ -25,7 +25,9 @@ export type FormBlock =
   // Skills/competency checklist: numbered item rows with Yes/No + Date + RN name.
   | { kind: "skilltable"; title?: string; items: string[]; note?: string }
   // Interactive body diagram (front + back) for pinpointing locations on the body.
-  | { kind: "bodymap"; label?: string };
+  | { kind: "bodymap"; label?: string }
+  // Easy signature: draw, type-to-cursive, or "unable to sign" (RN records consent).
+  | { kind: "esign"; role: string };
 
 export const careFormSchemas: Record<string, FormBlock[]> = {
   "caregiver-service-plan": [
@@ -163,7 +165,8 @@ export const careFormSchemas: Record<string, FormBlock[]> = {
     { kind: "checklist", title: "Activities of visit", columns: 2, items: ["Developed caregiver support plan", "Reviewed caregiver support plan", "Assessed / monitored participant", "Provided information and training to caregiver", "Assessed / monitored caregiver"] },
     { kind: "textarea", label: "Caregiver names", rows: 2 },
     { kind: "note", text: "By signing below, the participant and nurse certify that services were delivered. Send the signed copy to the case manager within 10 days. Report suspected abuse, neglect, or exploitation to Adult Protective Services at 1-800-917-7383." },
-    { kind: "signatures", roles: ["RN (print & sign)", "Participant / Representative"] },
+    { kind: "signatures", roles: ["RN (print & sign)"] },
+    { kind: "esign", role: "Participant / Representative signature" },
   ],
 
   "pain-evaluation": [
