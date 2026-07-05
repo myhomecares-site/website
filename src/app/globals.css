@@ -261,18 +261,39 @@ p {
     border-bottom: 1px solid #4b5560;
     padding: 2px 6px !important;
     font-size: 10px !important;
+    letter-spacing: 0.02em;
   }
-  .care-form-cols details > div { padding: 4px 6px !important; }
+  .care-form-cols details > div { padding: 4px 7px !important; }
   /* Compact typography and tighter spacing inside each box. */
   .care-form-cols .space-y-8 > * + * { margin-top: 6px !important; }
-  .care-form-cols legend { font-size: 10px !important; margin-bottom: 2px !important; }
+  .care-form-cols legend { font-size: 9.5px !important; font-weight: 700; margin-bottom: 2px !important; }
   .care-form-cols label,
   .care-form-cols input,
   .care-form-cols textarea,
   .care-form-cols select { font-size: 9.5px !important; }
-  /* Stack checkbox groups in a single tight column within each boxed section. */
-  .care-form-cols fieldset .grid { display: block !important; }
-  .care-form-cols fieldset .grid > label { display: flex; margin: 0 0 1px !important; }
-  .care-form-cols .grid { gap: 2px 6px !important; }
-  .care-form-cols textarea { min-height: 26px; }
+  /* Checkbox lists stack tightly (grid-cols-1 base); labeled fields stay inline. */
+  .care-form-cols .grid.grid-cols-1 { display: block !important; }
+  .care-form-cols .grid.grid-cols-1 > label { display: flex; margin: 0 0 1.5px !important; }
+  .care-form-cols .grid { gap: 2px 8px !important; }
+  /* Fill-in fields render as underlines, like the paper form. */
+  .care-form-cols input[type="text"],
+  .care-form-cols input[type="date"],
+  .care-form-cols input[type="time"],
+  .care-form-cols input[type="number"],
+  .care-form-cols input:not([type]) {
+    border: 0 !important;
+    border-bottom: 1px solid #9aa4ad !important;
+    border-radius: 0 !important;
+    padding: 0 2px !important;
+  }
+  .care-form-cols textarea {
+    border: 0 !important;
+    border-bottom: 1px solid #9aa4ad !important;
+    border-radius: 0 !important;
+    min-height: 24px;
+  }
+  /* Table cells keep their own grid borders. */
+  .care-form-cols td input,
+  .care-form-cols th input { border-bottom: 0 !important; }
+  .care-form-cols summary svg { display: none !important; }
 }

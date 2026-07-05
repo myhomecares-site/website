@@ -19,15 +19,11 @@ function parse(initial: string): Marker[] {
   }
 }
 
-// Anatomical human silhouette (viewBox 0 0 100 230), used for front and back.
+// Smooth anatomical human silhouette (viewBox 0 0 100 200), for front and back.
 function Silhouette() {
   return (
-    <g fill="#e4eef4" stroke="#728ea1" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round">
-      <path d="M50 5 C43 5 38 10 38 17 C38 22 40 26 44 28 C40 29 37 32 35 37 C33 42 32 47 30 54 L25 82 C24 87 22 92 20 96 C18 100 17 105 18 109 C19 112 22 112 24 109 C26 106 28 101 29 96 L33 72 C34 66 36 61 38 58 C38 64 37 73 38 82 L39 104 C37 116 35 132 34 152 L33 200 C33 206 36 209 41 209 C45 209 47 206 47 201 L49 152 C49 140 50 128 50 120 C50 128 51 140 51 152 L53 201 C53 206 55 209 59 209 C64 209 67 206 67 200 L66 152 C65 132 63 116 61 104 L62 82 C63 73 62 64 62 58 C64 61 66 66 67 72 L71 96 C72 101 74 106 76 109 C78 112 81 112 82 109 C83 105 82 100 80 96 C78 92 76 87 75 82 L70 54 C68 47 67 42 65 37 C63 32 60 29 56 28 C60 26 62 22 62 17 C62 10 57 5 50 5 Z" />
-      <ellipse cx="20" cy="112" rx="4.5" ry="6" />
-      <ellipse cx="80" cy="112" rx="4.5" ry="6" />
-      <path d="M33 205 C31 210 30 215 33 216 L46 216 C47 213 47 209 47 206 Z" />
-      <path d="M67 205 C69 210 70 215 67 216 L54 216 C53 213 53 209 53 206 Z" />
+    <g fill="#e4eef4" stroke="#5f7788" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round">
+      <path d="M50 6 C44 6 40 10 40 16 C40 21 43 25 47 27 C42 28 38 31 36 36 L33 44 C31 49 29 55 27 63 L22 92 C21 97 23 100 26 100 C28 100 30 98 30 94 L34 66 C35 61 37 58 39 56 C39 62 39 70 40 78 L41 108 C39 118 37 132 36 150 L35 196 C35 201 37 204 41 204 C44 204 46 201 46 197 L48 150 C49 138 49 126 50 118 C51 126 51 138 52 150 L54 197 C54 201 56 204 59 204 C63 204 65 201 65 196 L64 150 C63 132 61 118 59 108 L60 78 C61 70 61 62 61 56 C63 58 65 61 66 66 L70 94 C70 98 72 100 74 100 C77 100 79 97 78 92 L73 63 C71 55 69 49 67 44 L64 36 C62 31 58 28 53 27 C57 25 60 21 60 16 C60 10 56 6 50 6 Z" />
     </g>
   );
 }
@@ -57,8 +53,8 @@ function Figure({
     <div className="flex-1">
       <p className="mb-1 text-center text-xs font-semibold uppercase tracking-wide text-muted">{side}</p>
       <svg
-        viewBox="0 0 100 230"
-        className="mx-auto block h-auto w-full max-w-[8.5rem] cursor-crosshair rounded-lg border border-border bg-white"
+        viewBox="0 0 100 200"
+        className="mx-auto block h-auto w-full max-w-[9.5rem] cursor-crosshair rounded-lg border border-border bg-white"
         onClick={handleClick}
       >
         <Silhouette />

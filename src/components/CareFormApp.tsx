@@ -304,7 +304,7 @@ export function CareFormApp({ slug, title }: { slug: string; title: string }) {
                 key={si}
                 open={si === 0}
                 className={`group overflow-hidden rounded-xl border border-border ${
-                  sec.items.some(({ block }) => ["table", "checktable", "skilltable", "bodymap", "esign", "signatures"].includes(block.kind)) ? "print-col-span" : ""
+                  si === 0 || sec.items.some(({ block }) => ["table", "checktable", "skilltable", "bodymap", "esign", "signatures"].includes(block.kind)) ? "print-col-span" : ""
                 }`}
               >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-2 bg-surface-2 px-4 py-3 text-sm font-bold uppercase tracking-wide text-ink">
