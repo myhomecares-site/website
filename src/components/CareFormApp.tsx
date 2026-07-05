@@ -293,14 +293,20 @@ export function CareFormApp({ slug, title }: { slug: string; title: string }) {
 
         <PrintLetterhead title={title} />
 
-        <form key={formKey} ref={formRef} className="care-form space-y-6">
+        <form key={formKey} ref={formRef} className={`care-form space-y-6 ${collapsible ? "care-form-cols" : ""}`}>
           {visibleSections.map((sec, si) =>
             sec.heading == null ? (
               <div key={si} className="space-y-8">
                 {sec.items.map(({ block, bi }) => <Block key={bi} block={block} bi={bi} initial={initial} />)}
               </div>
             ) : collapsible ? (
-              <details key={si} open={si === 0} className="group overflow-hidden rounded-xl border border-border print:border-0">
+              <details
+                key={si}
+                open={si === 0}
+                className={`group overflow-hidden rounded-xl border border-border ${
+                  sec.items.some(({ block }) => ["table", "checktable", "skilltable", "bodymap", "esign", "signatures"].includes(block.kind)) ? "print-col-span" : ""
+                }`}
+              >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-2 bg-surface-2 px-4 py-3 text-sm font-bold uppercase tracking-wide text-ink">
                   {sec.heading}
                   <Icon name="arrow" className="h-4 w-4 rotate-90 text-muted transition-transform group-open:rotate-[270deg]" />

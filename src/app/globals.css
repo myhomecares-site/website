@@ -243,3 +243,36 @@ p {
   /* Section banners and table headers keep their light shading. */
   .care-form thead th { background: #f2f5f7 !important; }
 }
+
+/* ---- Print: two-column boxed layout (matches the paper assessment) ----- */
+@media print {
+  /* Flow sections into two columns; wide sections span both. */
+  .care-form-cols { column-count: 2; column-gap: 10px; }
+  .care-form-cols > details {
+    break-inside: avoid;
+    margin: 0 0 7px;
+    border: 1px solid #4b5560 !important;
+    border-radius: 0 !important;
+    overflow: visible;
+  }
+  .care-form-cols > .print-col-span { column-span: all; }
+  .care-form-cols summary {
+    background: #e8edf1 !important;
+    border-bottom: 1px solid #4b5560;
+    padding: 2px 6px !important;
+    font-size: 10px !important;
+  }
+  .care-form-cols details > div { padding: 4px 6px !important; }
+  /* Compact typography and tighter spacing inside each box. */
+  .care-form-cols .space-y-8 > * + * { margin-top: 6px !important; }
+  .care-form-cols legend { font-size: 10px !important; margin-bottom: 2px !important; }
+  .care-form-cols label,
+  .care-form-cols input,
+  .care-form-cols textarea,
+  .care-form-cols select { font-size: 9.5px !important; }
+  /* Stack checkbox groups in a single tight column within each boxed section. */
+  .care-form-cols fieldset .grid { display: block !important; }
+  .care-form-cols fieldset .grid > label { display: flex; margin: 0 0 1px !important; }
+  .care-form-cols .grid { gap: 2px 6px !important; }
+  .care-form-cols textarea { min-height: 26px; }
+}
