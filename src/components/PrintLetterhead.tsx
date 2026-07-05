@@ -7,7 +7,8 @@ export function PrintLetterhead({ title }: { title: string }) {
     <div className="hidden print:block">
       <div className="flex items-end justify-between border-b-2 border-ink pb-2">
         <div>
-          <p className="text-xl font-extrabold leading-tight text-ink">{site.name}</p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/mhc-wordmark.png" alt={site.name} className="mb-1.5 h-12 w-auto" />
           <p className="text-[11px] leading-snug text-ink-soft">Licensed Maryland Residential Service Agency</p>
           <p className="text-[11px] leading-snug text-ink-soft">
             License {site.license} · {site.phone} · {site.email}
