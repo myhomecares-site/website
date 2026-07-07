@@ -19,7 +19,6 @@ import { PrintLetterhead } from "@/components/PrintLetterhead";
 type Values = Record<string, string | boolean>;
 type Entry = { id: string; savedAt: string; values: Values };
 
-const storeKey = (slug: string) => `mhc_careform_${slug}`;
 
 const inputCls =
   "w-full rounded-md border border-border bg-white px-3 py-2 text-sm text-ink focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20";
@@ -90,7 +89,7 @@ function labelOf(schema: FormBlock[], values: Values): { title: string; sub: str
     }
   });
   if (fv.caregiver) {
-    const title = fv.caregiverNo ? `${fv.caregiver} · #${fv.caregiverNo}` : fv.caregiver;
+    const title = fv.caregiverNo ? `${fv.caregiver} · ${fv.caregiverNo}` : fv.caregiver;
     const sub = [fv.month, fv.client ? `Client: ${fv.client}` : ""].filter(Boolean).join(" · ");
     return { title, sub };
   }
@@ -183,16 +182,45 @@ export function CareFormApp({ slug, title }: { slug: string; title: string }) {
   const [mounted, setMounted] = useState(false);
   const [query, setQuery] = useState("");
   const [toastMsg, setToastMsg] = useState("");
+  // Secure sign-in (telephone number + personal PIN) for server-backed entries.
+  const [token, setToken] = useState<string | null>(null);
+  const [authPhone, setAuthPhone] = useState("");
+  const [phoneInput, setPhoneInput] = useState("");
+  const [pinInput, setPinInput] = useState("");
+  const [authErr, setAuthErr] = useState("");
+  const [authBusy, setAuthBusy] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const topRef = useRef<HTMLDivElement>(null);
+  const entriesRef = useRef<HTMLDivElement>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const api = async (payload: Record<string, unknown>) => {
+    try {
+      const res = await fetch("/api/caregiver-forms", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      return (await res.json().catch(() => ({}))) as Record<string, unknown>;
+    } catch {
+      return { error: "Network error. Please try again." };
+    }
+  };
+  const loadEntries = async (tok: string) => {
+    const d = await api({ action: "list", token: tok, form_slug: slug });
+    if (d.ok && Array.isArray(d.entries)) {
+      setEntries((d.entries as { id: string; savedAt: string; values: Values }[]).map((e) => ({ id: e.id, savedAt: e.savedAt, values: e.values || {} })));
+    }
+  };
 
   useEffect(() => {
     setMounted(true);
     try {
-      const raw = localStorage.getItem(storeKey(slug));
-      if (raw) setEntries(JSON.parse(raw));
+      const t = sessionStorage.getItem("mhc_forms_token");
+      const p = sessionStorage.getItem("mhc_forms_phone");
+      if (t && p) { setToken(t); setAuthPhone(p); loadEntries(t); }
     } catch { /* ignore */ }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug]);
 
   if (!schema) return null;
@@ -210,31 +238,63 @@ export function CareFormApp({ slug, title }: { slug: string; title: string }) {
   sections.push(cur);
   const visibleSections = sections.filter((s) => s.items.length > 0);
 
-  const persist = (next: Entry[]) => {
-    setEntries(next);
-    try { localStorage.setItem(storeKey(slug), JSON.stringify(next)); } catch { /* ignore */ }
-  };
   const toast = (m: string) => {
     setToastMsg(m);
     if (toastTimer.current) clearTimeout(toastTimer.current);
     toastTimer.current = setTimeout(() => setToastMsg(""), 1800);
   };
 
-  const saveEntry = () => {
+  const signIn = async () => {
+    setAuthErr("");
+    setAuthBusy(true);
+    const d = await api({ action: "auth", phone: phoneInput, pin: pinInput });
+    setAuthBusy(false);
+    if (d.ok && typeof d.token === "string") {
+      const np = phoneInput.replace(/\D/g, "").slice(-10);
+      setToken(d.token); setAuthPhone(np); setPinInput("");
+      try { sessionStorage.setItem("mhc_forms_token", d.token); sessionStorage.setItem("mhc_forms_phone", np); } catch { /* ignore */ }
+      await loadEntries(d.token);
+      toast(d.created ? "Account created, you're signed in" : "Signed in");
+    } else {
+      setAuthErr(typeof d.error === "string" ? d.error : "Could not sign in.");
+    }
+  };
+  const signOut = () => {
+    setToken(null); setAuthPhone(""); setEntries([]);
+    try { sessionStorage.removeItem("mhc_forms_token"); sessionStorage.removeItem("mhc_forms_phone"); } catch { /* ignore */ }
+  };
+
+  const saveEntry = async () => {
     if (!formRef.current) return;
+    if (!token) {
+      setAuthErr("Please sign in below to save your entry.");
+      entriesRef.current?.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
     const values = readForm(formRef.current);
-    const id = editingId || "e" + Date.now();
-    const entry: Entry = { id, savedAt: new Date().toISOString(), values };
-    persist([entry, ...entries.filter((e) => e.id !== id)]);
-    setEditingId(id);
-    toast(editingId ? "Entry updated" : "Entry saved on this device");
+    const { client, date } = summarize(schema, values);
+    const entry_key = editingId || "e" + Date.now();
+    const d = await api({ action: "save", token, form_slug: slug, entry_key, values, client_name: client, form_date: date });
+    if (d.ok) {
+      setEditingId(entry_key);
+      await loadEntries(token);
+      toast(editingId ? "Entry updated" : "Entry saved");
+    } else {
+      const msg = typeof d.error === "string" ? d.error : "Could not save.";
+      toast(msg);
+      if (/session/i.test(msg)) signOut();
+    }
   };
   const newEntry = () => { setInitial({}); setEditingId(null); setFormKey((k) => k + 1); topRef.current?.scrollIntoView({ behavior: "smooth" }); };
   const editEntry = (e: Entry) => { setInitial(e.values); setEditingId(e.id); setFormKey((k) => k + 1); topRef.current?.scrollIntoView({ behavior: "smooth" }); };
-  const deleteEntry = (id: string) => {
-    persist(entries.filter((e) => e.id !== id));
-    if (editingId === id) newEntry();
-    toast("Entry deleted");
+  const deleteEntry = async (id: string) => {
+    if (!token) return;
+    const d = await api({ action: "delete", token, form_slug: slug, entry_key: id });
+    if (d.ok) {
+      if (editingId === id) newEntry();
+      await loadEntries(token);
+      toast("Entry deleted");
+    }
   };
 
   const printForm = () => {
@@ -271,7 +331,7 @@ export function CareFormApp({ slug, title }: { slug: string; title: string }) {
         <div className="no-print mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-border pb-5">
           <div>
             <h2 className="text-lg font-bold text-ink">{editingId ? "Editing entry" : "New entry"}</h2>
-            <p className="text-sm text-muted">Fill it in, then save on this device, print, or export. Data stays on this device.</p>
+            <p className="text-sm text-muted">Fill it in, then save to your account, print, or export.</p>
           </div>
           <div className="flex flex-wrap gap-2">
             {collapsible && (
@@ -325,58 +385,78 @@ export function CareFormApp({ slug, title }: { slug: string; title: string }) {
         </form>
       </div>
 
-      {/* Saved entries (device only) */}
-      <div className="no-print mt-8">
-        <div className="mb-3 flex items-center justify-between">
-          <h3 className="text-lg font-bold text-ink">
-            Saved entries {mounted && entries.length > 0 && <span className="text-muted">· {entries.length}</span>}
-          </h3>
-          {mounted && entries.length > 0 && (
-            <button type="button" onClick={exportCSV} className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm font-semibold text-ink-soft transition hover:bg-surface">
-              <Icon name="download" className="h-4 w-4" /> Export CSV
-            </button>
-          )}
-        </div>
-
-        {!mounted ? null : entries.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-border bg-surface px-6 py-8 text-center text-sm text-muted">
-            No saved entries yet. Fill in the form above and choose <span className="font-semibold text-ink-soft">Save entry</span>. Entries are stored only on this device.
+      {/* Saved entries (secure, server-backed) */}
+      <div ref={entriesRef} className="no-print mt-8">
+        {!mounted ? null : !token ? (
+          <div className="rounded-2xl border border-border bg-white p-6 card-shadow">
+            <h3 className="text-lg font-bold text-ink">Sign in to save &amp; view your entries</h3>
+            <p className="mt-1 text-sm text-muted">
+              Enter your telephone number and a personal PIN. First time? Choose a PIN now, it keeps your entries private. Your entries save securely, your care team can access them, and you can retrieve them from any device.
+            </p>
+            <div className="mt-4 grid gap-3 sm:grid-cols-[1fr_1fr_auto] sm:items-end">
+              <label className="block">
+                <span className="mb-1 block text-xs font-semibold uppercase tracking-wide text-muted">Telephone number</span>
+                <input type="tel" inputMode="tel" value={phoneInput} onChange={(e) => setPhoneInput(e.target.value)} placeholder="(410) 555-0199" className="w-full rounded-lg border border-border bg-white px-3.5 py-2.5 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/15" />
+              </label>
+              <label className="block">
+                <span className="mb-1 block text-xs font-semibold uppercase tracking-wide text-muted">PIN (4-6 digits)</span>
+                <input type="password" inputMode="numeric" value={pinInput} onChange={(e) => setPinInput(e.target.value.replace(/\D/g, "").slice(0, 6))} onKeyDown={(e) => { if (e.key === "Enter") signIn(); }} placeholder="••••" className="w-full rounded-lg border border-border bg-white px-3.5 py-2.5 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/15" />
+              </label>
+              <button type="button" onClick={signIn} disabled={authBusy} className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-primary-dark disabled:opacity-60">
+                {authBusy ? "Please wait…" : "Sign in"}
+              </button>
+            </div>
+            {authErr && <p className="mt-3 text-sm font-medium text-primary-dark">{authErr}</p>}
           </div>
         ) : (
           <>
-            {entries.length > 3 && (
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search by name or number..."
-                className="mb-3 w-full rounded-full border border-border bg-white px-4 py-2 text-sm text-ink outline-none focus:border-primary focus:ring-2 focus:ring-primary/15"
-              />
-            )}
-            <div className="space-y-3">
-              {entries
-                .map((e) => ({ e, label: labelOf(schema, e.values) }))
-                .filter(({ label }) => !query || `${label.title} ${label.sub}`.toLowerCase().includes(query.toLowerCase()))
-                .map(({ e, label }) => (
-                  <div key={e.id} className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-white p-4 card-shadow">
-                    <div className="min-w-0">
-                      <p className="truncate font-semibold text-ink">{label.title}</p>
-                      <p className="text-xs text-muted">
-                        {label.sub ? `${label.sub} · ` : ""}Saved {new Date(e.savedAt).toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })}
-                        {editingId === e.id && <span className="ml-2 rounded-full bg-primary-50 px-2 py-0.5 font-semibold text-primary">editing</span>}
-                      </p>
-                    </div>
-                    <div className="flex gap-2">
-                      <button type="button" onClick={() => editEntry(e)} className="rounded-lg border border-border px-3 py-1.5 text-sm font-semibold text-ink-soft hover:bg-surface">Open</button>
-                      <button type="button" onClick={() => deleteEntry(e.id)} className="rounded-lg border border-border px-3 py-1.5 text-sm font-semibold text-primary-dark hover:bg-surface">Delete</button>
-                    </div>
-                  </div>
-                ))}
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <h3 className="text-lg font-bold text-ink">Saved entries {entries.length > 0 && <span className="text-muted">· {entries.length}</span>}</h3>
+                <p className="text-xs text-muted">Signed in as {authPhone} · <button type="button" onClick={signOut} className="font-semibold text-primary hover:underline">Sign out</button></p>
+              </div>
+              {entries.length > 0 && (
+                <button type="button" onClick={exportCSV} className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm font-semibold text-ink-soft transition hover:bg-surface">
+                  <Icon name="download" className="h-4 w-4" /> Export CSV
+                </button>
+              )}
             </div>
+            {authErr && <p className="mb-3 text-sm font-medium text-primary-dark">{authErr}</p>}
+            {entries.length === 0 ? (
+              <div className="rounded-2xl border border-dashed border-border bg-surface px-6 py-8 text-center text-sm text-muted">
+                No saved entries yet. Fill in the form above and choose <span className="font-semibold text-ink-soft">Save entry</span>.
+              </div>
+            ) : (
+              <>
+                {entries.length > 3 && (
+                  <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search by name..." className="mb-3 w-full rounded-full border border-border bg-white px-4 py-2 text-sm text-ink outline-none focus:border-primary focus:ring-2 focus:ring-primary/15" />
+                )}
+                <div className="space-y-3">
+                  {entries
+                    .map((e) => ({ e, label: labelOf(schema, e.values) }))
+                    .filter(({ label }) => !query || `${label.title} ${label.sub}`.toLowerCase().includes(query.toLowerCase()))
+                    .map(({ e, label }) => (
+                      <div key={e.id} className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-white p-4 card-shadow">
+                        <div className="min-w-0">
+                          <p className="truncate font-semibold text-ink">{label.title}</p>
+                          <p className="text-xs text-muted">
+                            {label.sub ? `${label.sub} · ` : ""}Saved {new Date(e.savedAt).toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })}
+                            {editingId === e.id && <span className="ml-2 rounded-full bg-primary-50 px-2 py-0.5 font-semibold text-primary">editing</span>}
+                          </p>
+                        </div>
+                        <div className="flex gap-2">
+                          <button type="button" onClick={() => editEntry(e)} className="rounded-lg border border-border px-3 py-1.5 text-sm font-semibold text-ink-soft hover:bg-surface">Open</button>
+                          <button type="button" onClick={() => deleteEntry(e.id)} className="rounded-lg border border-border px-3 py-1.5 text-sm font-semibold text-primary-dark hover:bg-surface">Delete</button>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </>
+            )}
           </>
         )}
         <p className="mt-3 text-xs text-muted">
-          Entries are saved only in this browser on this device (no server). Clearing your browser data will remove them. Use Print / PDF or Export CSV to keep a permanent copy.
+          Entries save securely to your account and are accessible to the My Home Cares team. Sign in with your telephone number and PIN from any device to view them. Keep a Print / PDF or CSV copy for your records.
         </p>
       </div>
 
