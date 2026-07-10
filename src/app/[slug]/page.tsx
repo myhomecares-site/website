@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { services, locations, careForms, conditions, serviceImages, site, type Service, type CareForm, type Condition } from "@/lib/site";
+import { services, locations, careForms, conditions, serviceImages, site, cityLocations, countySlug, type Service, type CareForm, type Condition, type City } from "@/lib/site";
 import { Container, Section, Button } from "@/components/ui";
 import { FeatureList, CTASection, ServiceCard } from "@/components/blocks";
 import { SiteImage } from "@/components/SiteImage";
@@ -29,6 +29,8 @@ const locationMap = new Map<string, { name: string; slug: string }>(
 );
 const careFormMap = new Map<string, CareForm>(careForms.map((f) => [f.slug, f]));
 const conditionMap = new Map<string, Condition>(conditions.map((c) => [c.slug, c]));
+type CityLoc = City & { slug: string };
+const cityMap = new Map<string, CityLoc>(cityLocations.map((c) => [c.slug, c]));
 
 export const dynamicParams = false;
 
@@ -38,6 +40,7 @@ export function generateStaticParams() {
     ...locations.map((l) => ({ slug: l.slug })),
     ...careForms.map((f) => ({ slug: f.slug })),
     ...conditions.map((c) => ({ slug: c.slug })),
+    ...cityLocations.map((c) => ({ slug: c.slug })),
   ];
 }
 
@@ -85,6 +88,17 @@ export async function generateMetadata({
       openGraph: { title: condition.metaTitle, description: condition.metaDescription, url: `${site.url}/${condition.slug}/`, type: "website" },
     };
   }
+  const city = cityMap.get(slug);
+  if (city) {
+    const title = `Home Care in ${city.name}, MD | In-Home Senior Care`;
+    const description = `Compassionate in-home care in ${city.name}, Maryland. My Home Cares provides skilled nursing, personal care, companion care, respite, dementia care, and 24-hour caregivers in ${city.name} (${city.county}). Call ${site.phone} for a free consultation.`;
+    return {
+      title,
+      description,
+      alternates: { canonical: `${site.url}/${city.slug}/` },
+      openGraph: { title: `${title} | ${site.name}`, description, url: `${site.url}/${city.slug}/`, type: "website" },
+    };
+  }
   return {};
 }
 
@@ -102,6 +116,8 @@ export default async function CatchAllPage({
   if (form) return <CareFormTemplate form={form} />;
   const condition = conditionMap.get(slug);
   if (condition) return <ConditionTemplate condition={condition} />;
+  const city = cityMap.get(slug);
+  if (city) return <CityTemplate city={city} />;
   notFound();
 }
 
@@ -393,6 +409,136 @@ function LocationTemplate({ name, slug }: { name: string; slug: string }) {
       </Section>
 
       <CTASection title={`Get in Touch, Serving ${name}, MD`} />
+    </>
+  );
+}
+
+/* ---------------- City template ---------------- */
+
+function CityTemplate({ city }: { city: CityLoc }) {
+  const url = `${site.url}/${city.slug}/`;
+  const countyHref = `/${countySlug(city.county)}`;
+  const nearby = cityLocations.filter((c) => c.county === city.county && c.slug !== city.slug).slice(0, 6);
+  const cards = [
+    { title: `Skilled Nursing in ${city.name}`, description: `In-home skilled nursing for ${city.name} residents, wound care, medication management, and post-surgery or chronic-condition support.`, href: "/skilled-nursing", icon: "stethoscope" },
+    { title: `Personal Care in ${city.name}`, description: `Respectful help with bathing, dressing, grooming, mobility, and daily living for ${city.name} seniors at home.`, href: "/personal-care", icon: "heart-hand" },
+    { title: `Companion Care in ${city.name}`, description: `Friendly companionship, errands, and social connection that keep ${city.name} seniors engaged and safe.`, href: "/companion-care", icon: "users" },
+  ];
+  return (
+    <>
+      <JsonLd data={breadcrumbLd([
+        { name: "Home", url: site.url },
+        { name: "Service Areas", url: `${site.url}/service-areas/` },
+        { name: `${city.name}, MD`, url },
+      ])} />
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: `Home Care in ${city.name}, Maryland`,
+        serviceType: "In-home senior care",
+        description: `Compassionate in-home care in ${city.name}, ${city.county}, Maryland.`,
+        provider: { "@type": "HomeHealthCareBusiness", name: site.name, telephone: site.phone, url: site.url },
+        areaServed: { "@type": "City", name: `${city.name}, MD` },
+        url,
+      }} />
+      <section className="hero-gradient border-b border-border">
+        <Container className="py-14 sm:py-18">
+          <nav className="mb-5 flex items-center gap-2 text-sm text-muted">
+            <Link href="/service-areas" className="hover:text-primary">Service Areas</Link>
+            <span>/</span>
+            <span className="text-ink">{city.name}</span>
+          </nav>
+          <div className="max-w-3xl animate-rise">
+            <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white px-4 py-1.5 text-xs font-semibold text-primary">
+              <Icon name="mapPin" className="h-3.5 w-3.5" /> {city.name}, Maryland
+            </span>
+            <h1 className="mt-5 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+              Home Care in {city.name}, MD
+            </h1>
+            <p className="mt-5 text-lg leading-relaxed text-muted">
+              {city.blurb} My Home Cares brings compassionate, licensed in-home care to {city.name} and the surrounding{" "}
+              <Link href={countyHref} className="font-medium text-primary hover:underline">{city.county}</Link> area,
+              from a few hours a week to 24-hour and live-in support.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Button href="/contact" withArrow>Get Started</Button>
+              <a href={site.phoneHref} className="inline-flex items-center gap-2 font-semibold text-ink hover:text-primary">
+                <Icon name="phone" className="h-4 w-4 text-primary" /> Call {site.phone}
+              </a>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <Section>
+        <div className="max-w-3xl">
+          <p className="eyebrow mb-3">Trusted in-home care in {city.name}</p>
+          <h2 className="text-3xl font-bold">Senior care for {city.name} families</h2>
+          <p className="mt-4 text-lg leading-relaxed text-muted">
+            Families across {city.name} turn to My Home Cares when a loved one needs a little more help to stay safe and
+            independent at home. Our screened, trained caregivers provide skilled nursing, personal care, companionship,
+            homemaking, and meal preparation, tailored to each person and their routine, right here in {city.county}.
+          </p>
+          <p className="mt-4 leading-relaxed text-muted">
+            Whether you are searching for home care, senior care, elderly care, home health aides, or a caregiver near you
+            in {city.name}, we can help. We also provide specialized{" "}
+            <Link href="/alzheimers-dementia-care-maryland" className="font-medium text-primary hover:underline">dementia and Alzheimer&apos;s care</Link>,{" "}
+            <Link href="/parkinsons-care-maryland" className="font-medium text-primary hover:underline">Parkinson&apos;s care</Link>, and{" "}
+            <Link href="/24-hour-live-in-care-maryland" className="font-medium text-primary hover:underline">24-hour and live-in care</Link>, with private
+            pay and Maryland Medicaid waiver options.
+          </p>
+        </div>
+        <div className="mt-10 grid gap-6 sm:grid-cols-3">
+          {cards.map((c) => (
+            <ServiceCard key={c.title} {...c} />
+          ))}
+        </div>
+      </Section>
+
+      {nearby.length > 0 && (
+        <Section muted>
+          <div className="max-w-3xl">
+            <p className="eyebrow mb-3">Nearby communities</p>
+            <h2 className="text-2xl font-bold">Also serving {city.county}</h2>
+            <p className="mt-3 leading-relaxed text-muted">We provide in-home care throughout {city.county}, including:</p>
+          </div>
+          <div className="mt-5 flex flex-wrap gap-2.5">
+            {nearby.map((n) => (
+              <Link key={n.slug} href={`/${n.slug}`} className="rounded-full border border-border bg-white px-4 py-2 text-sm font-medium text-ink-soft transition hover:border-primary/30 hover:text-primary">
+                {n.name}
+              </Link>
+            ))}
+            <Link href={countyHref} className="rounded-full border border-primary/30 bg-primary-50 px-4 py-2 text-sm font-semibold text-primary transition hover:bg-primary-100">
+              All of {city.county} →
+            </Link>
+          </div>
+        </Section>
+      )}
+
+      <Section>
+        <div className="grid items-center gap-10 lg:grid-cols-[1.3fr_1fr]">
+          <div>
+            <p className="eyebrow mb-3">Free, no-obligation consultation</p>
+            <h2 className="text-3xl font-bold">Ready to talk about care in {city.name}?</h2>
+            <p className="mt-4 text-lg leading-relaxed text-muted">
+              Tell us about your loved one&apos;s needs and our local care team will reach out promptly with a
+              personalized plan, often with care starting within a few days.
+            </p>
+            <div className="mt-8">
+              <Button href="/about" variant="outline" withArrow>Why Families Choose Us</Button>
+            </div>
+          </div>
+          <div className="rounded-2xl border border-border bg-white p-6 card-shadow">
+            <h3 className="text-lg font-bold">Find Care in {city.name}</h3>
+            <p className="mt-1 text-sm text-muted">Share a few details about your loved one.</p>
+            <div className="mt-4">
+              <LeadForm compact source={`city-${city.name}`} />
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <CTASection title={`Get in Touch, Serving ${city.name}, MD`} />
     </>
   );
 }

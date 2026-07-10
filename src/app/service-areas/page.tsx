@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { regions, countySlug, site } from "@/lib/site";
+import { regions, countySlug, site, cityLocations } from "@/lib/site";
 import { Section, SectionHeading } from "@/components/ui";
 import { PageHero, CTASection } from "@/components/blocks";
 import { Icon } from "@/components/icons";
@@ -69,6 +69,25 @@ export default function ServiceAreasPage() {
             Don&apos;t see your county? We&apos;re always expanding.{" "}
             <a href={site.phoneHref} className="font-semibold text-primary">Call {site.phone}</a> to ask about care in your area.
           </p>
+        </div>
+      </Section>
+
+      <Section muted>
+        <SectionHeading
+          center
+          title="Cities and towns we serve"
+          intro="We provide in-home care in these Maryland communities, with a local page for each."
+        />
+        <div className="mx-auto mt-10 flex max-w-4xl flex-wrap justify-center gap-2.5">
+          {cityLocations.map((c) => (
+            <Link
+              key={c.slug}
+              href={`/${c.slug}`}
+              className="rounded-full border border-border bg-white px-4 py-2 text-sm font-medium text-ink-soft transition hover:border-primary/30 hover:text-primary"
+            >
+              {c.name}
+            </Link>
+          ))}
         </div>
       </Section>
 

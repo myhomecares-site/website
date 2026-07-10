@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { site, services, locations, careForms, conditions } from "@/lib/site";
+import { site, services, locations, cityLocations, conditions } from "@/lib/site";
 import { posts } from "@/lib/posts";
 
 // Full sitemap so Google can discover & index every service, region, and county page.
@@ -19,7 +19,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/caregivers/", priority: 0.7, freq: "monthly" },
     { path: "/carelink-staffing/", priority: 0.6, freq: "monthly" },
     { path: "/faq/", priority: 0.6, freq: "monthly" },
-    { path: "/resources/", priority: 0.4, freq: "yearly" },
     { path: "/blog/", priority: 0.5, freq: "weekly" },
   ];
 
@@ -45,9 +44,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entries.push({ url: u(`/${l.slug}/`), lastModified: now, changeFrequency: "monthly", priority: 0.7 });
   }
 
-  // Care resource pages
-  for (const f of careForms) {
-    entries.push({ url: u(`/${f.slug}/`), lastModified: now, changeFrequency: "yearly", priority: 0.3 });
+  // City / town landing pages
+  for (const c of cityLocations) {
+    entries.push({ url: u(`/${c.slug}/`), lastModified: now, changeFrequency: "monthly", priority: 0.7 });
   }
 
   // Blog posts

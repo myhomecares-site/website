@@ -283,6 +283,71 @@ export const locations = [
   ),
 ];
 
+// City / town landing pages. People search cities more than counties, so each
+// gets its own optimized page (e.g. "home care Glen Burnie MD"). Each has a
+// unique local blurb so no two pages read the same. County matches the names in
+// `regions` so we can link a city to its county page.
+export type City = { name: string; county: string; region: string; blurb: string };
+
+export const cities: City[] = [
+  // Central region (current focus)
+  { name: "Glen Burnie", county: "Anne Arundel County", region: "Central",
+    blurb: "Glen Burnie is one of the largest communities in northern Anne Arundel County, just south of Baltimore and close to BWI Marshall Airport." },
+  { name: "Annapolis", county: "Anne Arundel County", region: "Central",
+    blurb: "Annapolis, Maryland's state capital and the seat of Anne Arundel County, sits on the Chesapeake Bay and is home to a large, close-knit senior community." },
+  { name: "Severn", county: "Anne Arundel County", region: "Central",
+    blurb: "Severn is a growing Anne Arundel County community near Fort Meade and BWI, where many families balance busy work schedules with caring for aging parents." },
+  { name: "Pasadena", county: "Anne Arundel County", region: "Central",
+    blurb: "Pasadena is a peninsula community in northern Anne Arundel County, stretching between Baltimore and the waters of the Chesapeake Bay." },
+  { name: "Severna Park", county: "Anne Arundel County", region: "Central",
+    blurb: "Severna Park is a residential Anne Arundel County community along the B&A Trail, roughly midway between Baltimore and Annapolis." },
+  { name: "Odenton", county: "Anne Arundel County", region: "Central",
+    blurb: "Odenton is a fast-growing Anne Arundel County community anchored by Fort Meade, with many multigenerational households." },
+  { name: "Baltimore", county: "Baltimore City", region: "Central",
+    blurb: "Baltimore is Maryland's largest city, a collection of historic neighborhoods where many seniors have lived for decades and wish to age in place." },
+  { name: "Towson", county: "Baltimore County", region: "Central",
+    blurb: "Towson is the seat of Baltimore County, just north of the city, with a strong network of hospitals and senior services." },
+  { name: "Dundalk", county: "Baltimore County", region: "Central",
+    blurb: "Dundalk is a close-knit community in southeastern Baltimore County along the Patapsco River, known for its tight-knit, family-oriented neighborhoods." },
+  { name: "Catonsville", county: "Baltimore County", region: "Central",
+    blurb: "Catonsville sits in southwestern Baltimore County near UMBC, a leafy community with many longtime residents." },
+  { name: "Owings Mills", county: "Baltimore County", region: "Central",
+    blurb: "Owings Mills is a growing community in northwestern Baltimore County with a mix of established and newer neighborhoods." },
+  { name: "Essex", county: "Baltimore County", region: "Central",
+    blurb: "Essex is a waterfront community in eastern Baltimore County along the Chesapeake, home to many retirees." },
+  { name: "Columbia", county: "Howard County", region: "Central",
+    blurb: "Columbia is a planned community in Howard County set between Baltimore and Washington, organized into villages with strong senior resources." },
+  { name: "Ellicott City", county: "Howard County", region: "Central",
+    blurb: "Ellicott City, the historic seat of Howard County, lines the Patapsco River valley and blends historic charm with a large residential population." },
+  { name: "Bel Air", county: "Harford County", region: "Central",
+    blurb: "Bel Air is the seat of Harford County and a hub for the surrounding communities of northeastern Maryland." },
+  { name: "Westminster", county: "Carroll County", region: "Central",
+    blurb: "Westminster is the seat of Carroll County, a historic town anchoring a largely rural, family-oriented part of central Maryland." },
+  // Capital region (high population)
+  { name: "Silver Spring", county: "Montgomery County", region: "Capital",
+    blurb: "Silver Spring is a large, diverse Montgomery County community just north of Washington, DC, with many seniors aging in place near family." },
+  { name: "Rockville", county: "Montgomery County", region: "Capital",
+    blurb: "Rockville, the seat of Montgomery County, is one of Maryland's largest cities and a center for medical care in the DC suburbs." },
+  { name: "Bethesda", county: "Montgomery County", region: "Capital",
+    blurb: "Bethesda is an affluent Montgomery County community near Washington, DC, and home to major medical institutions including the NIH." },
+  { name: "Gaithersburg", county: "Montgomery County", region: "Capital",
+    blurb: "Gaithersburg is a diverse Montgomery County city with a large, growing senior population in the upper DC suburbs." },
+  { name: "Frederick", county: "Frederick County", region: "Capital",
+    blurb: "Frederick is the seat of Frederick County in western Maryland, a historic city serving a broad surrounding region." },
+  { name: "Bowie", county: "Prince George's County", region: "Capital",
+    blurb: "Bowie is one of Maryland's largest cities, a residential Prince George's County community between Washington and Annapolis." },
+];
+
+export function citySlug(name: string) {
+  return (
+    "home-care-" +
+    name.toLowerCase().replace(/'/g, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") +
+    "-md"
+  );
+}
+
+export const cityLocations = cities.map((c) => ({ ...c, slug: citySlug(c.name) }));
+
 // Care forms & resources, slugs match legacy URLs.
 export const careForms = [
   {
