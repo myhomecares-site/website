@@ -17,6 +17,24 @@ function isHeading(line: string) {
   return t.length < 70 && !/[.!?:,]$/.test(t) && !t.startsWith("Together") && !t.startsWith("Happy");
 }
 
+// Render inline markdown links [text](/path) inside a paragraph.
+function renderInline(text: string) {
+  const nodes: import("react").ReactNode[] = [];
+  const re = /\[([^\]]+)\]\(([^)\s]+)\)/g;
+  let last = 0, k = 0, m: RegExpExecArray | null;
+  while ((m = re.exec(text))) {
+    if (m.index > last) nodes.push(text.slice(last, m.index));
+    const href = m[2];
+    const external = /^https?:/.test(href);
+    nodes.push(
+      <Link key={k++} href={href} className="font-medium text-primary hover:underline" {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>{m[1]}</Link>
+    );
+    last = re.lastIndex;
+  }
+  if (last < text.length) nodes.push(text.slice(last));
+  return nodes;
+}
+
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -128,7 +146,7 @@ export default async function BlogPostPage({
                     isHeading(line) ? (
                       <h2 key={i} className="!mt-8 text-xl font-bold text-ink">{line}</h2>
                     ) : (
-                      <p key={i} className="leading-relaxed text-ink-soft">{line}</p>
+                      <p key={i} className="leading-relaxed text-ink-soft">{renderInline(line)}</p>
                     )
                   )}
                 </div>

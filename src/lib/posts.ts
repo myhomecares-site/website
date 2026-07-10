@@ -13,6 +13,22 @@ export type Post = {
 
 export const posts: Post[] = [
   {
+    slug: "maryland-medicaid-waivers-home-care",
+    title: "Maryland Medicaid Waivers for Home Care: Community First Choice & Community Options",
+    date: "2026-07-09",
+    category: "Paying for Care",
+    excerpt:
+      "Two Maryland Medicaid programs can pay for care at home, Community First Choice and the Community Options Waiver. Here's how they differ, who qualifies, and how to apply.",
+  },
+  {
+    slug: "how-to-talk-to-aging-parent-about-help",
+    title: "How to Talk With an Aging Parent Who Doesn't Want Help",
+    date: "2026-07-09",
+    category: "Family Resources",
+    excerpt:
+      "Bringing up home care with a parent who insists they're fine is one of the hardest conversations a family faces. Here's how to approach it with patience, respect, and better odds of a yes.",
+  },
+  {
     slug: "maryland-medicaid-renewal-check-your-mail",
     title: "Maryland Medicaid Renewal: Check Your Mail So You Don't Lose Coverage",
     date: "2026-07-01",
@@ -157,6 +173,8 @@ export function postImage(post: Post) {
 // each post by topic. Shown as the in-article hero image when a reader opens a
 // post. Posts not listed here fall back to their branded card.
 export const postPhotos: Record<string, string> = {
+  "maryland-medicaid-waivers-home-care": "/wp-content/uploads/2024/01/caring-nurse-helping-elderly.png",
+  "how-to-talk-to-aging-parent-about-help": "/wp-content/uploads/2024/02/home-care-services.webp",
   "signs-your-parent-needs-home-care": "/wp-content/uploads/2024/02/home-care-services.webp",
   "how-to-choose-home-care-agency-maryland": "/wp-content/uploads/2024/02/skilled-nursing-services.webp",
   "how-to-pay-for-home-care-maryland": "/wp-content/uploads/2024/01/caring-nurse-helping-elderly.png",
