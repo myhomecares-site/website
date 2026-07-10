@@ -4,7 +4,7 @@ import { posts, postImage, formatDate } from "@/lib/posts";
 import { Container, Section, SectionHeading, Button } from "@/components/ui";
 import { ServiceCard, CTASection, Stat, TrustBand, HowItWorks, Stars, WhatSetsUsApart, SpecializedCare } from "@/components/blocks";
 import { VideoFeature } from "@/components/VideoFeature";
-import { LeadForm } from "@/components/LeadForm";
+import { CareFinder } from "@/components/CareFinder";
 import { SiteImage } from "@/components/SiteImage";
 import { Reviews } from "@/components/Reviews";
 import { FaqList } from "@/components/Faq";
@@ -93,38 +93,21 @@ export default function Home() {
 
       <TrustBand />
 
-      {/* Find Your Care, consultation */}
+      {/* Find Your Care, interactive finder */}
       <Section>
-        <div className="grid items-center gap-10 overflow-hidden rounded-3xl border border-border bg-surface p-6 sm:p-10 lg:grid-cols-2">
-          <div>
-            <p className="eyebrow mb-3">Free, No-Obligation Consultation</p>
-            <h2 className="text-3xl font-bold sm:text-[2rem]">Find the right care for your loved one</h2>
-            <p className="mt-4 text-lg leading-relaxed text-muted">
-              Tell us a little about your family&apos;s needs and a member of our care team will reach
-              out promptly with a personalized plan.
-            </p>
-            <ul className="mt-6 space-y-3">
-              {[
-                "No cost and no obligation",
-                "A friendly, prompt response from our care team",
-                "A care plan tailored to your loved one",
-              ].map((t) => (
-                <li key={t} className="flex items-center gap-3 text-ink-soft">
-                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-accent-50 text-accent-dark">
-                    <Icon name="check" className="h-3.5 w-3.5" strokeWidth={2.5} />
-                  </span>
-                  {t}
-                </li>
-              ))}
-            </ul>
-            <a href={site.phoneHref} className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary">
-              <Icon name="phone" className="h-4 w-4" /> Prefer to call? {site.phone}
-            </a>
-          </div>
-          <div className="rounded-2xl border border-border bg-white p-6 shadow-xl sm:p-7">
-            <LeadForm withTime source="home-consult" />
-          </div>
+        <SectionHeading
+          center
+          eyebrow="Free & No-Obligation"
+          title="Not sure where to start? Let's find the right care"
+          intro="Answer three quick questions and we'll point you to the right services, then help you take the next step."
+        />
+        <div className="mt-10">
+          <CareFinder />
         </div>
+        <p className="mt-6 text-center text-sm text-muted">
+          Prefer to talk?{" "}
+          <a href={site.phoneHref} className="font-semibold text-primary">Call {site.phone}</a> for a free consultation.
+        </p>
       </Section>
 
       {/* Comprehensive Care Services */}
