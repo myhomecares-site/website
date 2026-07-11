@@ -120,17 +120,25 @@ p {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Scroll-reveal — elements fade/rise in as they enter the viewport */
+/* Scroll-reveal — elements ease into view as they enter the viewport.
+   A soft rise/slide plus a gentle blur that resolves into focus. */
 .reveal {
   opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
+  transform: translateY(34px);
+  filter: blur(6px);
+  transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1.05s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 1s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform, filter;
 }
+/* Directional / scale variants for visual variety across the page */
+.reveal-scale { transform: translateY(22px) scale(0.965); }
+.reveal-left { transform: translateX(-40px); }
+.reveal-right { transform: translateX(40px); }
 .reveal.is-visible {
   opacity: 1;
   transform: none;
+  filter: blur(0);
 }
 
 /* Header logo — gentle reveal on load + periodic light sweep clipped to the mark */
@@ -167,7 +175,7 @@ p {
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .reveal { opacity: 1; transform: none; transition: none; }
+  .reveal { opacity: 1; transform: none; filter: none; transition: none; }
   .animate-rise { animation: none; }
   .logo-reveal { animation: none; }
   .logo-shimmer { animation: none; display: none; }

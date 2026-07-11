@@ -25,7 +25,7 @@ export function WhatWeStandFor() {
         </div>
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {VALUES.map((v, i) => (
-            <Reveal key={v.title} delay={i * 110}>
+            <Reveal key={v.title} variant="scale" delay={i * 110}>
               <div className="h-full rounded-2xl border border-border bg-white p-6 card-shadow transition-transform hover:-translate-y-1">
                 <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary-50 text-primary">
                   <Icon name={v.icon} className="h-6 w-6" />

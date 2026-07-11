@@ -175,9 +175,9 @@ export default function Home() {
       <WhatWeStandFor />
 
       {/* About teaser */}
-      <Section muted>
+      <Section muted reveal={false}>
         <div className="grid items-center gap-12 lg:grid-cols-2">
-          <div>
+          <Reveal variant="left">
             <p className="eyebrow mb-3">About My Home Cares</p>
             <h2 className="text-3xl font-bold sm:text-4xl">Your trusted Maryland home care provider</h2>
             <p className="mt-5 text-lg leading-relaxed text-muted">
@@ -197,21 +197,23 @@ export default function Home() {
                 Learn More About Us
               </Button>
             </div>
-          </div>
+          </Reveal>
           <div className="grid gap-5 sm:grid-cols-2">
             {[
               { icon: "heart-hand", title: "People-first", text: "Care that honors dignity, comfort and independence." },
               { icon: "shield-heart", title: "Trusted & licensed", text: `Maryland licensed, ${site.license}.` },
               { icon: "users", title: "Family-oriented team", text: "Caregivers who treat your loved ones like their own." },
               { icon: "activity", title: "Tech-enabled care", text: "Built from a software company, innovation at our core." },
-            ].map((c) => (
-              <div key={c.title} className="rounded-2xl border border-border bg-white p-5 card-shadow">
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary-50 text-primary">
-                  <Icon name={c.icon} className="h-6 w-6" />
-                </span>
-                <h3 className="mt-4 font-bold">{c.title}</h3>
-                <p className="mt-1.5 text-sm text-muted">{c.text}</p>
-              </div>
+            ].map((c, i) => (
+              <Reveal key={c.title} variant="scale" delay={i * 90}>
+                <div className="h-full rounded-2xl border border-border bg-white p-5 card-shadow">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary-50 text-primary">
+                    <Icon name={c.icon} className="h-6 w-6" />
+                  </span>
+                  <h3 className="mt-4 font-bold">{c.title}</h3>
+                  <p className="mt-1.5 text-sm text-muted">{c.text}</p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -221,19 +223,21 @@ export default function Home() {
       <ReviewsShowcase />
 
       {/* Latest from the blog */}
-      <Section muted>
-        <SectionHeading
-          center
-          eyebrow="Insights & Resources"
-          title="Latest from our blog"
-          intro="Tips and guidance on home care, caregiving, and healthy aging in Maryland."
-        />
+      <Section muted reveal={false}>
+        <Reveal>
+          <SectionHeading
+            center
+            eyebrow="Insights & Resources"
+            title="Latest from our blog"
+            intro="Tips and guidance on home care, caregiving, and healthy aging in Maryland."
+          />
+        </Reveal>
         <div className="mx-auto mt-11 grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {posts.slice(0, 3).map((post) => (
+          {posts.slice(0, 3).map((post, i) => (
+            <Reveal key={post.slug} delay={i * 110} className="h-full">
             <Link
-              key={post.slug}
               href={`/blog/${post.slug}`}
-              className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-white transition-all hover:-translate-y-1 hover:border-primary/30 card-shadow"
+              className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white transition-all hover:-translate-y-1 hover:border-primary/30 card-shadow"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -255,6 +259,7 @@ export default function Home() {
                 </span>
               </div>
             </Link>
+            </Reveal>
           ))}
         </div>
         <div className="mt-10 text-center">
