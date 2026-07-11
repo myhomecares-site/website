@@ -18,7 +18,7 @@ export function WhatWeStandFor() {
         <div className="mx-auto max-w-2xl text-center">
           <Reveal>
             <p className="text-sm font-semibold uppercase tracking-wider text-primary-light">What We Stand For</p>
-            <h2 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl">{site.mission}</h2>
+            <h2 className="mt-3 text-3xl font-bold leading-tight text-white sm:text-4xl">{site.mission}</h2>
           </Reveal>
           <Reveal delay={120}>
             <p className="mt-5 text-lg leading-relaxed text-white/80">{site.promise}</p>
@@ -31,7 +31,7 @@ export function WhatWeStandFor() {
                 <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/25 text-primary-light">
                   <Icon name={v.icon} className="h-6 w-6" />
                 </span>
-                <h3 className="mt-4 text-lg font-bold">{v.title}</h3>
+                <h3 className="mt-4 text-lg font-bold text-white">{v.title}</h3>
                 <p className="mt-1.5 text-sm leading-relaxed text-white/70">{v.text}</p>
               </div>
             </Reveal>
