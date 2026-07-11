@@ -5,6 +5,7 @@ import { Container, Section, SectionHeading, Button } from "@/components/ui";
 import { ServiceCard, CTASection, Stat, TrustBand, HowItWorks, Stars, WhatSetsUsApart, SpecializedCare } from "@/components/blocks";
 import { VideoFeature } from "@/components/VideoFeature";
 import { CareFinder } from "@/components/CareFinder";
+import { MarylandMap } from "@/components/MarylandMap";
 import { SiteImage } from "@/components/SiteImage";
 import { Reviews } from "@/components/Reviews";
 import { FaqList } from "@/components/Faq";
@@ -152,6 +153,19 @@ export default function Home() {
       <div className="bg-surface">
         <WhatSetsUsApart />
       </div>
+
+      {/* Interactive Maryland map */}
+      <Section>
+        <SectionHeading
+          center
+          eyebrow="Statewide, Local to You"
+          title="Find home care in your Maryland county"
+          intro="Tap your county on the map to see the towns we serve nearby and jump to your local care page."
+        />
+        <div className="mt-10">
+          <MarylandMap />
+        </div>
+      </Section>
 
       {/* Video */}
       <VideoFeature />
