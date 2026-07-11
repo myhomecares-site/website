@@ -12,27 +12,26 @@ const VALUES = [
 
 export function WhatWeStandFor() {
   return (
-    <section className="relative overflow-hidden bg-ink py-16 text-white sm:py-24">
-      <div className="pointer-events-none absolute inset-0 opacity-40" style={{ background: "radial-gradient(700px 340px at 15% 0%, rgba(0,158,230,0.35), transparent 60%), radial-gradient(600px 300px at 100% 100%, rgba(0,199,0,0.18), transparent 60%)" }} />
-      <Container className="relative">
+    <section className="hero-gradient border-y border-border py-16 sm:py-24">
+      <Container>
         <div className="mx-auto max-w-2xl text-center">
           <Reveal>
-            <p className="text-sm font-semibold uppercase tracking-wider text-primary-light">What We Stand For</p>
-            <h2 className="mt-3 text-3xl font-bold leading-tight text-white sm:text-4xl">{site.mission}</h2>
+            <p className="text-sm font-semibold uppercase tracking-wider text-primary">What We Stand For</p>
+            <h2 className="mt-3 text-3xl font-bold leading-tight text-ink sm:text-4xl">{site.mission}</h2>
           </Reveal>
           <Reveal delay={120}>
-            <p className="mt-5 text-lg leading-relaxed text-white/80">{site.promise}</p>
+            <p className="mt-5 text-lg leading-relaxed text-muted">{site.promise}</p>
           </Reveal>
         </div>
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {VALUES.map((v, i) => (
             <Reveal key={v.title} delay={i * 110}>
-              <div className="h-full rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-transform hover:-translate-y-1">
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/25 text-primary-light">
+              <div className="h-full rounded-2xl border border-border bg-white p-6 card-shadow transition-transform hover:-translate-y-1">
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary-50 text-primary">
                   <Icon name={v.icon} className="h-6 w-6" />
                 </span>
-                <h3 className="mt-4 text-lg font-bold text-white">{v.title}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-white/70">{v.text}</p>
+                <h3 className="mt-4 text-lg font-bold text-ink">{v.title}</h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted">{v.text}</p>
               </div>
             </Reveal>
           ))}
