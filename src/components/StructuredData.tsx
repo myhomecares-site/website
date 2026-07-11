@@ -7,14 +7,14 @@ export function StructuredData() {
   const counties = regions.flatMap((r) => r.counties);
 
   // Only emit review markup when real reviews exist (never fabricate ratings).
-  const ratings = testimonials.map((t) => t.rating ?? 5);
+  // Aggregate reflects the verified Google Business Profile total (5.0 / 7).
   const reviewData =
     testimonials.length > 0
       ? {
           aggregateRating: {
             "@type": "AggregateRating",
-            ratingValue: (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1),
-            reviewCount: testimonials.length,
+            ratingValue: site.googleReviews.rating.toFixed(1),
+            reviewCount: site.googleReviews.count,
             bestRating: 5,
             worstRating: 1,
           },
