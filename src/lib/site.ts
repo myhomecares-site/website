@@ -13,6 +13,8 @@ export const site = {
   // (Google Business Profile → Ask for reviews → copy link). Falls back to a search.
   reviewUrl: "https://search.google.com/local/writereview?placeid=",
   reviewSearchUrl: "https://www.google.com/search?q=My+Home+Cares+Maryland+reviews",
+  // Verified from Google Business Profile. Update as the count/rating grows.
+  googleReviews: { rating: 5.0, count: 7 },
   phone: "(410) 231-3076",
   phoneHref: "tel:+14102313076",
   email: "info@myhomecares.com",

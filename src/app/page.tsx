@@ -7,7 +7,8 @@ import { VideoFeature } from "@/components/VideoFeature";
 import { CareFinder } from "@/components/CareFinder";
 import { MarylandMap } from "@/components/MarylandMap";
 import { SiteImage } from "@/components/SiteImage";
-import { Reviews } from "@/components/Reviews";
+import { ReviewsShowcase } from "@/components/ReviewsShowcase";
+import { WhatWeStandFor } from "@/components/WhatWeStandFor";
 import { FaqList } from "@/components/Faq";
 import { faqs } from "@/lib/faq";
 import { Reveal } from "@/components/Reveal";
@@ -170,6 +171,9 @@ export default function Home() {
       {/* Video */}
       <VideoFeature />
 
+      {/* What we stand for */}
+      <WhatWeStandFor />
+
       {/* About teaser */}
       <Section muted>
         <div className="grid items-center gap-12 lg:grid-cols-2">
@@ -213,8 +217,8 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* Reviews */}
-      <Reviews />
+      {/* Reviews & trust showcase */}
+      <ReviewsShowcase />
 
       {/* Latest from the blog */}
       <Section muted>
