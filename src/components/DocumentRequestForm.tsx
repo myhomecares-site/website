@@ -10,7 +10,7 @@ const DOCUMENTS = [
   "Medication Administration Record (MAR)",
   "Pain Evaluation",
   "Emergency Medical Data Sheet",
-  "Caregiver Monthly Log",
+  "Caregiver Daily Log",
   "Skills Assessment",
   "Other (describe below)",
 ];

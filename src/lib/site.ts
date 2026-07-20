@@ -423,11 +423,11 @@ export const careForms = [
   },
   {
     slug: "caregiver-daily-log-form",
-    title: "Caregiver Monthly Log",
-    summary: "A monthly visit log saved per caregiver by name and number.",
+    title: "Caregiver Daily Log",
+    summary: "A single-visit daily log saved per caregiver by name and phone number.",
     purpose:
-      "A month-long record of a caregiver's visits, tasks, meals, and changes in condition, saved and searchable by the caregiver's name and number.",
-    captures: ["Caregiver name & number", "Daily visits & hours", "Tasks & observations", "Caregiver signature"],
+      "A per-visit record of a caregiver's day, visit times, care tasks, meals, and any change in condition, saved and searchable by the caregiver's name and phone number.",
+    captures: ["Caregiver name & phone", "Visit times & hours", "Care tasks & observations", "Caregiver signature"],
   },
   {
     slug: "unlicensed-aide-skills-assessment",

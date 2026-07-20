@@ -270,16 +270,16 @@ export const careFormSchemas: Record<string, FormBlock[]> = {
     { kind: "signatures", roles: ["Completed by"] },
   ],
 
-  // Monthly caregiver log. Saves per caregiver by name + number so each aide
-  // builds their own month of daily visits, and signs at the bottom.
+  // Daily caregiver visit note. One sheet per visit, saved per caregiver by
+  // name + phone so each aide records that day's times, tasks, meals, and any
+  // change in condition, then signs it.
   "caregiver-daily-log-form": [
     {
       kind: "fields",
       title: "Caregiver",
       fields: [
         { name: "caregiver", label: "Caregiver name", width: "half" },
-        { name: "caregiverNo", label: "Caregiver telephone number", type: "tel", width: "third" },
-        { name: "month", label: "Date", type: "date", width: "third" },
+        { name: "caregiverNo", label: "Caregiver telephone number", type: "tel", width: "half" },
       ],
     },
     {
@@ -290,14 +290,32 @@ export const careFormSchemas: Record<string, FormBlock[]> = {
         { name: "clientLoc", label: "Client location / ID", width: "half" },
       ],
     },
-    { kind: "note", text: "Record each visit for the month on its own row. Note tasks, meals, and anything that changed. Sign at the bottom, then print or export at month end. For best results, print in landscape." },
     {
-      kind: "table",
-      title: "Daily visit log",
-      columns: ["Date", "Time in", "Time out", "Hours", "Tasks, meals & observations", "Initials"],
-      rows: 20,
+      kind: "fields",
+      title: "Visit",
+      fields: [
+        { name: "date", label: "Date", type: "date", width: "third" },
+        { name: "timeIn", label: "Time in", type: "time", width: "third" },
+        { name: "timeOut", label: "Time out", type: "time", width: "third" },
+        { name: "hours", label: "Total hours", type: "number", width: "third" },
+      ],
     },
-    { kind: "textarea", label: "Notes / changes in condition this month", rows: 3 },
+    { kind: "note", text: "Complete one sheet for each visit. Check the care you provided, note meals and anything that changed, then sign and print or save." },
+    {
+      kind: "checklist",
+      title: "Personal care provided",
+      columns: 3,
+      items: ["Bathing / shower", "Dressing", "Grooming / hygiene", "Oral care", "Toileting", "Incontinence care", "Transferring", "Ambulation / mobility", "Repositioning", "Feeding assistance", "Skin care", "Medication reminder"],
+    },
+    {
+      kind: "checklist",
+      title: "Home & daily support",
+      columns: 3,
+      items: ["Meal preparation", "Light housekeeping", "Laundry", "Groceries / errands", "Companionship", "Escort to appointment"],
+    },
+    { kind: "textarea", label: "Meals & fluids provided", rows: 2 },
+    { kind: "textarea", label: "Observations & changes in condition", rows: 3 },
+    { kind: "textarea", label: "Notes", rows: 2 },
     { kind: "signatures", roles: ["Caregiver signature"] },
   ],
 

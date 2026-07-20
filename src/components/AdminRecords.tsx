@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { careForms } from "@/lib/site";
 import { flatten, labelOf, schemaFor, type Values } from "@/lib/care-form-values";
 import { Icon } from "@/components/icons";
@@ -96,6 +97,9 @@ export function AdminRecords() {
           <p className="text-sm text-muted">All care-form entries saved by your team, across every device.</p>
         </div>
         <div className="flex gap-2">
+          <Link href="/admin/monthly-log" className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm font-semibold text-ink-soft hover:bg-surface">
+            <Icon name="clock" className="h-4 w-4" /> Monthly log
+          </Link>
           <button onClick={exportCSV} className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm font-semibold text-ink-soft hover:bg-surface">
             <Icon name="download" className="h-4 w-4" /> Export CSV
           </button>

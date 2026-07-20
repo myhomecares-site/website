@@ -47,7 +47,7 @@ export function labelOf(schema: FormBlock[], values: Values): { title: string; s
   });
   if (fv.caregiver) {
     const title = fv.caregiverNo ? `${fv.caregiver} · ${fv.caregiverNo}` : fv.caregiver;
-    const sub = [fv.month, fv.client ? `Client: ${fv.client}` : ""].filter(Boolean).join(" · ");
+    const sub = [fv.date || fv.month, fv.client ? `Client: ${fv.client}` : ""].filter(Boolean).join(" · ");
     return { title, sub };
   }
   const { client, date } = summarize(schema, values);
