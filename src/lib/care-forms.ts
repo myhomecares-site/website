@@ -279,7 +279,7 @@ export const careFormSchemas: Record<string, FormBlock[]> = {
       fields: [
         { name: "caregiver", label: "Caregiver name", width: "half" },
         { name: "caregiverNo", label: "Caregiver telephone number", type: "tel", width: "third" },
-        { name: "month", label: "Month / Year", width: "third" },
+        { name: "month", label: "Date", type: "date", width: "third" },
       ],
     },
     {
