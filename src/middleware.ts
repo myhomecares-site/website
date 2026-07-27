@@ -21,9 +21,15 @@ const PROTECTED_EXACT = new Set<string>([
   "/unlicensed-aide-skills-assessment",
 ]);
 
-function isProtected(pathname: string) {
+function isStaffProtected(pathname: string) {
   const s = pathname.replace(/\/$/, "") || "/";
   return s.startsWith("/admin") || PROTECTED_EXACT.has(s);
+}
+
+// The HR area uses its own standalone access code (a separate cookie).
+function isHrProtected(pathname: string) {
+  const s = pathname.replace(/\/$/, "") || "/";
+  return s === "/hr" || s.startsWith("/hr/");
 }
 
 async function hmacHex(msg: string) {
@@ -38,21 +44,33 @@ async function hmacHex(msg: string) {
   return [...new Uint8Array(sig)].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-async function verifyStaff(token: string): Promise<boolean> {
+// Verify a signed cookie whose payload is `<prefix>.<exp>` (staff or hr).
+async function verifyToken(token: string, prefix: string): Promise<boolean> {
   const parts = (token || "").split(".");
   if (parts.length !== 2) return false;
   const [exp, sig] = parts;
   if (!/^\d+$/.test(exp) || Number(exp) < Date.now()) return false;
-  const expected = await hmacHex(`staff.${exp}`);
+  const expected = await hmacHex(`${prefix}.${exp}`);
   return sig.length === expected.length && sig === expected;
 }
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  if (!isProtected(pathname)) return NextResponse.next();
+
+  // HR area: its own standalone code + cookie.
+  if (isHrProtected(pathname)) {
+    const token = req.cookies.get("mhc_hr")?.value || "";
+    if (await verifyToken(token, "hr")) return NextResponse.next();
+    const url = req.nextUrl.clone();
+    url.pathname = "/hr-login";
+    url.searchParams.set("next", pathname);
+    return NextResponse.redirect(url);
+  }
+
+  if (!isStaffProtected(pathname)) return NextResponse.next();
 
   const token = req.cookies.get("mhc_staff")?.value || "";
-  if (await verifyStaff(token)) return NextResponse.next();
+  if (await verifyToken(token, "staff")) return NextResponse.next();
 
   const url = req.nextUrl.clone();
   url.pathname = "/staff-login";

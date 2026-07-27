@@ -48,6 +48,26 @@ export default function ResourcesPage() {
           ))}
         </div>
       </Section>
+      <Section muted>
+        <SectionHeading title="Human Resources" intro="Onboarding tools for the HR team. Opens with the HR access code." />
+        <div className="mt-8 flex justify-center">
+          <Link
+            href="/hr"
+            className="group flex w-full max-w-md flex-col rounded-2xl border border-border bg-white p-6 transition-all hover:-translate-y-1 hover:border-primary/30 card-shadow"
+          >
+            <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary-50 text-primary">
+              <Icon name="users" className="h-5 w-5" />
+            </span>
+            <h3 className="mt-4 text-lg font-bold group-hover:text-primary">New-hire onboarding</h3>
+            <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">
+              Download the onboarding checklist and tracker, and manage each new hire&apos;s onboarding progress online.
+            </p>
+            <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
+              Open HR area <Icon name="arrow" className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </span>
+          </Link>
+        </div>
+      </Section>
       <CTASection />
     </>
   );
