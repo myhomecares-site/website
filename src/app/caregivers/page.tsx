@@ -74,7 +74,7 @@ export default function CaregiversPage() {
               about making a difference, and in recognizing their work with the pay, respect, and
               support they deserve.&rdquo;
             </blockquote>
-            <p className="mt-3 text-sm font-semibold text-muted">— Lulu H. Mziray, Director of Operations</p>
+            <p className="mt-3 text-sm font-semibold text-muted">Lulu H. Mziray, Director of Operations</p>
           </div>
         </div>
       </Section>

@@ -140,7 +140,7 @@ export const careFormSchemas: Record<string, FormBlock[]> = {
     { kind: "heading", text: "Skin" },
     { kind: "checklist", title: "Color", columns: 3, items: ["Normal", "Pale", "Red", "Irritation", "Rash"] },
     { kind: "checklist", title: "Skin intact", columns: 3, items: ["Yes", "No (complete the grid below)"] },
-    { kind: "checktable", title: "Pressure ulcers — number by stage", note: "Check the column matching the number of ulcers at each stage.", rowLabels: ["Stage 1: redness of intact skin", "Stage 2: partial-thickness skin loss", "Stage 3: full-thickness skin loss", "Stage 4: full-thickness loss with destruction"], columns: ["0", "1", "2", "3", "4+"] },
+    { kind: "checktable", title: "Pressure ulcers, number by stage", note: "Check the column matching the number of ulcers at each stage.", rowLabels: ["Stage 1: redness of intact skin", "Stage 2: partial-thickness skin loss", "Stage 3: full-thickness skin loss", "Stage 4: full-thickness loss with destruction"], columns: ["0", "1", "2", "3", "4+"] },
     { kind: "fields", fields: [{ name: "ulcerLoc", label: "Location of ulcers", width: "full" }] },
     { kind: "textarea", label: "Surgical or other wounds (describe location, size, and nature)", rows: 2 },
     { kind: "bodymap", label: "Mark locations on the body (tap the figure to drop a numbered pin, then note what it is)" },

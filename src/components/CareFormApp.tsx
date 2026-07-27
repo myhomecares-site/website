@@ -162,7 +162,7 @@ function flatten(schema: FormBlock[], values: Values): [string, string][] {
           let v = "";
           if (s.mode === "type") v = `Signed (typed): ${s.name || ""}${s.agreed ? " · agreed" : ""}`;
           else if (s.mode === "draw") v = "Signed (drawn)";
-          else v = `Unable to sign — ${s.reason || ""}${s.note ? `: ${s.note}` : ""}${s.witness ? ` · witness ${s.witness}` : ""}`;
+          else v = `Unable to sign: ${s.reason || ""}${s.note ? `: ${s.note}` : ""}${s.witness ? ` · witness ${s.witness}` : ""}`;
           if (s.date) v += ` · ${s.date}`;
           out.push([b.role, v]);
         } catch { /* ignore */ }

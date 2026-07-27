@@ -32,6 +32,7 @@ export function InteractivePromo() {
                 poster={media(mediaAssets.promoPoster)}
                 controls
                 autoPlay
+                loop
                 playsInline
                 preload="metadata"
               />

@@ -41,7 +41,7 @@ export default function Home() {
             </h1>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
               Explore Maryland&apos;s finest in-home care services with My Home Cares. From skilled
-              nursing to everyday personal care, we deliver quality care that transforms lives —
+              nursing to everyday personal care, we deliver quality care that transforms lives,
               right at home.
             </p>
             <div className="mt-7 flex flex-wrap gap-3.5">

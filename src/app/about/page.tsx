@@ -123,7 +123,7 @@ export default function AboutPage() {
         </div>
         <p className="mx-auto mt-10 max-w-2xl text-center text-lg italic text-ink-soft">
           &ldquo;{site.signature}&rdquo;
-          <span className="mt-2 block text-sm font-semibold not-italic text-muted">— {site.signatureBy}</span>
+          <span className="mt-2 block text-sm font-semibold not-italic text-muted">{site.signatureBy}</span>
         </p>
       </Section>
 

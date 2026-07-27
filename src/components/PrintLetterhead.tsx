@@ -21,7 +21,7 @@ export function PrintLetterhead({ title }: { title: string }) {
       </div>
       <div className="mt-1.5 mb-4 flex items-center justify-between text-[10px] text-muted">
         <span>Serving all of Maryland</span>
-        <span className="italic">Confidential — contains protected health information</span>
+        <span className="italic">Confidential. Contains protected health information</span>
       </div>
     </div>
   );
