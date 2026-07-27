@@ -194,6 +194,8 @@ export const mediaAssets = {
   aboutImage: "/wp-content/uploads/2024/01/caring-nurse-helping-elderly.png",
   homeCareImage: "/wp-content/uploads/2024/02/skilled-nursing-services.webp",
   video: "/wp-content/uploads/2024/01/file.mp4",
+  promoVideo: "/media/mhc-promo.mp4",
+  promoPoster: "/media/mhc-promo-poster.jpg",
   logoWordmark: "/wp-content/uploads/2024/01/MHC-Logo-e1750868871441.png",
   logoSymbol: "/wp-content/uploads/2024/01/MCHsymbol-removebg.png",
 };

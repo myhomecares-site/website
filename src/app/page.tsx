@@ -4,6 +4,7 @@ import { posts, postImage, formatDate } from "@/lib/posts";
 import { Container, Section, SectionHeading, Button } from "@/components/ui";
 import { ServiceCard, CTASection, Stat, TrustBand, HowItWorks, Stars, WhatSetsUsApart, SpecializedCare } from "@/components/blocks";
 import { VideoFeature } from "@/components/VideoFeature";
+import { InteractivePromo } from "@/components/InteractivePromo";
 import { CareFinder } from "@/components/CareFinder";
 import { MarylandMap } from "@/components/MarylandMap";
 import { SiteImage } from "@/components/SiteImage";
@@ -94,6 +95,9 @@ export default function Home() {
       </section>
 
       <TrustBand />
+
+      {/* Interactive promo video (click-to-play, no autoplay) */}
+      <InteractivePromo />
 
       {/* Find Your Care, interactive finder */}
       <Section>
