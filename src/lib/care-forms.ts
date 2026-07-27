@@ -165,7 +165,7 @@ export const careFormSchemas: Record<string, FormBlock[]> = {
     { kind: "checklist", title: "Activities of visit", columns: 2, items: ["Developed caregiver support plan", "Reviewed caregiver support plan", "Assessed / monitored participant", "Provided information and training to caregiver", "Assessed / monitored caregiver"] },
     { kind: "textarea", label: "Caregiver names", rows: 2 },
     { kind: "note", text: "By signing below, the participant and nurse certify that services were delivered. Send the signed copy to the case manager within 10 days. Report suspected abuse, neglect, or exploitation to Adult Protective Services at 1-800-917-7383." },
-    { kind: "signatures", roles: ["RN (print & sign)"] },
+    { kind: "signatures", roles: ["Delegating RN (print & sign)"] },
     { kind: "esign", role: "Participant / Representative signature" },
   ],
 
@@ -392,6 +392,6 @@ export const careFormSchemas: Record<string, FormBlock[]> = {
     },
     { kind: "note", text: "Any notation of \"No\" will require further training and orientation to meet job requirements." },
     { kind: "checklist", title: "CNA skills assessment satisfactorily completed", columns: 3, items: ["Yes", "No"] },
-    { kind: "signatures", roles: ["Evaluator (RN, print & sign)"] },
+    { kind: "signatures", roles: ["Aide (print & sign)", "Delegating RN / Evaluator (print & sign)"] },
   ],
 };

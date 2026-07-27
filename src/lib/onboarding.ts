@@ -55,6 +55,7 @@ export const ONBOARDING_SECTIONS: { title: string; items: string[] }[] = [
       "Completed training returned",
       "Training acknowledgment / sign-in sheet signed",
       "Competency evaluation completed and signed",
+      "Aide Skills Assessment completed and signed by Delegating RN",
     ],
   },
   {
