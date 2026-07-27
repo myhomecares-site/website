@@ -7,7 +7,14 @@ import {
   percentComplete,
   type OnboardingStatus,
 } from "@/lib/onboarding";
+import { careForms } from "@/lib/site";
 import { Icon } from "@/components/icons";
+
+// Assessment forms HR runs during onboarding (in display order).
+const HR_FORM_SLUGS = ["participant-assessment-form", "pain-evaluation", "unlicensed-aide-skills-assessment"];
+const HR_FORMS = HR_FORM_SLUGS
+  .map((slug) => careForms.find((f) => f.slug === slug))
+  .filter((f): f is NonNullable<typeof f> => Boolean(f));
 
 type Rec = {
   id?: string;
@@ -205,6 +212,19 @@ export function HrOnboarding() {
           <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-50 text-primary"><Icon name="download" className="h-5 w-5" /></span>
           <span><span className="block text-sm font-bold text-ink">Onboarding Tracker</span><span className="text-xs text-muted">Excel roster · all hires at a glance</span></span>
         </a>
+      </div>
+
+      {/* Assessment forms HR runs during onboarding */}
+      <h2 className="mb-2 text-xs font-bold uppercase tracking-wide text-muted">Assessment forms</h2>
+      <div className="mb-6 grid gap-3 sm:grid-cols-3">
+        {HR_FORMS.map((f) => (
+          <a key={f.slug} href={`/${f.slug}`} className="flex flex-col rounded-2xl border border-border bg-white p-4 transition hover:-translate-y-0.5 hover:border-primary/30 card-shadow">
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-50 text-primary"><Icon name="check" className="h-5 w-5" strokeWidth={2.5} /></span>
+            <span className="mt-3 text-sm font-bold text-ink">{f.title}</span>
+            <span className="mt-1 flex-1 text-xs leading-relaxed text-muted">{f.summary}</span>
+            <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-primary">Open form <Icon name="arrow" className="h-3.5 w-3.5" /></span>
+          </a>
+        ))}
       </div>
 
       <div className="mb-4 flex flex-wrap items-center gap-3">

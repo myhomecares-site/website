@@ -12,12 +12,17 @@ const SECRET =
 
 const PROTECTED_EXACT = new Set<string>([
   "/resources",
-  "/participant-assessment-form",
   "/caregiver-service-plan",
   "/medication-administration-records",
-  "/pain-evaluation",
   "/emergency-medical-data-sheet",
   "/caregiver-daily-log-form",
+]);
+
+// Assessment forms HR runs during onboarding — reachable with EITHER the staff
+// session or the HR access code.
+const HR_SHARED_FORMS = new Set<string>([
+  "/participant-assessment-form",
+  "/pain-evaluation",
   "/unlicensed-aide-skills-assessment",
 ]);
 
@@ -56,11 +61,23 @@ async function verifyToken(token: string, prefix: string): Promise<boolean> {
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+  const s = pathname.replace(/\/$/, "") || "/";
 
   // HR area: its own standalone code + cookie.
   if (isHrProtected(pathname)) {
     const token = req.cookies.get("mhc_hr")?.value || "";
     if (await verifyToken(token, "hr")) return NextResponse.next();
+    const url = req.nextUrl.clone();
+    url.pathname = "/hr-login";
+    url.searchParams.set("next", pathname);
+    return NextResponse.redirect(url);
+  }
+
+  // Shared assessment forms: allow either HR or staff session.
+  if (HR_SHARED_FORMS.has(s)) {
+    const hr = req.cookies.get("mhc_hr")?.value || "";
+    const staff = req.cookies.get("mhc_staff")?.value || "";
+    if ((await verifyToken(hr, "hr")) || (await verifyToken(staff, "staff"))) return NextResponse.next();
     const url = req.nextUrl.clone();
     url.pathname = "/hr-login";
     url.searchParams.set("next", pathname);
