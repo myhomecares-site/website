@@ -116,10 +116,18 @@ export function ApplicationForm({
             <label className={labelCls}>Email *</label>
             <input name="email" type="email" required className={input} autoComplete="email" />
           </div>
-          <div className="grid grid-cols-[1fr_auto] gap-3">
+          <div>
+            <label className={labelCls}>Street address</label>
+            <input name="street" className={input} autoComplete="address-line1" placeholder="123 Main St, Apt 4" />
+          </div>
+          <div className="grid grid-cols-[1fr_auto_auto] gap-3">
             <div>
               <label className={labelCls}>City</label>
               <input name="city" className={input} autoComplete="address-level2" />
+            </div>
+            <div>
+              <label className={labelCls}>State</label>
+              <input name="state" className={`${input} w-20`} autoComplete="address-level1" placeholder="MD" maxLength={20} />
             </div>
             <div>
               <label className={labelCls}>ZIP</label>

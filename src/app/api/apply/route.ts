@@ -7,7 +7,9 @@ export const runtime = "nodejs";
 type Attachment = { filename: string; content: string };
 
 type Details = {
+  street: string;
   city: string;
+  state: string;
   zip: string;
   transportation: string;
   certs_held: string[];
@@ -90,7 +92,9 @@ export async function POST(req: Request) {
     source: str("source") || "careers",
     documents: docNames.join(", "),
     details: {
+      street: str("street"),
       city: str("city"),
+      state: str("state"),
       zip: str("zip"),
       transportation: str("transportation"),
       certs_held: fd.getAll("certs_held").map(String),
@@ -223,7 +227,7 @@ async function buildPdf(a: App): Promise<string> {
   field("Name", a.name);
   field("Phone", a.phone);
   field("Email", a.email);
-  field("City / ZIP", [d.city, d.zip].filter(Boolean).join(", ") || "—");
+  field("Home address", [d.street, d.city, d.state, d.zip].filter(Boolean).join(", ") || "—");
 
   heading("Position & availability");
   field("Position applied for", a.position || "Not specified");
@@ -270,7 +274,7 @@ async function emailApplication(a: App, attachments: Attachment[]) {
     ["Name", a.name],
     ["Phone", a.phone],
     ["Email", a.email],
-    ["City / ZIP", [d.city, d.zip].filter(Boolean).join(", ") || "—"],
+    ["Home address", [d.street, d.city, d.state, d.zip].filter(Boolean).join(", ") || "—"],
     ["Employment type", a.employment_type || "—"],
     ["Start date", a.start_date || "—"],
     ["Transportation", d.transportation || "—"],
