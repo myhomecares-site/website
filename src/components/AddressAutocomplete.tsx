@@ -1,104 +1,152 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
-// Google Places address autocomplete for the job application. As the applicant
-// types their street address, real addresses drop down and one tap fills the
-// street, city, state, and ZIP. If no API key is configured it degrades to
-// plain typing — the inputs and form submission work exactly the same.
+// Address autocomplete powered by Photon (OpenStreetMap) — free, no API key,
+// no billing. As the applicant types their street address, suggestions drop
+// down and one tap fills street, city, state, and ZIP. Every field also stays
+// fully typeable, so the form always works even if the lookup is unavailable.
 
 const input =
   "w-full rounded-xl border border-border bg-white px-4 py-2.5 text-sm text-ink outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15 placeholder:text-muted-light";
 const labelCls = "block text-xs font-semibold uppercase tracking-wide text-muted mb-1.5";
 
-// Load the Google Maps JS (Places library) once, shared across mounts.
-let gmapsPromise: Promise<void> | null = null;
-function loadGoogleMaps(key: string): Promise<void> {
-  if (typeof window === "undefined") return Promise.reject();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if ((window as any).google?.maps?.places) return Promise.resolve();
-  if (gmapsPromise) return gmapsPromise;
-  gmapsPromise = new Promise<void>((resolve, reject) => {
-    const s = document.createElement("script");
-    s.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(key)}&libraries=places&loading=async`;
-    s.async = true;
-    s.onload = () => resolve();
-    s.onerror = () => reject(new Error("Google Maps failed to load"));
-    document.head.appendChild(s);
-  });
-  return gmapsPromise;
-}
+const US_STATES: Record<string, string> = {
+  Alabama: "AL", Alaska: "AK", Arizona: "AZ", Arkansas: "AR", California: "CA",
+  Colorado: "CO", Connecticut: "CT", Delaware: "DE", "District of Columbia": "DC",
+  Florida: "FL", Georgia: "GA", Hawaii: "HI", Idaho: "ID", Illinois: "IL",
+  Indiana: "IN", Iowa: "IA", Kansas: "KS", Kentucky: "KY", Louisiana: "LA",
+  Maine: "ME", Maryland: "MD", Massachusetts: "MA", Michigan: "MI", Minnesota: "MN",
+  Mississippi: "MS", Missouri: "MO", Montana: "MT", Nebraska: "NE", Nevada: "NV",
+  "New Hampshire": "NH", "New Jersey": "NJ", "New Mexico": "NM", "New York": "NY",
+  "North Carolina": "NC", "North Dakota": "ND", Ohio: "OH", Oklahoma: "OK",
+  Oregon: "OR", Pennsylvania: "PA", "Rhode Island": "RI", "South Carolina": "SC",
+  "South Dakota": "SD", Tennessee: "TN", Texas: "TX", Utah: "UT", Vermont: "VT",
+  Virginia: "VA", Washington: "WA", "West Virginia": "WV", Wisconsin: "WI", Wyoming: "WY",
+};
+
+type Suggestion = { label: string; line1: string; city: string; state: string; zip: string };
 
 export function AddressAutocomplete() {
-  const streetRef = useRef<HTMLInputElement>(null);
-  const cityRef = useRef<HTMLInputElement>(null);
-  const stateRef = useRef<HTMLInputElement>(null);
-  const zipRef = useRef<HTMLInputElement>(null);
+  const [street, setStreet] = useState("");
+  const [city, setCity] = useState("");
+  const [stateV, setStateV] = useState("");
+  const [zip, setZip] = useState("");
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(-1);
+  const boxRef = useRef<HTMLDivElement>(null);
+  const skipRef = useRef(false); // don't re-search right after a pick
 
   useEffect(() => {
-    const key = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-    if (!key || !streetRef.current) return;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let ac: any;
-    loadGoogleMaps(key)
-      .then(() => {
+    if (skipRef.current) { skipRef.current = false; return; }
+    const q = street.trim();
+    if (q.length < 3) { setSuggestions([]); setOpen(false); return; }
+    const ctrl = new AbortController();
+    const t = setTimeout(async () => {
+      try {
+        // Bias results toward Maryland; filter to US addresses.
+        const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&limit=8&lang=en&lat=39.05&lon=-76.6`;
+        const res = await fetch(url, { signal: ctrl.signal });
+        const data = await res.json();
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const g = (window as any).google;
-        if (!g?.maps?.places || !streetRef.current) return;
-        ac = new g.maps.places.Autocomplete(streetRef.current, {
-          fields: ["address_components"],
-          types: ["address"],
-          componentRestrictions: { country: "us" },
-        });
-        ac.addListener("place_changed", () => {
-          const place = ac.getPlace();
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const comps: any[] = place.address_components || [];
-          const get = (type: string, short = false) => {
-            const c = comps.find((x) => x.types.includes(type));
-            return c ? (short ? c.short_name : c.long_name) : "";
-          };
-          const line1 = [get("street_number"), get("route")].filter(Boolean).join(" ");
-          if (streetRef.current && line1) streetRef.current.value = line1;
-          if (cityRef.current) cityRef.current.value = get("locality") || get("sublocality") || get("postal_town") || cityRef.current.value;
-          if (stateRef.current) stateRef.current.value = get("administrative_area_level_1", true) || stateRef.current.value;
-          if (zipRef.current) zipRef.current.value = get("postal_code") || zipRef.current.value;
-        });
-      })
-      .catch(() => { /* fall back to plain typing */ });
+        const feats: any[] = data.features || [];
+        const seen = new Set<string>();
+        const list: Suggestion[] = [];
+        for (const f of feats) {
+          const p = f.properties || {};
+          if (p.countrycode !== "US") continue;
+          const line1 = [p.housenumber, p.street || p.name].filter(Boolean).join(" ");
+          if (!line1) continue;
+          const cityV = p.city || p.town || p.village || p.municipality || p.district || "";
+          const stAbbr = US_STATES[p.state] || p.state || "";
+          const label = [line1, cityV, stAbbr, p.postcode].filter(Boolean).join(", ");
+          if (seen.has(label)) continue;
+          seen.add(label);
+          list.push({ label, line1, city: cityV, state: stAbbr, zip: p.postcode || "" });
+          if (list.length >= 6) break;
+        }
+        setSuggestions(list);
+        setOpen(list.length > 0);
+        setActive(-1);
+      } catch { /* network/abort — manual entry still works */ }
+    }, 300);
+    return () => { clearTimeout(t); ctrl.abort(); };
+  }, [street]);
 
-    return () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const g = (window as any).google;
-      if (ac && g?.maps?.event) g.maps.event.clearInstanceListeners(ac);
+  useEffect(() => {
+    const h = (e: MouseEvent) => {
+      if (boxRef.current && !boxRef.current.contains(e.target as Node)) setOpen(false);
     };
+    document.addEventListener("mousedown", h);
+    return () => document.removeEventListener("mousedown", h);
   }, []);
+
+  const choose = (s: Suggestion) => {
+    skipRef.current = true;
+    setStreet(s.line1);
+    setCity(s.city);
+    setStateV(s.state);
+    setZip(s.zip);
+    setSuggestions([]);
+    setOpen(false);
+    setActive(-1);
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!open || suggestions.length === 0) {
+      if (e.key === "Enter") e.preventDefault(); // don't submit the form from the address box
+      return;
+    }
+    if (e.key === "ArrowDown") { e.preventDefault(); setActive((i) => Math.min(i + 1, suggestions.length - 1)); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); setActive((i) => Math.max(i - 1, 0)); }
+    else if (e.key === "Enter") { e.preventDefault(); if (active >= 0) choose(suggestions[active]); }
+    else if (e.key === "Escape") { setOpen(false); }
+  };
 
   return (
     <>
-      <div>
+      <div className="relative" ref={boxRef}>
         <label className={labelCls}>Street address</label>
         <input
-          ref={streetRef}
           name="street"
+          value={street}
+          onChange={(e) => setStreet(e.target.value)}
+          onKeyDown={onKeyDown}
+          onFocus={() => { if (suggestions.length) setOpen(true); }}
+          autoComplete="off"
           className={input}
-          autoComplete="address-line1"
           placeholder="Start typing your address…"
-          onKeyDown={(e) => { if (e.key === "Enter") e.preventDefault(); }}
         />
+        {open && (
+          <ul className="absolute z-20 mt-1 max-h-64 w-full overflow-auto rounded-xl border border-border bg-white py-1 shadow-lg">
+            {suggestions.map((s, i) => (
+              <li key={s.label}>
+                <button
+                  type="button"
+                  onMouseDown={(e) => { e.preventDefault(); choose(s); }}
+                  className={`block w-full px-4 py-2 text-left text-sm ${i === active ? "bg-primary-50 text-primary" : "text-ink-soft hover:bg-surface"}`}
+                >
+                  {s.label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+        <p className="mt-1 text-[11px] text-muted-light">Start typing to search, or just fill the fields below. Address data © OpenStreetMap.</p>
       </div>
       <div className="grid grid-cols-[1fr_auto_auto] gap-3">
         <div>
           <label className={labelCls}>City</label>
-          <input ref={cityRef} name="city" className={input} autoComplete="address-level2" />
+          <input name="city" value={city} onChange={(e) => setCity(e.target.value)} autoComplete="off" className={input} />
         </div>
         <div>
           <label className={labelCls}>State</label>
-          <input ref={stateRef} name="state" className={`${input} w-20`} autoComplete="address-level1" placeholder="MD" maxLength={20} />
+          <input name="state" value={stateV} onChange={(e) => setStateV(e.target.value)} autoComplete="off" className={`${input} w-20`} placeholder="MD" maxLength={20} />
         </div>
         <div>
           <label className={labelCls}>ZIP</label>
-          <input ref={zipRef} name="zip" className={`${input} w-24`} inputMode="numeric" autoComplete="postal-code" />
+          <input name="zip" value={zip} onChange={(e) => setZip(e.target.value)} autoComplete="off" inputMode="numeric" className={`${input} w-24`} />
         </div>
       </div>
     </>

@@ -117,7 +117,9 @@ export function ApplicationForm({
             <label className={labelCls}>Email *</label>
             <input name="email" type="email" required className={input} autoComplete="email" />
           </div>
-          <AddressAutocomplete />
+          <div className="space-y-3 sm:col-span-2">
+            <AddressAutocomplete />
+          </div>
         </div>
       </div>
 
