@@ -64,7 +64,7 @@ export default function CareLinkPage() {
               alt="CareLink Staffing — Your Link to Better Care"
               width={500}
               height={500}
-              className="animate-float-slow relative h-64 w-64 object-contain drop-shadow-xl transition-transform duration-500 group-hover:scale-105 sm:h-80 sm:w-80 lg:h-[22rem] lg:w-[22rem]"
+              className="animate-float-slow relative h-80 w-80 object-contain drop-shadow-xl transition-transform duration-500 group-hover:scale-105 sm:h-96 sm:w-96 lg:h-[30rem] lg:w-[30rem]"
             />
           </div>
         }
