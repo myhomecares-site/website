@@ -52,14 +52,21 @@ export default function CareLinkPage() {
         title="CareLink Staffing: your premier healthcare staffing partner in Maryland"
         subtitle="We bring Maryland healthcare facilities and talented professionals together, connecting top-tier nurses, CNAs, medical technicians, and speech pathologists with facilities across the state."
         media={
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
-            src="/brand/carelink-staffing-logo.png"
-            alt="CareLink Staffing — Your Link to Better Care"
-            width={500}
-            height={500}
-            className="h-44 w-44 object-contain sm:h-56 sm:w-56 lg:h-64 lg:w-64"
-          />
+          <div className="group relative flex items-center justify-center">
+            {/* soft pulsing brand glow behind the logo */}
+            <div
+              className="animate-glow pointer-events-none absolute h-3/4 w-3/4 rounded-full bg-gradient-to-tr from-primary/25 to-accent/25 blur-3xl"
+              aria-hidden
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/brand/carelink-staffing-logo.png"
+              alt="CareLink Staffing — Your Link to Better Care"
+              width={500}
+              height={500}
+              className="animate-float-slow relative h-64 w-64 object-contain drop-shadow-xl transition-transform duration-500 group-hover:scale-105 sm:h-80 sm:w-80 lg:h-[22rem] lg:w-[22rem]"
+            />
+          </div>
         }
       >
         <a href={`tel:${site.staffing.phone.replace(/[^0-9]/g, "")}`} className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white hover:bg-primary-dark">
