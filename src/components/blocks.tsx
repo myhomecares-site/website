@@ -249,22 +249,27 @@ export function PageHero({
   title,
   subtitle,
   children,
+  media,
 }: {
   eyebrow?: string;
   title: ReactNode;
   subtitle?: ReactNode;
   children?: ReactNode;
+  media?: ReactNode;
 }) {
   return (
     <section className="hero-gradient relative overflow-hidden border-b border-border">
       <Blobs />
       <DotGrid className="right-4 top-8 h-32 w-32 opacity-60" />
       <Container className="relative py-14 sm:py-18">
-        <div className="max-w-3xl animate-rise">
-          {eyebrow && <p className="eyebrow mb-3">{eyebrow}</p>}
-          <h1 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl lg:text-5xl">{title}</h1>
-          {subtitle && <p className="mt-5 text-base leading-relaxed text-muted sm:text-lg">{subtitle}</p>}
-          {children && <div className="mt-8 flex flex-wrap gap-4">{children}</div>}
+        <div className={media ? "grid items-center gap-10 lg:grid-cols-[1fr_auto]" : ""}>
+          <div className="max-w-3xl animate-rise">
+            {eyebrow && <p className="eyebrow mb-3">{eyebrow}</p>}
+            <h1 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl lg:text-5xl">{title}</h1>
+            {subtitle && <p className="mt-5 text-base leading-relaxed text-muted sm:text-lg">{subtitle}</p>}
+            {children && <div className="mt-8 flex flex-wrap gap-4">{children}</div>}
+          </div>
+          {media && <div className="animate-rise justify-self-center lg:justify-self-end">{media}</div>}
         </div>
       </Container>
     </section>

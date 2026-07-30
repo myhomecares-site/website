@@ -51,6 +51,16 @@ export default function CareLinkPage() {
         eyebrow="Healthcare Staffing Agency"
         title="CareLink Staffing: your premier healthcare staffing partner in Maryland"
         subtitle="We bring Maryland healthcare facilities and talented professionals together, connecting top-tier nurses, CNAs, medical technicians, and speech pathologists with facilities across the state."
+        media={
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src="/brand/carelink-staffing-logo.png"
+            alt="CareLink Staffing — Your Link to Better Care"
+            width={500}
+            height={500}
+            className="h-44 w-44 object-contain sm:h-56 sm:w-56 lg:h-64 lg:w-64"
+          />
+        }
       >
         <a href={`tel:${site.staffing.phone.replace(/[^0-9]/g, "")}`} className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white hover:bg-primary-dark">
           <Icon name="phone" className="h-4 w-4" /> {site.staffing.phone}
