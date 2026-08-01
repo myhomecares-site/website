@@ -1,15 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { media, mediaAssets } from "@/lib/site";
 import { Container } from "./ui";
 import { Icon } from "./icons";
 
-// Click-to-play promo video. Shows a lightweight poster until the visitor
-// chooses to watch — nothing loads or plays (and no sound) until they click,
-// so it never slows the page or surprises anyone.
+// Promo video that autoplays muted and loops (so it never blasts sound), with
+// a clear unmute button for anyone who wants to hear it. Poster shows instantly
+// while it buffers.
 export function InteractivePromo() {
-  const [playing, setPlaying] = useState(false);
+  const ref = useRef<HTMLVideoElement>(null);
+  const [muted, setMuted] = useState(true);
+
+  function toggleMute() {
+    const v = ref.current;
+    if (!v) return;
+    v.muted = !v.muted;
+    setMuted(v.muted);
+    if (!v.muted && v.paused) v.play().catch(() => {});
+  }
 
   return (
     <section className="relative overflow-hidden bg-surface py-16 sm:py-24">
@@ -25,45 +34,38 @@ export function InteractivePromo() {
 
         <div className="mx-auto mt-10 max-w-4xl">
           <div className="group relative overflow-hidden rounded-3xl bg-ink ring-1 ring-black/5 shadow-xl">
-            {playing ? (
-              <video
-                className="aspect-video w-full"
-                src={media(mediaAssets.promoVideo)}
-                poster={media(mediaAssets.promoPoster)}
-                controls
-                autoPlay
-                loop
-                playsInline
-                preload="metadata"
-              />
-            ) : (
-              <button
-                type="button"
-                onClick={() => setPlaying(true)}
-                aria-label="Play the My Home Cares promo video"
-                className="relative block w-full"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={media(mediaAssets.promoPoster)}
-                  alt="My Home Cares caregiver supporting a client at home"
-                  className="aspect-video w-full object-cover transition duration-500 group-hover:scale-[1.02]"
-                  loading="lazy"
-                />
-                <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent" />
-                <span className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                  <span className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-white/95 text-primary shadow-xl transition duration-300 group-hover:scale-105 group-hover:bg-white">
-                    <svg viewBox="0 0 24 24" className="ml-1 h-8 w-8" fill="currentColor" aria-hidden>
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </span>
-                </span>
-                <span className="pointer-events-none absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full bg-white/90 px-3.5 py-1.5 text-xs font-semibold text-ink shadow backdrop-blur">
-                  <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 text-primary" fill="currentColor" aria-hidden><path d="M8 5v14l11-7z" /></svg>
-                  Watch our story · 2 min
-                </span>
-              </button>
-            )}
+            <video
+              ref={ref}
+              className="aspect-video w-full object-cover"
+              poster={media(mediaAssets.promoPoster)}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+            >
+              <source src={media(mediaAssets.promoVideo)} type="video/mp4" />
+            </video>
+
+            {/* Unmute / mute control */}
+            <button
+              type="button"
+              onClick={toggleMute}
+              aria-label={muted ? "Unmute video" : "Mute video"}
+              className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-full bg-white/90 px-3.5 py-2 text-xs font-semibold text-ink shadow-md backdrop-blur transition hover:bg-white"
+            >
+              {muted ? (
+                <>
+                  <svg viewBox="0 0 24 24" className="h-4 w-4 text-primary" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5Z" /><path d="m23 9-6 6" /><path d="m17 9 6 6" /></svg>
+                  Tap for sound
+                </>
+              ) : (
+                <>
+                  <svg viewBox="0 0 24 24" className="h-4 w-4 text-primary" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5Z" /><path d="M15.5 8.5a5 5 0 0 1 0 7" /><path d="M19 5a9 9 0 0 1 0 14" /></svg>
+                  Mute
+                </>
+              )}
+            </button>
           </div>
 
           <div className="mt-6 text-center">
