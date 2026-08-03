@@ -114,7 +114,7 @@ export function AddressAutocomplete() {
           onChange={(e) => setStreet(e.target.value)}
           onKeyDown={onKeyDown}
           onFocus={() => { if (suggestions.length) setOpen(true); }}
-          autoComplete="off"
+          autoComplete="address-line1"
           className={input}
           placeholder="Start typing your address…"
         />
@@ -138,15 +138,15 @@ export function AddressAutocomplete() {
       <div className="grid grid-cols-[1fr_auto_auto] gap-3">
         <div>
           <label className={labelCls}>City</label>
-          <input name="city" value={city} onChange={(e) => setCity(e.target.value)} autoComplete="off" className={input} />
+          <input name="city" value={city} onChange={(e) => setCity(e.target.value)} autoComplete="address-level2" className={input} />
         </div>
         <div>
           <label className={labelCls}>State</label>
-          <input name="state" value={stateV} onChange={(e) => setStateV(e.target.value)} autoComplete="off" className={`${input} w-20`} placeholder="MD" maxLength={20} />
+          <input name="state" value={stateV} onChange={(e) => setStateV(e.target.value)} autoComplete="address-level1" className={`${input} w-20`} placeholder="MD" maxLength={20} />
         </div>
         <div>
           <label className={labelCls}>ZIP</label>
-          <input name="zip" value={zip} onChange={(e) => setZip(e.target.value)} autoComplete="off" inputMode="numeric" className={`${input} w-24`} />
+          <input name="zip" value={zip} onChange={(e) => setZip(e.target.value)} autoComplete="postal-code" inputMode="numeric" className={`${input} w-24`} />
         </div>
       </div>
     </>

@@ -25,6 +25,16 @@ type Details = {
   heard_about: string;
 };
 
+// Build a clean one-line address. If a browser autofilled the whole address
+// into the street box (so it already contains the ZIP), show it as-is instead
+// of appending city/state/zip again and duplicating everything.
+function formatAddress(d: Details): string {
+  const street = (d.street || "").trim();
+  const zip5 = (d.zip || "").trim().slice(0, 5);
+  if (street.includes(",") && zip5 && street.includes(zip5)) return street;
+  return [street, d.city, d.state, d.zip].map((s) => (s || "").trim()).filter(Boolean).join(", ") || "—";
+}
+
 type App = {
   name: string;
   phone: string;
@@ -227,7 +237,7 @@ async function buildPdf(a: App): Promise<string> {
   field("Name", a.name);
   field("Phone", a.phone);
   field("Email", a.email);
-  field("Home address", [d.street, d.city, d.state, d.zip].filter(Boolean).join(", ") || "—");
+  field("Home address", formatAddress(d));
 
   heading("Position & availability");
   field("Position applied for", a.position || "Not specified");
@@ -274,7 +284,7 @@ async function emailApplication(a: App, attachments: Attachment[]) {
     ["Name", a.name],
     ["Phone", a.phone],
     ["Email", a.email],
-    ["Home address", [d.street, d.city, d.state, d.zip].filter(Boolean).join(", ") || "—"],
+    ["Home address", formatAddress(d)],
     ["Employment type", a.employment_type || "—"],
     ["Start date", a.start_date || "—"],
     ["Transportation", d.transportation || "—"],
