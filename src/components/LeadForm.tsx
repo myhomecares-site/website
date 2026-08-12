@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AddressAutocomplete } from "./AddressAutocomplete";
 import { Icon } from "./icons";
 
 type Props = {
@@ -30,31 +31,10 @@ export function LeadForm({ compact = false, source = "contact", withTime = false
     setError("");
     const form = e.currentTarget;
     const fd = new FormData(form);
-    const get = (k: string) => (fd.get(k) as string) || "";
-
-    const payload = {
-      source,
-      name: get("name"),
-      phone: get("phone"),
-      email: get("email"),
-      message: get("message"),
-      best_time: get("best_time"),
-      company: get("company"), // honeypot
-      // RSA client-intake details (full form only)
-      relationship: get("relationship"),
-      city: get("city"),
-      care_needed: fd.getAll("care_needed").map(String),
-      timeframe: get("timeframe"),
-      schedule: get("schedule"),
-      payment: get("payment"),
-    };
+    fd.append("source", source); // sent as multipart so insurance files can attach
 
     try {
-      const res = await fetch("/api/lead/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const res = await fetch("/api/lead/", { method: "POST", body: fd });
       if (!res.ok) throw new Error((await res.json().catch(() => ({})))?.error || "Something went wrong");
       setStatus("ok");
       form.reset();
@@ -99,17 +79,16 @@ export function LeadForm({ compact = false, source = "contact", withTime = false
 
       {!compact && (
         <>
-          <div className="grid gap-3 sm:grid-cols-2">
-            <select name="relationship" className={inputCls} defaultValue="">
-              <option value="" disabled>Who needs care?</option>
-              <option>Myself</option>
-              <option>My parent</option>
-              <option>My spouse</option>
-              <option>Another family member</option>
-              <option>Other</option>
-            </select>
-            <input name="city" placeholder="City (Maryland)" className={inputCls} autoComplete="address-level2" />
-          </div>
+          <select name="relationship" className={inputCls} defaultValue="">
+            <option value="" disabled>Who needs care?</option>
+            <option>Myself</option>
+            <option>My parent</option>
+            <option>My spouse</option>
+            <option>Another family member</option>
+            <option>Other</option>
+          </select>
+
+          <AddressAutocomplete />
 
           <div>
             <label className={labelCls}>Type of care needed</label>
@@ -148,6 +127,18 @@ export function LeadForm({ compact = false, source = "contact", withTime = false
             <option>Medicaid waiver</option>
             <option>Not sure</option>
           </select>
+
+          <div>
+            <label className={labelCls}>Insurance details (optional)</label>
+            <input
+              type="file"
+              name="insurance"
+              accept=".pdf,.jpg,.jpeg,.png,.heic,.webp"
+              multiple
+              className="w-full cursor-pointer rounded-xl border border-border bg-white px-4 py-2.5 text-sm text-ink file:mr-3 file:cursor-pointer file:rounded-full file:border-0 file:bg-primary-50 file:px-4 file:py-1.5 file:text-xs file:font-semibold file:text-primary"
+            />
+            <p className="mt-1 text-xs text-muted-light">Upload your insurance card or details (PDF or photo). Max 10MB each.</p>
+          </div>
         </>
       )}
 
