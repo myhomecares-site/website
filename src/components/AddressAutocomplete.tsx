@@ -135,18 +135,18 @@ export function AddressAutocomplete() {
         )}
         <p className="mt-1 text-[11px] text-muted-light">Start typing to search, or just fill the fields below. Address data © OpenStreetMap.</p>
       </div>
-      <div className="grid grid-cols-[1fr_auto_auto] gap-3">
-        <div>
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="col-span-2">
           <label className={labelCls}>City</label>
           <input name="city" value={city} onChange={(e) => setCity(e.target.value)} autoComplete="address-level2" className={input} />
         </div>
         <div>
           <label className={labelCls}>State</label>
-          <input name="state" value={stateV} onChange={(e) => setStateV(e.target.value)} autoComplete="address-level1" className={`${input} w-20`} placeholder="MD" maxLength={20} />
+          <input name="state" value={stateV} onChange={(e) => setStateV(e.target.value)} autoComplete="address-level1" className={input} placeholder="MD" maxLength={20} />
         </div>
         <div>
           <label className={labelCls}>ZIP</label>
-          <input name="zip" value={zip} onChange={(e) => setZip(e.target.value)} autoComplete="postal-code" inputMode="numeric" className={`${input} w-24`} />
+          <input name="zip" value={zip} onChange={(e) => setZip(e.target.value)} autoComplete="postal-code" inputMode="numeric" className={input} />
         </div>
       </div>
     </>
