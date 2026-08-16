@@ -216,7 +216,7 @@ export function HrOnboarding() {
 
       {/* Assessment forms HR runs during onboarding */}
       <h2 className="mb-2 text-xs font-bold uppercase tracking-wide text-muted">Assessment forms</h2>
-      <div className="mb-6 grid gap-3 sm:grid-cols-3">
+      <div className="mb-4 grid gap-3 sm:grid-cols-3">
         {HR_FORMS.map((f) => (
           <a key={f.slug} href={`/${f.slug}`} className="flex flex-col rounded-2xl border border-border bg-white p-4 transition hover:-translate-y-0.5 hover:border-primary/30 card-shadow">
             <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-50 text-primary"><Icon name="check" className="h-5 w-5" strokeWidth={2.5} /></span>
@@ -226,6 +226,10 @@ export function HrOnboarding() {
           </a>
         ))}
       </div>
+      <a href="/incident-report" className="mb-6 flex items-center gap-3 rounded-2xl border border-border bg-white p-4 transition hover:-translate-y-0.5 hover:border-primary/30 card-shadow">
+        <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-50 text-primary"><Icon name="shield-heart" className="h-5 w-5" /></span>
+        <span><span className="block text-sm font-bold text-ink">Incident report</span><span className="text-xs text-muted">File an incident — emailed to you and the administrator.</span></span>
+      </a>
 
       <div className="mb-4 flex flex-wrap items-center gap-3">
         <button onClick={() => setDraft(blank())} className="inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-primary-dark">

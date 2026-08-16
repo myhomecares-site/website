@@ -49,11 +49,11 @@ export default function ResourcesPage() {
         </div>
       </Section>
       <Section muted>
-        <SectionHeading title="Human Resources" intro="Onboarding tools for the HR team. Opens with the HR access code." />
-        <div className="mt-8 flex justify-center">
+        <SectionHeading title="Human Resources" intro="Onboarding tools for the HR team, and incident reporting for the whole team." />
+        <div className="mx-auto mt-8 grid max-w-3xl gap-6 sm:grid-cols-2">
           <Link
             href="/hr"
-            className="group flex w-full max-w-md flex-col rounded-2xl border border-border bg-white p-6 transition-all hover:-translate-y-1 hover:border-primary/30 card-shadow"
+            className="group flex flex-col rounded-2xl border border-border bg-white p-6 transition-all hover:-translate-y-1 hover:border-primary/30 card-shadow"
           >
             <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary-50 text-primary">
               <Icon name="users" className="h-5 w-5" />
@@ -64,6 +64,21 @@ export default function ResourcesPage() {
             </p>
             <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
               Open HR area <Icon name="arrow" className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </span>
+          </Link>
+          <Link
+            href="/incident-report"
+            className="group flex flex-col rounded-2xl border border-border bg-white p-6 transition-all hover:-translate-y-1 hover:border-primary/30 card-shadow"
+          >
+            <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary-50 text-primary">
+              <Icon name="shield-heart" className="h-5 w-5" />
+            </span>
+            <h3 className="mt-4 text-lg font-bold group-hover:text-primary">Incident report</h3>
+            <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">
+              For caregivers and HR to file an incident. A copy is emailed to the preparer and to the administrator.
+            </p>
+            <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
+              File a report <Icon name="arrow" className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </span>
           </Link>
         </div>
